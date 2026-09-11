@@ -4,7 +4,7 @@ import { db } from '../db/db';
 import { defaultProfile, ensureSeed, listBlocks, listBlocksForDay } from '../db/repo';
 import { applyChange, pendingChanges, runTool, undoLastChange, type ToolContext } from './tools';
 
-const TODAY = '2026-09-11';
+const TODAY = '2026-09-15';
 
 const context: ToolContext = {
   profile: { ...defaultProfile('ru'), sleepTarget: '23:00' },

@@ -75,7 +75,7 @@ export async function buildContext(profile: Profile, today: string): Promise<str
   );
 
   const templates: string[] = [];
-  for (const code of ['odd', 'even', 'sat', 'sun'] as const) {
+  for (const code of ['odd', 'even', 'fri', 'sat', 'sun'] as const) {
     templates.push(`# ${code}\n${compact(await listBlocks(code))}`);
   }
   const templatesText = templates.join('\n');

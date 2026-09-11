@@ -9,7 +9,13 @@ describe('autoDayType', () => {
 
   test('будни делятся по чётности числа месяца', () => {
     expect(autoDayType('2026-09-10')).toBe('even');
-    expect(autoDayType('2026-09-11')).toBe('odd');
+    expect(autoDayType('2026-09-15')).toBe('odd');
+  });
+
+  test('пятница — отдельный тип, чётность на неё не влияет', () => {
+    expect(autoDayType('2026-09-11')).toBe('fri');
+    expect(autoDayType('2026-09-18')).toBe('fri');
+    expect(autoDayType('2026-09-18', { mode: 'weekdays', englishDays: [1, 3] })).toBe('fri');
   });
 
   test('выходные не превращаются в будни из-за чётности', () => {

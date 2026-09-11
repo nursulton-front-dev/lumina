@@ -3,7 +3,7 @@ import type { DayTypeCode } from '../types';
 import { findOverlap } from '../domain/schedule';
 import { seedBlocks } from './schedule';
 
-const DAY_TYPES: DayTypeCode[] = ['odd', 'even', 'sat', 'sun'];
+const DAY_TYPES: DayTypeCode[] = ['odd', 'even', 'fri', 'sat', 'sun'];
 const blocks = seedBlocks('2026-09-10T00:00:00.000Z');
 
 describe('стартовое расписание', () => {
@@ -18,6 +18,14 @@ describe('стартовое расписание', () => {
   test.each(DAY_TYPES)('в дне «%s» ровно три блока минимума: числа, домашка, чтение', (dayType) => {
     const core = blocks.filter((block) => block.dayType === dayType && block.isCore);
     expect(core.map((block) => block.category).sort()).toEqual(['homework', 'memory', 'reading']);
+  });
+
+  test('в пятницу нет ни IOI, ни фриланса', () => {
+    const friday = blocks.filter((block) => block.dayType === 'fri');
+    expect(friday.some((block) => block.category === 'ioi' || block.category === 'freelance')).toBe(
+      false,
+    );
+    expect(friday.some((block) => block.titleKey === 'block.lesson')).toBe(true);
   });
 
   test('у каждого блока конец позже начала', () => {

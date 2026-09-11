@@ -15,7 +15,7 @@ import { useApp } from '../state/app-context';
 import { dayTypeRule } from '../state/useDay';
 import { listBlocks, resetSchedule } from '../db/repo';
 
-const DAY_TYPES: DayTypeCode[] = ['odd', 'even', 'sat', 'sun'];
+const DAY_TYPES: DayTypeCode[] = ['odd', 'even', 'fri', 'sat', 'sun'];
 
 export function ScheduleScreen(): React.JSX.Element {
   const { t, profile } = useApp();

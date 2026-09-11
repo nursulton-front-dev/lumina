@@ -571,4 +571,12 @@ export const uz: Dictionary = {
   'count.test.one': '{n} ta sinov testi',
   'count.test.few': '{n} ta sinov testi',
   'count.test.many': '{n} ta sinov testi',
+
+  'daytype.fri': 'Juma',
+  'daytype.short.fri': 'Ju',
+  'block.commuteLesson': "Mashg'ulotga yo'l: IOI ma'ruzalari",
+  'block.lesson': "Mashg'ulot",
+  'block.commuteEnglish': "Ingliz tiliga yo'l",
+  'block.commuteHome': "Uyga yo'l",
+  'block.englishClass': 'Ingliz tili',
 };

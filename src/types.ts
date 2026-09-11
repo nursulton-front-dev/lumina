@@ -4,7 +4,7 @@ export type Lang = 'ru' | 'uz' | 'en';
 export type ThemeMode = 'light' | 'dark' | 'system';
 
 /** Тип дня: нечётный будний, чётный будний, суббота, воскресенье. */
-export type DayTypeCode = 'odd' | 'even' | 'sat' | 'sun';
+export type DayTypeCode = 'odd' | 'even' | 'fri' | 'sat' | 'sun';
 
 /** Направление, по которому считаются часы в недельном отчёте. */
 export type Category =

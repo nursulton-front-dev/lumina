@@ -19,7 +19,7 @@ const scope = {
     {
       properties: {
         kind: { const: 'dayType' },
-        dayType: { enum: ['odd', 'even', 'sat', 'sun'] },
+        dayType: { enum: ['odd', 'even', 'fri', 'sat', 'sun'] },
       },
       required: ['kind', 'dayType'],
     },
@@ -68,7 +68,7 @@ export const TOOL_DEFINITIONS = [
       parameters: {
         type: 'object',
         properties: {
-          dayType: { enum: ['odd', 'even', 'sat', 'sun'] },
+          dayType: { enum: ['odd', 'even', 'fri', 'sat', 'sun'] },
           from: { type: 'string' },
           to: { type: 'string' },
         },
@@ -161,7 +161,7 @@ export const TOOL_DEFINITIONS = [
         type: 'object',
         properties: {
           date: { type: 'string' },
-          dayType: { enum: ['odd', 'even', 'sat', 'sun', null] },
+          dayType: { enum: ['odd', 'even', 'fri', 'sat', 'sun', null] },
         },
         required: ['date', 'dayType'],
       },

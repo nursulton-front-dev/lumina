@@ -6,7 +6,7 @@ export const scopeSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('range'), from: z.string(), to: z.string() }),
   z.object({
     kind: z.literal('dayType'),
-    dayType: z.enum(['odd', 'even', 'sat', 'sun']),
+    dayType: z.enum(['odd', 'even', 'fri', 'sat', 'sun']),
   }),
   z.object({ kind: z.literal('always') }),
 ]);
@@ -62,7 +62,7 @@ export const proposeArgs = z.object({
 export const applyArgs = z.object({ changeId: z.string().min(1) });
 
 export const getScheduleArgs = z.object({
-  dayType: z.enum(['odd', 'even', 'sat', 'sun']).optional(),
+  dayType: z.enum(['odd', 'even', 'fri', 'sat', 'sun']).optional(),
   from: z.string().optional(),
   to: z.string().optional(),
 });
@@ -79,7 +79,7 @@ export const deleteBlockArgs = z.object({ blockId: z.string(), scope: scopeSchem
 
 export const setDayOverrideArgs = z.object({
   date: z.string(),
-  dayType: z.enum(['odd', 'even', 'sat', 'sun']).nullable(),
+  dayType: z.enum(['odd', 'even', 'fri', 'sat', 'sun']).nullable(),
 });
 
 export const addEventArgs = z.object({

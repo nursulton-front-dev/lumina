@@ -99,19 +99,26 @@ describe('разгрузка и снижение нагрузки', () => {
   });
 });
 
-describe('пятница и мяч', () => {
-  test('замеры максимума появляются только когда подошёл срок', () => {
-    const skipped = resolveWorkout(context({ weekday: 5, maxTestDue: false }));
-    const due = resolveWorkout(context({ weekday: 5, maxTestDue: true }));
+describe('замеры, пятница и мяч', () => {
+  test('замеры максимума появляются в субботу, только когда подошёл срок', () => {
+    const skipped = resolveWorkout(context({ weekday: 6, maxTestDue: false }));
+    const due = resolveWorkout(context({ weekday: 6, maxTestDue: true }));
     expect(skipped.steps.map((step) => step.id)).not.toContain('ex.pullupsTest');
     expect(due.steps.map((step) => step.id)).toContain('ex.pullupsTest');
   });
 
-  test('прыжковые замеры идут каждую пятницу', () => {
-    const protocol = resolveWorkout(context({ weekday: 5 }));
+  test('прыжковые замеры идут субботним утром до круговой', () => {
+    const protocol = resolveWorkout(context({ weekday: 6 }));
     const ids = protocol.steps.map((step) => step.id);
-    expect(ids).toContain('ex.longJumpTest');
+    expect(ids.indexOf('ex.longJumpTest')).toBeGreaterThan(ids.indexOf('warmup'));
+    expect(ids.indexOf('ex.longJumpTest')).toBeLessThan(ids.indexOf('ex.circuit'));
     expect(protocol.steps.find((step) => step.id === 'ex.longJumpTest')?.attempts).toBe(5);
+  });
+
+  test('в пятницу только лёгкая работа: ни подходов, ни замеров', () => {
+    const protocol = resolveWorkout(context({ weekday: 5, maxTestDue: true }));
+    expect(protocol.steps.every((step) => step.sets === null && step.metric === null)).toBe(true);
+    expect(protocol.steps.map((step) => step.id)).toContain('ex.hamstringStretch');
   });
 
   test('без мяча удары не появляются, с мячом появляются', () => {

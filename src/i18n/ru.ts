@@ -571,4 +571,12 @@ export const ru = {
   'count.test.one': '{n} пробный тест',
   'count.test.few': '{n} пробных теста',
   'count.test.many': '{n} пробных тестов',
+
+  'daytype.fri': 'Пятница',
+  'daytype.short.fri': 'Пт',
+  'block.commuteLesson': 'Дорога на занятие: лекции IOI',
+  'block.lesson': 'Занятие',
+  'block.commuteEnglish': 'Дорога на английский',
+  'block.commuteHome': 'Дорога домой',
+  'block.englishClass': 'Английский',
 } as const;

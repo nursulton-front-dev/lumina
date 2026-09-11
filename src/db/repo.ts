@@ -17,7 +17,8 @@ import { NEUTRAL_ADJUSTMENT, type Adjustment } from '../domain/progression';
 import { db, newId, PROFILE_ID, readMeta, stamp, writeMeta } from './db';
 
 const SEED_KEY = 'schedule.seed.version';
-const SEED_VERSION = 1;
+/** Версия 2: появился отдельный тип дня «пятница». */
+const SEED_VERSION = 2;
 
 /** Стартовые данные пользователя из брифа: турник, свой вес, 2 подтягивания, 25 отжиманий. */
 export function defaultProfile(lang: Lang): Profile {
@@ -71,6 +72,11 @@ export async function ensureSeed(): Promise<void> {
   const count = await db.blocks.count();
   if (count === 0) {
     await db.blocks.bulkPut(seedBlocks(stamp()));
+  } else {
+    // Уже засеянная база: добавляем только шаблоны новых типов дня, чужие правки не трогаем.
+    const existing = new Set((await db.blocks.toArray()).map((block) => block.dayType));
+    const missing = seedBlocks(stamp()).filter((block) => !existing.has(block.dayType));
+    if (missing.length > 0) await db.blocks.bulkPut(missing);
   }
   await writeMeta(SEED_KEY, SEED_VERSION);
 }

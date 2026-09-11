@@ -33,7 +33,7 @@ create table if not exists public.profiles (
 create table if not exists public.blocks (
   user_id uuid not null references auth.users (id) on delete cascade,
   id text not null,
-  day_type text not null check (day_type in ('odd', 'even', 'sat', 'sun')),
+  day_type text not null check (day_type in ('odd', 'even', 'fri', 'sat', 'sun')),
   start_min integer not null check (start_min between 0 and 1440),
   end_min integer not null check (end_min between 0 and 1440),
   title_key text,
@@ -53,7 +53,7 @@ create table if not exists public.days (
   user_id uuid not null references auth.users (id) on delete cascade,
   id text not null,
   date date not null,
-  type_override text check (type_override in ('odd', 'even', 'sat', 'sun')),
+  type_override text check (type_override in ('odd', 'even', 'fri', 'sat', 'sun')),
   min_done boolean not null default false,
   bedtime_actual text,
   deleted boolean not null default false,

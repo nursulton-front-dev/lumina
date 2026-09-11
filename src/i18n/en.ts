@@ -569,4 +569,12 @@ export const en: Dictionary = {
   'count.test.one': '{n} mock test',
   'count.test.few': '{n} mock tests',
   'count.test.many': '{n} mock tests',
+
+  'daytype.fri': 'Friday',
+  'daytype.short.fri': 'Fri',
+  'block.commuteLesson': 'Commute to the class: IOI lectures',
+  'block.lesson': 'Class',
+  'block.commuteEnglish': 'Commute to English',
+  'block.commuteHome': 'Commute home',
+  'block.englishClass': 'English',
 };

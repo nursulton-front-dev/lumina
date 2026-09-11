@@ -142,24 +142,35 @@ const THURSDAY: WorkoutDaySpec = {
   ],
 };
 
+/** Пятница — день с двумя занятиями, поэтому утром только лёгкая работа и растяжка. */
 const FRIDAY: WorkoutDaySpec = {
   titleKey: 'workout.fri',
   workMinutes: 15,
   warmupSeconds: 240,
   exercises: [
-    { key: 'ex.longJumpTest', metric: 'longJump', attempts: 5, landings: 5 },
-    { key: 'ex.verticalJumpTest', metric: 'verticalJump', attempts: 5, landings: 5 },
-    { key: 'ex.pullupsTest', metric: 'pullups', attempts: 1, biweekly: true },
-    { key: 'ex.pushupsTest', metric: 'pushups', attempts: 1, biweekly: true },
-    { key: 'ex.stretching', seconds: 300 },
+    { key: 'ex.hamstringStretch', seconds: 120 },
+    { key: 'ex.calfStretch', seconds: 90 },
+    { key: 'ex.chestStretch', seconds: 90 },
+    { key: 'ex.forearmStretch', seconds: 90 },
+    { key: 'ex.deadHang', seconds: 60 },
+    { key: 'ex.breathing', seconds: 120 },
   ],
 };
 
+/** Замеры идут субботним утром, сразу после разминки и до круговой. */
+const MEASUREMENTS: ExerciseSpec[] = [
+  { key: 'ex.longJumpTest', metric: 'longJump', attempts: 5, landings: 5 },
+  { key: 'ex.verticalJumpTest', metric: 'verticalJump', attempts: 5, landings: 5 },
+  { key: 'ex.pullupsTest', metric: 'pullups', attempts: 1, biweekly: true },
+  { key: 'ex.pushupsTest', metric: 'pushups', attempts: 1, biweekly: true },
+];
+
 const SATURDAY: WorkoutDaySpec = {
   titleKey: 'workout.sat',
-  workMinutes: 24,
+  workMinutes: 34,
   warmupSeconds: 480,
   exercises: [
+    ...MEASUREMENTS,
     { key: 'ex.circuit', sets: 4, restSeconds: 90, landings: 40, scalable: true },
     { key: 'ex.towelHang', sets: 3, holdSeconds: 20, restSeconds: 60 },
     { key: 'ex.cooldown', seconds: 480 },

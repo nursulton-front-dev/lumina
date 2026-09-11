@@ -181,10 +181,46 @@ const SUN: BlockSeed[] = [
   { start: '22:30', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
 ];
 
+/**
+ * Пятница: два занятия подряд, из дома с 07:40 до 20:20. IOI и фриланс не ставятся —
+ * вечером помещаются только ужин, домашка и чтение; дорога отдана аудио и лекциям.
+ */
+const FRI: BlockSeed[] = [
+  ...ODD_MORNING,
+  {
+    start: '06:40',
+    end: '07:05',
+    titleKey: 'block.russianEx',
+    category: 'russian',
+    focus: true,
+  },
+  ...MORNING_TAIL,
+  { start: '07:40', end: '08:30', titleKey: 'block.commuteRussian', category: 'commute' },
+  { start: '08:30', end: '14:45', titleKey: 'block.school', category: 'school' },
+  { start: '14:45', end: '15:00', titleKey: 'block.snack', category: 'routine' },
+  { start: '15:00', end: '16:00', titleKey: 'block.commuteLesson', category: 'commute' },
+  { start: '16:00', end: '18:00', titleKey: 'block.lesson', category: 'school' },
+  { start: '18:00', end: '18:30', titleKey: 'block.commuteEnglish', category: 'commute' },
+  { start: '18:30', end: '20:00', titleKey: 'block.englishClass', category: 'english' },
+  { start: '20:00', end: '20:20', titleKey: 'block.commuteHome', category: 'commute' },
+  { start: '20:20', end: '21:00', titleKey: 'block.dinnerRest', category: 'rest' },
+  {
+    start: '21:00',
+    end: '22:15',
+    titleKey: 'block.homework',
+    category: 'homework',
+    focus: true,
+    core: true,
+  },
+  { start: '22:15', end: '22:45', titleKey: 'block.fiction', category: 'reading', core: true },
+  { start: '23:00', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
+];
+
 /** Стартовое расписание. Попадает в базу один раз и дальше правится пользователем. */
 export const SCHEDULE_SEED: Record<DayTypeCode, BlockSeed[]> = {
   odd: ODD,
   even: EVEN,
+  fri: FRI,
   sat: SAT,
   sun: SUN,
 };

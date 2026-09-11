@@ -6,7 +6,7 @@ import { Button } from '../../components/ui/Button';
 import { useT } from '../../state/app-context';
 import { setDayOverride } from '../../db/repo';
 
-const DAY_TYPES: DayTypeCode[] = ['odd', 'even', 'sat', 'sun'];
+const DAY_TYPES: DayTypeCode[] = ['odd', 'even', 'fri', 'sat', 'sun'];
 
 /** Тип дня можно переключить вручную на конкретную дату — выбор сохраняется. */
 export function DayTypeChip({
