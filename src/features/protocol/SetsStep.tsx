@@ -66,10 +66,10 @@ export function SetsStep({
               ].join(' ')}
             >
               <span className="flex min-w-0 flex-1 items-baseline justify-between gap-2 sm:justify-start sm:gap-3">
-                <span className="shrink-0 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
+                <span className="shrink-0 font-display text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
                   {t('protocol.set', { n: index + 1 })}
                 </span>
-                <span className="truncate font-mono text-[0.9375rem] tnum text-ink">
+                <span className="truncate font-display text-[0.9375rem] tnum text-ink">
                   {spec.toFailure
                     ? t('protocol.toFailure')
                     : spec.holdSeconds !== null
@@ -106,11 +106,11 @@ export function SetsStep({
       </ul>
 
       {rest.running || (rest.total > 0 && !rest.finished && rest.remaining < rest.total) ? (
-        <p className="flex items-baseline gap-2 border-l-[3px] border-ochre bg-ochre-wash px-3 py-2">
-          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-soft">
+        <p className="flex items-baseline gap-2 rounded-[var(--radius-field)] bg-ochre-wash px-3 py-2">
+          <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-soft">
             {t('protocol.rest', { n: spec.restSeconds })}
           </span>
-          <span className="font-mono text-[1.25rem] tnum text-ink">
+          <span className="font-display text-[1.25rem] tnum text-ink">
             {formatClock(rest.remaining)}
           </span>
         </p>
@@ -118,7 +118,7 @@ export function SetsStep({
 
       {showValueInput ? (
         <label className="flex items-center gap-3">
-          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+          <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
             {t('protocol.measureBest')}
           </span>
           <NumberInput

@@ -2,7 +2,7 @@ import type { TranslationKey } from '../i18n';
 import { coreBlocks } from '../domain/schedule';
 import { fromISODate, minutesOfDay, toISODate } from '../domain/time';
 import { Button } from '../components/ui/Button';
-import { Marginalia } from '../components/ui/Sheet';
+import { EmptyState, Marginalia } from '../components/ui/Sheet';
 import { BlockRow, type RowState } from '../features/today/BlockRow';
 import { DayTypeChip } from '../features/today/DayTypeChip';
 import { ClosestRank, MinimumStrip } from '../features/today/MinimumStrip';
@@ -69,13 +69,13 @@ export function TodayScreen(): React.JSX.Element {
   const monthNumber = String(fromISODate(date).getMonth() + 1).padStart(2, '0');
 
   return (
-    <div className="flex flex-col gap-3 px-3 pt-3">
+    <div className="flex flex-col gap-3 px-4 pt-4">
       <header className="flex items-baseline justify-between gap-3 px-1">
         <h1 className="flex items-baseline gap-2">
-          <span className="text-[1.0625rem] font-semibold text-ink">
+          <span className="text-[1.375rem] text-ink">
             {t(`weekday.${weekday}` as TranslationKey)}
           </span>
-          <span className="font-mono text-[0.875rem] tnum text-ink-faint">
+          <span className="font-display text-[0.9375rem] tnum text-ink-faint">
             {dayNumber}.{monthNumber}
           </span>
         </h1>
@@ -121,7 +121,7 @@ export function TodayScreen(): React.JSX.Element {
       />
 
       {evening ? (
-        <p className="px-1 font-mono text-[0.8125rem] leading-snug tnum text-ink-soft">
+        <p className="px-1 font-display text-[0.8125rem] leading-snug tnum text-ink-soft">
           {t(evening.key, evening.vars)}
         </p>
       ) : null}
@@ -135,24 +135,17 @@ export function TodayScreen(): React.JSX.Element {
       ) : null}
 
       <section aria-label={t('today.plan')} className="sheet mt-1 overflow-hidden">
-        <header className="flex items-center justify-between border-b border-rule px-3 py-2">
+        <header className="flex items-center justify-between border-b border-rule px-4 py-3">
           <Marginalia>{t('today.plan')}</Marginalia>
-          <span className="font-mono text-[0.6875rem] tnum text-ink-faint">
+          <span className="font-display text-[0.8125rem] tnum text-ink-faint">
             {day.checked.size}/{day.blocks.length}
           </span>
         </header>
 
         {day.blocks.length === 0 ? (
-          <p className="px-3 py-6 text-center text-[0.875rem] text-ink-faint">
-            {t('today.emptyDay')}
-          </p>
+          <EmptyState text={t('today.emptyDay')} icon="clipboard" />
         ) : (
           <div className="relative">
-            {/* Сплошная линия полей: колонка времени отделена от плана, как в тетради. */}
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-[4.35rem] w-px bg-[color-mix(in_oklab,var(--color-rule)_60%,transparent)]"
-            />
             <ul>
               {day.blocks.map((block) => (
                 <BlockRow

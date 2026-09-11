@@ -1,31 +1,63 @@
 import { useEffect, useState } from 'react';
 import type { TranslationKey } from '../../i18n';
-import type { Grade } from '../../data/ranks';
+import { GRADES, type Grade } from '../../data/ranks';
 import type { RankView } from '../../state/useGamification';
 import { useApp } from '../../state/app-context';
 
-/** Печать разряда: штамп с наклоном, а не глянцевая иконка. */
-export function Stamp({
+/** Цвет медали по ступени: юношеские — синий, взрослые — янтарь, мастерские — зелёный. */
+function medalTone(grade: Grade): { fill: string; deep: string } {
+  const index = GRADES.indexOf(grade);
+  if (index <= 2) return { fill: 'var(--color-blue)', deep: 'var(--color-blue-deep)' };
+  if (index <= 5) return { fill: 'var(--color-ochre)', deep: 'var(--color-ochre-deep)' };
+  return { fill: 'var(--color-done)', deep: 'var(--color-done-deep)' };
+}
+
+/** Круглая медаль с лентой. */
+export function Medal({
   grade,
   fresh = false,
+  size = 56,
 }: {
   grade: Grade;
-  /** Разряд только что взят — печать впечатывается. */
+  /** Разряд только что взят — медаль появляется с пружиной. */
   fresh?: boolean;
+  size?: number;
 }): React.JSX.Element {
   const { t } = useApp();
+  const tone = medalTone(grade);
   return (
-    <span
-      className={[
-        'inline-grid min-w-[3.25rem] -rotate-3 place-items-center border-[2px] border-double px-2 py-1',
-        'border-terracotta font-mono text-[0.8125rem] tracking-[0.06em] text-terracotta',
-        'opacity-90 mix-blend-multiply',
-        fresh ? 'animate-[stamp_520ms_var(--ease-paper)_both]' : '',
-      ].join(' ')}
+    <svg
+      viewBox="0 0 64 72"
+      width={size}
+      height={(size * 72) / 64}
+      className={fresh ? 'animate-[medal_250ms_ease-out_both]' : ''}
+      role="img"
       aria-label={t(`grade.${grade}` as TranslationKey)}
     >
-      {t(`grade.short.${grade}` as TranslationKey)}
-    </span>
+      <path d="M20 40 14 70l10-5 8 6 3-30z" fill={tone.deep} />
+      <path d="M44 40l6 30-10-5-8 6-3-30z" fill={tone.deep} />
+      <circle cx="32" cy="28" r="24" fill={tone.fill} />
+      <circle
+        cx="32"
+        cy="28"
+        r="18"
+        fill="none"
+        stroke="#fff"
+        strokeOpacity="0.55"
+        strokeWidth="2.5"
+      />
+      <text
+        x="32"
+        y="33"
+        textAnchor="middle"
+        fontFamily="Nunito Variable, system-ui, sans-serif"
+        fontWeight="800"
+        fontSize="13"
+        fill="#fff"
+      >
+        {t(`grade.short.${grade}` as TranslationKey)}
+      </text>
+    </svg>
   );
 }
 
@@ -50,27 +82,34 @@ export function RankCard({
   }, [fresh]);
 
   return (
-    <li className="flex flex-col gap-2 border-b border-dashed border-[color-mix(in_oklab,var(--color-rule)_55%,transparent)] px-3 py-3 last:border-b-0">
-      <div className="flex items-start justify-between gap-3">
+    <li className="flex flex-col gap-2.5 border-b border-rule px-5 py-4 last:border-b-0">
+      <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[0.9375rem] text-ink">{t(`rank.${spec.id}` as TranslationKey)}</p>
-          <p className="font-mono text-[0.75rem] tnum text-ink-faint">
+          <p className="font-display text-[1rem] font-bold text-ink">
+            {t(`rank.${spec.id}` as TranslationKey)}
+          </p>
+          <p className="font-display text-[0.8125rem] tnum text-ink-faint">
             {rank.hasData ? status.value : '—'}
             {rank.hasData && status.second !== null ? ` / ${status.second}` : ''}
+            {status.grade ? (
+              <span className="ml-2 font-sans font-normal text-ink-soft">
+                {t(`grade.${status.grade}` as TranslationKey)}
+              </span>
+            ) : null}
           </p>
         </div>
         {status.grade ? (
-          <Stamp grade={status.grade} fresh={showFresh} />
+          <Medal grade={status.grade} fresh={showFresh} size={48} />
         ) : (
-          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-faint">
-            {t('ranks.none')}
+          <span className="grid size-12 place-items-center rounded-full border-2 border-dashed border-rule text-[0.6875rem] font-extrabold text-ink-faint uppercase">
+            —
           </span>
         )}
       </div>
 
       {status.next ? (
         <div>
-          <p className="font-mono text-[0.6875rem] tnum text-ink-faint">
+          <p className="text-[0.8125rem] tnum text-ink-soft">
             {t('ranks.toNext', {
               grade: t(`grade.${status.next.grade}` as TranslationKey),
               value: status.next.value,
@@ -79,20 +118,11 @@ export function RankCard({
               ? ` ${t('ranks.toNextSecond', { second: status.next.second })}`
               : ''}
           </p>
-          <div className="relative mt-1 h-2.5 border-b border-rule">
+          <div className="mt-1.5 h-3 w-full overflow-hidden rounded-full bg-sunken">
             <div
-              className="absolute bottom-0 left-0 h-[3px] bg-ochre transition-[width] duration-700 ease-[var(--ease-paper)]"
+              className="h-full rounded-full bg-blue transition-[width] duration-300 ease-out"
               style={{ width: `${(rank.hasData ? status.share : 0) * 100}%` }}
             />
-            <div className="absolute inset-0 flex justify-between">
-              {Array.from({ length: 9 }, (_, index) => (
-                <span
-                  key={index}
-                  className="w-px self-end bg-rule"
-                  style={{ height: index % 4 === 0 ? '100%' : '40%' }}
-                />
-              ))}
-            </div>
           </div>
         </div>
       ) : null}

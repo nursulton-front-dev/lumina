@@ -47,10 +47,12 @@ export function SleepPanel({
   const drift = actual ? bedtimeDrift(profile.sleepTarget, actual) : null;
 
   return (
-    <Sheet accent={reminderDue ? 'terracotta' : 'none'} className="px-4 py-3">
+    <Sheet accent={reminderDue ? 'terracotta' : 'none'} className="px-5 py-4">
       <div className="flex items-baseline justify-between gap-3">
         <Marginalia>{t('sleep.title')}</Marginalia>
-        <span className="font-mono text-[1.125rem] tnum text-ink">{profile.sleepTarget}</span>
+        <span className="font-display text-[1.375rem] font-extrabold tnum text-ink">
+          {profile.sleepTarget}
+        </span>
       </div>
 
       {reminderDue ? (
@@ -60,7 +62,7 @@ export function SleepPanel({
       )}
 
       {actual ? (
-        <p className="mt-2 font-mono text-[0.8125rem] tnum text-ink-soft">
+        <p className="mt-2 font-display text-[0.8125rem] tnum text-ink-soft">
           {t('sleep.saved', { time: actual, drift: drift ?? 0 })}
         </p>
       ) : editing ? (

@@ -1,62 +1,74 @@
 @import 'tailwindcss';
 
-@import '@fontsource-variable/golos-text/index.css';
-@import '@fontsource/ibm-plex-mono/400.css';
-@import '@fontsource/ibm-plex-mono/500.css';
-@import '@fontsource/ibm-plex-mono/600.css';
+@import '@fontsource-variable/nunito/wght.css';
+@import '@fontsource-variable/nunito-sans/wght.css';
 
-/* ─── Светлая тема: тёплая бумага в клетку ─────────────────────────────── */
+/* ─── Светлая тема: спокойный учебный стиль ────────────────────────────── */
 @theme {
-  --color-paper: oklch(96.2% 0.014 92);
-  --color-raised: oklch(98.6% 0.008 92);
-  --color-sunken: oklch(93.4% 0.018 92);
-  --color-grid: oklch(87% 0.028 248);
-  --color-rule: oklch(80% 0.035 248);
-  --color-margin: oklch(58% 0.13 34);
+  --color-paper: #f7f8fa;
+  --color-raised: #ffffff;
+  --color-sunken: #eef0f4;
+  --color-rule: #e6e9ef;
+  --color-grid: #e6e9ef;
 
-  --color-ink: oklch(29% 0.075 262);
-  --color-ink-soft: oklch(46% 0.05 262);
-  --color-ink-faint: oklch(63% 0.028 262);
+  --color-ink: #1b2333;
+  --color-ink-soft: #5b6478;
+  --color-ink-faint: #8b93a3;
 
-  --color-ochre: oklch(66% 0.135 72);
-  --color-ochre-wash: oklch(90% 0.06 82);
-  --color-done: oklch(52% 0.095 152);
-  --color-done-wash: oklch(90% 0.05 152);
-  --color-terracotta: oklch(54% 0.145 32);
-  --color-terracotta-wash: oklch(91% 0.045 32);
+  /* Янтарь — текущий блок и серия. */
+  --color-ochre: #f2a33c;
+  --color-ochre-deep: #d48a24;
+  --color-ochre-wash: #fdf1dc;
+  /* Зелёный — выполнено и главные кнопки. */
+  --color-done: #2fb672;
+  --color-done-deep: #239459;
+  --color-done-wash: #dff5e9;
+  /* Синий — прогресс и графики. */
+  --color-blue: #3d7bf7;
+  --color-blue-deep: #2d63cf;
+  --color-blue-wash: #e3ecfe;
+  /* Красный — срывы. */
+  --color-terracotta: #e8553e;
+  --color-terracotta-deep: #c2412d;
+  --color-terracotta-wash: #fce4e0;
 
-  --font-sans: 'Golos Text Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+  --font-display: 'Nunito Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Nunito Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  --radius-sheet: 2px;
-  --ease-paper: cubic-bezier(0.16, 1, 0.3, 1);
-
-  --grid-size: 22px;
-  --grid-alpha: 0.5;
+  --radius-card: 18px;
+  --radius-button: 14px;
+  --radius-field: 12px;
+  --ease-paper: cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  --shadow-card: 0 1px 2px rgb(27 35 51 / 0.04), 0 6px 20px -8px rgb(27 35 51 / 0.12);
 }
 
-/* ─── Тёмная тема: не инверсия, а синька-чертёж ────────────────────────── */
+/* ─── Тёмная тема: мягкая, не синяя ───────────────────────────────────── */
 @layer base {
   :root[data-theme='dark'] {
-    --color-paper: oklch(23% 0.045 254);
-    --color-raised: oklch(27.5% 0.05 254);
-    --color-sunken: oklch(19.5% 0.04 254);
-    --color-grid: oklch(38% 0.05 250);
-    --color-rule: oklch(46% 0.055 250);
-    --color-margin: oklch(62% 0.1 34);
+    --color-paper: #16181d;
+    --color-raised: #1f222a;
+    --color-sunken: #12141a;
+    --color-rule: #2c303a;
+    --color-grid: #2c303a;
 
-    --color-ink: oklch(93% 0.02 240);
-    --color-ink-soft: oklch(78% 0.035 240);
-    --color-ink-faint: oklch(60% 0.04 245);
+    --color-ink: #eef0f4;
+    --color-ink-soft: #aab1c0;
+    --color-ink-faint: #7c8494;
 
-    --color-ochre: oklch(80% 0.13 78);
-    --color-ochre-wash: oklch(34% 0.06 78);
-    --color-done: oklch(74% 0.11 155);
-    --color-done-wash: oklch(31% 0.05 155);
-    --color-terracotta: oklch(72% 0.13 34);
-    --color-terracotta-wash: oklch(32% 0.06 34);
+    --color-ochre: #e5a04c;
+    --color-ochre-deep: #b97d2f;
+    --color-ochre-wash: #3a2d19;
+    --color-done: #3fb87a;
+    --color-done-deep: #2c8f5c;
+    --color-done-wash: #17352a;
+    --color-blue: #5b8ef5;
+    --color-blue-deep: #3f6fd0;
+    --color-blue-wash: #1d2a45;
+    --color-terracotta: #e8654f;
+    --color-terracotta-deep: #b8483a;
+    --color-terracotta-wash: #3d221f;
 
-    --grid-alpha: 0.42;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -10px rgb(0 0 0 / 0.5);
   }
 }
 
@@ -74,36 +86,30 @@
   body {
     margin: 0;
     min-height: 100dvh;
+    background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 16px;
-    line-height: 1.45;
+    line-height: 1.5;
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-
-    /* Слои фона: зерно бумаги, клетка тетради, сам лист.
-       Всё это background-слои одного элемента — так ничего не перекрывает контент. */
-    background-color: var(--color-paper);
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
-      repeating-linear-gradient(
-        to right,
-        color-mix(in oklab, var(--color-grid) calc(var(--grid-alpha) * 100%), transparent) 0 1px,
-        transparent 1px var(--grid-size)
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        color-mix(in oklab, var(--color-grid) calc(var(--grid-alpha) * 100%), transparent) 0 1px,
-        transparent 1px var(--grid-size)
-      );
-    background-attachment: fixed, fixed, fixed;
   }
 
-  /* Цифры не должны дёргаться: везде табличные. */
-  .font-mono,
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  /* Цифры в таймерах и счётчиках не должны дёргаться: везде табличные. */
+  .font-display,
   time,
   output {
+    font-family: var(--font-display);
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum' 1;
   }
@@ -120,26 +126,28 @@
     background: none;
     border: none;
     cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 700;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ochre);
+    outline: 3px solid color-mix(in oklab, var(--color-blue) 55%, transparent);
     outline-offset: 2px;
   }
 
   ::selection {
-    background: var(--color-ochre-wash);
+    background: var(--color-blue-wash);
     color: var(--color-ink);
   }
 }
 
 @layer utilities {
-  /* Лист тетради: чуть светлее фона, с чернильной рамкой в один пиксель. */
+  /* Карточка: белая поверхность, радиус 18, тонкая граница, мягкая тень. */
   .sheet {
-    background: color-mix(in oklab, var(--color-raised) 82%, transparent);
-    border: 1px solid color-mix(in oklab, var(--color-rule) 70%, transparent);
-    border-radius: var(--radius-sheet);
-    backdrop-filter: blur(1px);
+    background: var(--color-raised);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
   }
 
   .safe-top {
@@ -168,21 +176,31 @@
   }
 }
 
-/* Единственная заметная анимация в приложении: печать разряда. */
-@keyframes stamp {
+/* Медаль разряда появляется с коротким пружинящим движением. */
+@keyframes medal {
   0% {
     opacity: 0;
-    transform: rotate(-14deg) scale(2.1);
-    filter: blur(2px);
+    transform: scale(0.4);
   }
-  60% {
+  70% {
     opacity: 1;
-    transform: rotate(-1deg) scale(0.94);
-    filter: blur(0);
+    transform: scale(1.12);
   }
   100% {
-    opacity: 0.9;
-    transform: rotate(-3deg) scale(1);
+    transform: scale(1);
+  }
+}
+
+/* Галочка в чекбоксе: короткая пружина, 200 мс. */
+@keyframes check-pop {
+  0% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

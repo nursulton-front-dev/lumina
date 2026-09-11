@@ -86,7 +86,7 @@ export function NumbersStep({
 
   return (
     <div className="flex flex-col gap-4">
-      <p className="flex items-baseline justify-between font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+      <p className="flex items-baseline justify-between font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
         <span>
           {t('numbers.round', {
             n: Math.min(round + 1, ROUNDS_PER_SESSION),
@@ -100,7 +100,7 @@ export function NumbersStep({
 
       {phase === 'ready' ? (
         <>
-          <p className="border-l-[3px] border-ochre bg-ochre-wash px-3 py-2.5 text-[0.875rem] leading-snug text-ink">
+          <p className="rounded-[var(--radius-field)] bg-ochre-wash px-3 py-2.5 text-[0.875rem] leading-snug text-ink">
             {t(tip ?? 'numbers.tip.chunk')}
           </p>
           <Button variant="primary" size="lg" full onClick={startRound}>
@@ -112,7 +112,7 @@ export function NumbersStep({
       {phase === 'memorize' ? (
         <>
           <Marginalia>{t('numbers.memorize')}</Marginalia>
-          <p className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-[clamp(2rem,11vw,3.25rem)] leading-tight font-medium tnum text-ink">
+          <p className="flex flex-wrap gap-x-5 gap-y-2 font-display text-[clamp(2rem,11vw,3.25rem)] leading-tight font-medium tnum text-ink">
             {chunkDigits(digits).map((chunk, index) => (
               <span key={index}>{chunk}</span>
             ))}
@@ -133,7 +133,7 @@ export function NumbersStep({
             autoFocus
             autoComplete="off"
             placeholder={t('numbers.answerPlaceholder')}
-            className="font-mono text-[1.25rem] tnum"
+            className="font-display text-[1.25rem] tnum"
             onChange={(event) => setAnswer(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === 'Enter') check();
@@ -147,17 +147,17 @@ export function NumbersStep({
 
       {phase === 'result' && score ? (
         <>
-          <p className="font-mono text-[clamp(1.5rem,7vw,2rem)] tnum text-ink">
+          <p className="font-display text-[clamp(1.5rem,7vw,2rem)] tnum text-ink">
             {score.perfect ? t('numbers.perfect') : t('numbers.mistakes', { n: score.mistakes })}
           </p>
-          <p className="flex flex-wrap gap-x-4 font-mono text-[0.9375rem] tnum text-ink-soft">
+          <p className="flex flex-wrap gap-x-4 font-display text-[0.9375rem] tnum text-ink-soft">
             <span>
               {t('numbers.accuracy')}: {Math.round(score.accuracy * 100)}%
             </span>
             <span>{digits}</span>
           </p>
           {lengthChange ? (
-            <p className="border-l-[3px] border-ink px-3 py-2 text-[0.875rem] text-ink">
+            <p className="rounded-[var(--radius-field)] bg-sunken px-3 py-2 text-[0.875rem] text-ink">
               {lengthChange === 'up'
                 ? t('numbers.harder', { n: trainer.length })
                 : t('numbers.easier', { n: trainer.length })}
@@ -170,11 +170,11 @@ export function NumbersStep({
       ) : null}
 
       {phase === 'done' ? (
-        <p className="flex items-baseline justify-between border-t border-dashed border-rule pt-3">
-          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+        <p className="flex items-baseline justify-between border-t border-rule pt-3">
+          <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
             {t('numbers.bestToday')}
           </span>
-          <span className="font-mono text-[2rem] leading-none tnum text-ink">{best}</span>
+          <span className="font-display text-[2rem] leading-none tnum text-ink">{best}</span>
         </p>
       ) : null}
     </div>

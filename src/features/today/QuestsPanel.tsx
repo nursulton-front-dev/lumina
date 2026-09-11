@@ -2,7 +2,7 @@ import type { TranslationKey } from '../../i18n';
 import type { QuestsState } from '../../state/useQuests';
 import { generateQuests } from '../../state/useQuests';
 import { Button } from '../../components/ui/Button';
-import { Marginalia, Sheet } from '../../components/ui/Sheet';
+import { EmptyState, Marginalia, Sheet } from '../../components/ui/Sheet';
 import { useApp } from '../../state/app-context';
 
 /** Квесты недели: полоски прогресса, привязанные к настоящим цифрам. */
@@ -18,11 +18,11 @@ export function QuestsPanel({
   const { t } = useApp();
 
   return (
-    <Sheet className="px-4 py-3">
+    <Sheet className="px-5 py-4">
       <div className="flex items-baseline justify-between gap-3">
         <Marginalia>{t('quests.title')}</Marginalia>
         {state.quests.length > 0 ? (
-          <span className="font-mono text-[0.75rem] tnum text-ink-faint">
+          <span className="font-display text-[0.75rem] tnum text-ink-faint">
             {state.quests.filter((item) => item.done).length}/{state.quests.length}
           </span>
         ) : null}
@@ -30,11 +30,11 @@ export function QuestsPanel({
 
       {state.quests.length === 0 ? (
         <>
-          <p className="mt-1 text-[0.8125rem] text-ink-faint">{t('quests.empty')}</p>
+          <EmptyState text={t('quests.empty')} icon="flag" />
           <Button
             variant="ghost"
             full
-            className="mt-2.5"
+            className="mt-1"
             onClick={() => void generateQuests(today, seasonStart)}
           >
             {t('quests.generate')}
@@ -52,13 +52,13 @@ export function QuestsPanel({
                       })
                     : t(`quest.${quest.kind}` as TranslationKey)}
                 </span>
-                <span className="shrink-0 font-mono text-[0.75rem] tnum text-ink-faint">
+                <span className="shrink-0 font-display text-[0.75rem] tnum text-ink-faint">
                   <span className={done ? 'text-done' : 'text-ink'}>{progress}</span>/{quest.target}
                 </span>
               </div>
-              <div className="relative mt-1 h-1.5 border-b border-rule">
+              <div className="mt-1.5 h-3 w-full overflow-hidden rounded-full bg-sunken">
                 <div
-                  className={`absolute bottom-0 left-0 h-[3px] transition-[width] duration-700 ease-[var(--ease-paper)] ${done ? 'bg-done' : 'bg-ink'}`}
+                  className={`h-full rounded-full transition-[width] duration-300 ease-out ${done ? 'bg-done' : 'bg-blue'}`}
                   style={{ width: `${share * 100}%` }}
                 />
               </div>

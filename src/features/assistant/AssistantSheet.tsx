@@ -51,7 +51,7 @@ export function AssistantSheet({
   return (
     <div className="safe-top safe-bottom fixed inset-0 z-50 flex flex-col bg-paper">
       <header className="flex items-center justify-between gap-3 border-b border-rule px-3 py-2">
-        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+        <p className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
           {t('assistant.title')}
         </p>
         <div className="flex items-center gap-1">
@@ -87,7 +87,7 @@ export function AssistantSheet({
 
       <main className="flex-1 overflow-y-auto px-3 py-3">
         {blocked ? (
-          <p className="border-l-[3px] border-ochre bg-ochre-wash px-3 py-2.5 text-[0.875rem] leading-snug text-ink">
+          <p className="rounded-[var(--radius-field)] bg-ochre-wash px-3 py-2.5 text-[0.875rem] leading-snug text-ink">
             {blocked === 'notConfigured'
               ? t('assistant.notConfigured')
               : t('assistant.signInRequired')}
@@ -104,10 +104,10 @@ export function AssistantSheet({
               key={message.id}
               className={
                 message.role === 'user'
-                  ? 'ml-8 border-l-[3px] border-ochre bg-ochre-wash px-3 py-2 text-[0.9375rem] text-ink'
+                  ? 'ml-8 rounded-[var(--radius-field)] bg-ochre-wash px-3 py-2 text-[0.9375rem] text-ink'
                   : message.role === 'tool'
-                    ? 'font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-faint'
-                    : 'mr-4 border-l-[3px] border-ink px-3 py-2 text-[0.9375rem] leading-snug whitespace-pre-wrap text-ink'
+                    ? 'font-display text-[0.6875rem] uppercase tracking-[0.12em] text-ink-faint'
+                    : 'mr-4 rounded-[var(--radius-field)] bg-sunken px-3 py-2 text-[0.9375rem] leading-snug whitespace-pre-wrap text-ink'
               }
             >
               {message.role === 'tool'
@@ -118,13 +118,15 @@ export function AssistantSheet({
         </ul>
 
         {assistant.streaming ? (
-          <p className="mt-2.5 mr-4 border-l-[3px] border-ink px-3 py-2 text-[0.9375rem] leading-snug whitespace-pre-wrap text-ink">
+          <p className="mt-2.5 mr-4 rounded-[var(--radius-field)] bg-sunken px-3 py-2 text-[0.9375rem] leading-snug whitespace-pre-wrap text-ink">
             {assistant.streaming}
           </p>
         ) : null}
 
         {assistant.busy && !assistant.streaming ? (
-          <p className="mt-2 font-mono text-[0.75rem] text-ink-faint">{t('assistant.thinking')}</p>
+          <p className="mt-2 font-display text-[0.75rem] text-ink-faint">
+            {t('assistant.thinking')}
+          </p>
         ) : null}
 
         {assistant.pending.length > 0 ? (
@@ -143,7 +145,7 @@ export function AssistantSheet({
         ) : null}
 
         {assistant.error ? (
-          <p className="mt-2 border-l-[3px] border-terracotta bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
+          <p className="mt-2 rounded-[var(--radius-field)] bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
             {assistant.error === 'rate_limited'
               ? t('assistant.rateLimited')
               : t('assistant.error', { error: assistant.error })}

@@ -1,4 +1,4 @@
-/** Чернильная галочка в квадрате: клетка тетради, а не системный чекбокс. */
+/** Круглый чекбокс 28px: при отметке заливается зелёным с галочкой и коротко пружинит. */
 export function Checkbox({
   checked,
   onChange,
@@ -19,21 +19,25 @@ export function Checkbox({
       disabled={disabled}
       onClick={onChange}
       className={[
-        'grid size-9 shrink-0 place-items-center rounded-[2px] border transition-colors duration-150',
+        'grid size-7 shrink-0 place-items-center rounded-full border-2 transition-colors duration-150',
         checked
-          ? 'border-done bg-done-wash text-done'
-          : 'border-rule text-transparent hover:border-ink hover:bg-[color-mix(in_oklab,var(--color-ochre-wash)_40%,transparent)]',
+          ? 'border-done bg-done text-white'
+          : 'border-rule bg-raised text-transparent hover:border-ink-faint',
         disabled ? 'cursor-not-allowed opacity-40' : '',
       ].join(' ')}
     >
-      <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        className={['size-4', checked ? 'animate-[check-pop_200ms_ease-out_both]' : ''].join(' ')}
+        aria-hidden="true"
+      >
         <path
-          d="M4 13.5 L9.5 19 L20 5.5"
+          d="M5 12.5 L10 17.5 L19 7"
           fill="none"
           stroke="currentColor"
-          strokeWidth="3.2"
-          strokeLinecap="square"
-          transform="rotate(-4 12 12)"
+          strokeWidth="3.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </button>

@@ -127,13 +127,13 @@ export function ProtocolRunner({
 
   return (
     <div className="safe-top safe-bottom fixed inset-0 z-40 flex flex-col bg-paper">
-      <header className="flex items-center gap-3 border-b border-rule px-3 py-2">
+      <header className="flex items-center gap-3 border-b border-rule bg-raised px-4 py-2.5">
         <div className="min-w-0 flex-1">
-          <p className="truncate font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+          <p className="truncate font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
             {t(protocol.titleKey)}
             {protocol.subtitleKey ? ` · ${t(protocol.subtitleKey)}` : ''}
           </p>
-          <p className="font-mono text-[0.75rem] tnum text-ink-soft">
+          <p className="font-display text-[0.75rem] tnum text-ink-soft">
             {atSummary
               ? t('protocol.summary')
               : t('protocol.stepOf', { current: index + 1, total: steps.length })}
@@ -143,7 +143,7 @@ export function ProtocolRunner({
           type="button"
           onClick={exit}
           aria-label={t('protocol.exit')}
-          className="grid size-9 shrink-0 place-items-center border border-transparent text-ink-faint transition-colors hover:border-rule hover:text-ink"
+          className="grid size-10 shrink-0 place-items-center rounded-full bg-sunken text-ink-soft transition-colors hover:text-ink"
         >
           <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
             <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" strokeWidth="2.4" />
@@ -161,20 +161,20 @@ export function ProtocolRunner({
             <h1 className="text-[clamp(1.5rem,7vw,2rem)] font-semibold text-ink">
               {t('protocol.summary')}
             </h1>
-            <dl className="flex flex-col gap-1.5 font-mono text-[0.875rem] tnum">
-              <div className="flex justify-between border-b border-dashed border-rule pb-1">
+            <dl className="flex flex-col gap-1.5 font-display text-[0.875rem] tnum">
+              <div className="flex justify-between border-b border-rule pb-1">
                 <dt className="text-ink-faint">{t('protocol.summarySets')}</dt>
                 <dd className="text-ink">
                   {outcomes.reduce((sum, item) => sum + item.setsDone, 0)}
                 </dd>
               </div>
-              <div className="flex justify-between border-b border-dashed border-rule pb-1">
+              <div className="flex justify-between border-b border-rule pb-1">
                 <dt className="text-ink-faint">{t('protocol.summaryFailed')}</dt>
                 <dd className="text-ink">
                   {outcomes.reduce((sum, item) => sum + item.setsFailed, 0)}
                 </dd>
               </div>
-              <div className="flex justify-between border-b border-dashed border-rule pb-1">
+              <div className="flex justify-between border-b border-rule pb-1">
                 <dt className="text-ink-faint">{t('protocol.summaryTime')}</dt>
                 <dd className="text-ink">
                   {Math.max(1, Math.round(((summaryAt ?? startedAt) - startedAt) / 60_000))}{' '}
@@ -191,7 +191,7 @@ export function ProtocolRunner({
                     skipped: outcomes.filter((item) => item.skipped).length,
                   });
                   return verdict ? (
-                    <p className="border-l-[3px] border-ink px-3 py-2 text-[0.9375rem] leading-snug text-ink-soft">
+                    <p className="rounded-[var(--radius-field)] bg-sunken px-3 py-2 text-[0.9375rem] leading-snug text-ink-soft">
                       {t(verdict.key, verdict.vars)}
                     </p>
                   ) : null;
@@ -204,7 +204,7 @@ export function ProtocolRunner({
                 .map((item) => (
                   <li key={item.stepId} className="flex justify-between gap-3">
                     <span className="min-w-0 truncate text-ink-soft">{t(item.titleKey)}</span>
-                    <span className="shrink-0 font-mono tnum text-ink">
+                    <span className="shrink-0 font-display tnum text-ink">
                       {item.skipped ? t('protocol.skipped') : item.value}
                     </span>
                   </li>
@@ -230,17 +230,17 @@ export function ProtocolRunner({
             ) : null}
 
             {step.hintKey ? (
-              <p className="border-l-[3px] border-ink bg-[color-mix(in_oklab,var(--color-raised)_70%,transparent)] px-3 py-2.5 text-[0.9375rem] leading-snug text-ink-soft">
+              <p className="rounded-[var(--radius-field)] bg-sunken px-3 py-2.5 text-[0.9375rem] leading-snug text-ink-soft">
                 {t(step.hintKey)}
               </p>
             ) : null}
 
             {step.items.length > 0 ? (
-              <ul className="flex flex-col gap-1 border-t border-dashed border-rule pt-2">
+              <ul className="flex flex-col gap-1 border-t border-rule pt-2">
                 {step.items.map((item) => (
                   <li key={item.key} className="flex justify-between gap-3 text-[0.9375rem]">
                     <span className="text-ink">{t(item.key)}</span>
-                    <span className="shrink-0 font-mono tnum text-ink-faint">
+                    <span className="shrink-0 font-display tnum text-ink-faint">
                       {item.count}
                       {item.unit === 'sec' ? ` ${t('unit.sec')}` : ''}
                       {item.unit === 'perSide' ? ` · ${t('protocol.perSide')}` : ''}
@@ -352,10 +352,8 @@ export function ProtocolRunner({
                   <li
                     key={item.key}
                     className={[
-                      'border-l-[3px] px-3 py-2 text-[0.875rem] leading-snug',
-                      item.tone === 'warning'
-                        ? 'border-terracotta bg-terracotta-wash text-ink'
-                        : 'border-ochre bg-ochre-wash text-ink',
+                      'rounded-[var(--radius-field)] px-4 py-3 text-[0.875rem] leading-snug text-ink',
+                      item.tone === 'warning' ? 'bg-terracotta-wash' : 'bg-ochre-wash',
                     ].join(' ')}
                   >
                     {t(item.key, item.vars)}
@@ -365,7 +363,7 @@ export function ProtocolRunner({
             ) : null}
 
             {index === 0 && protocol.safetyKeys.length > 0 ? (
-              <section className="border border-rule px-3 py-2.5">
+              <section className="rounded-[var(--radius-field)] border-2 border-rule px-4 py-3">
                 <Marginalia>{t('protocol.safety')}</Marginalia>
                 <ul className="mt-1.5 flex flex-col gap-1.5">
                   {protocol.safetyKeys.map((key) => (
@@ -380,7 +378,7 @@ export function ProtocolRunner({
         ) : null}
       </main>
 
-      <footer className="safe-bottom flex gap-2 border-t border-rule px-3 py-3">
+      <footer className="safe-bottom flex gap-2 border-t border-rule bg-raised px-4 py-3">
         {atSummary ? (
           <Button variant="primary" size="lg" full onClick={finish}>
             {t('protocol.save')}

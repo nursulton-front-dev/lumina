@@ -9,10 +9,12 @@ export interface SeasonImageData {
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
-const PAPER = '#f6f2e8';
-const INK = '#1f3a68';
-const FAINT = '#8b94a8';
-const TERRACOTTA = '#a8452f';
+const PAPER = '#f7f8fa';
+const CARD = '#ffffff';
+const INK = '#1b2333';
+const FAINT = '#8b93a3';
+const BLUE = '#3d7bf7';
+const AMBER = '#f2a33c';
 
 function escape(text: string): string {
   return text.replace(
@@ -22,46 +24,39 @@ function escape(text: string): string {
 }
 
 function buildSvg(data: SeasonImageData): string {
-  const grid: string[] = [];
-  for (let x = 60; x < WIDTH; x += 60) {
-    grid.push(
-      `<line x1="${x}" y1="0" x2="${x}" y2="${HEIGHT}" stroke="#c3cfe0" stroke-width="1"/>`,
-    );
-  }
-  for (let y = 60; y < HEIGHT; y += 60) {
-    grid.push(`<line x1="0" y1="${y}" x2="${WIDTH}" y2="${y}" stroke="#c3cfe0" stroke-width="1"/>`);
-  }
+  const card = `<rect x="40" y="380" width="${WIDTH - 80}" height="${data.lines.length * 74 + 60}" rx="36" fill="${CARD}" stroke="#e6e9ef"/>`;
 
   const lines = data.lines
     .map(
       (line, index) => `
-        <text x="80" y="${520 + index * 74}" font-family="system-ui, sans-serif" font-size="30" fill="${FAINT}">${escape(line.label)}</text>
-        <text x="${WIDTH - 80}" y="${520 + index * 74}" text-anchor="end" font-family="ui-monospace, monospace" font-size="38" fill="${INK}">${escape(line.value)}</text>
-        <line x1="80" y1="${540 + index * 74}" x2="${WIDTH - 80}" y2="${540 + index * 74}" stroke="#c3cfe0" stroke-width="1" stroke-dasharray="4 6"/>`,
+        <text x="120" y="${520 + index * 74}" font-family="system-ui, sans-serif" font-size="30" fill="${FAINT}">${escape(line.label)}</text>
+        <text x="${WIDTH - 120}" y="${520 + index * 74}" text-anchor="end" font-family="system-ui, sans-serif" font-weight="800" font-size="36" fill="${INK}">${escape(line.value)}</text>
+        <line x1="80" y1="${544 + index * 74}" x2="${WIDTH - 80}" y2="${544 + index * 74}" stroke="#e6e9ef" stroke-width="2"/>`,
     )
     .join('');
 
   const ranks = data.ranks
     .map(
       (rank, index) => `
-        <g transform="translate(${90 + (index % 3) * 320}, ${900 + Math.floor(index / 3) * 130}) rotate(-3)">
-          <rect x="0" y="0" width="270" height="92" fill="none" stroke="${TERRACOTTA}" stroke-width="3"/>
-          <rect x="6" y="6" width="258" height="80" fill="none" stroke="${TERRACOTTA}" stroke-width="1"/>
-          <text x="135" y="42" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="${INK}">${escape(rank.name)}</text>
-          <text x="135" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="26" fill="${TERRACOTTA}">${escape(rank.grade)}</text>
+        <g transform="translate(${140 + (index % 4) * 220}, ${data.lines.length * 74 + 540 + Math.floor(index / 4) * 150})">
+          <path d="M-22 30l-8 44 14-8 16 12 4-44z" fill="${BLUE}" opacity="0.7"/>
+          <path d="M22 30l8 44-14-8-16 12-4-44z" fill="${BLUE}" opacity="0.7"/>
+          <circle cx="0" cy="0" r="40" fill="${AMBER}"/>
+          <circle cx="0" cy="0" r="30" fill="none" stroke="#fff" stroke-opacity="0.6" stroke-width="3"/>
+          <text x="0" y="8" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="800" font-size="22" fill="#fff">${escape(rank.grade)}</text>
+          <text x="0" y="104" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="${INK}">${escape(rank.name)}</text>
         </g>`,
     )
     .join('');
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <rect width="${WIDTH}" height="${HEIGHT}" fill="${PAPER}"/>
-  <g opacity="0.5">${grid.join('')}</g>
-  <rect x="140" y="0" width="4" height="${HEIGHT}" fill="${TERRACOTTA}" opacity="0.5"/>
-  <text x="80" y="180" font-family="system-ui, sans-serif" font-size="72" font-weight="700" fill="${INK}">${escape(data.title)}</text>
-  <text x="80" y="240" font-family="ui-monospace, monospace" font-size="30" fill="${FAINT}">${escape(data.period)}</text>
+  ${card}
+  <text x="80" y="180" font-family="system-ui, sans-serif" font-size="72" font-weight="800" fill="${INK}">${escape(data.title)}</text>
+  <text x="80" y="240" font-family="system-ui, sans-serif" font-size="30" fill="${FAINT}">${escape(data.period)}</text>
   ${lines}
   ${ranks}
-  <text x="80" y="${HEIGHT - 60}" font-family="ui-monospace, monospace" font-size="24" fill="${FAINT}">${escape(data.footer)}</text>
+  <text x="80" y="${HEIGHT - 60}" font-family="system-ui, sans-serif" font-size="24" fill="${FAINT}">${escape(data.footer)}</text>
 </svg>`;
 }
 

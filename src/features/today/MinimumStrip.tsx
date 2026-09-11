@@ -5,6 +5,25 @@ import { blockTitle } from '../../domain/blockTitle';
 import { Marginalia, Sheet } from '../../components/ui/Sheet';
 import { useApp } from '../../state/app-context';
 
+/** Маленький щит серии. */
+function ShieldIcon(): React.JSX.Element {
+  return (
+    <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
+      <path
+        d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5v-6z"
+        fill="var(--color-ochre)"
+      />
+      <path
+        d="M8.8 12l2.2 2.2 4.4-4.6"
+        fill="none"
+        stroke="#fff"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 /** Серия и три блока минимума — единственная сводка на главном экране. */
 export function MinimumStrip({
   core,
@@ -22,35 +41,53 @@ export function MinimumStrip({
   const { t, tp } = useApp();
 
   return (
-    <Sheet accent={done ? 'done' : 'none'} className="flex items-stretch gap-4 px-4 py-3">
+    <Sheet accent={done ? 'done' : 'none'} className="flex items-stretch gap-4 px-5 py-4">
       <div className="shrink-0">
         <Marginalia>{t('today.streak')}</Marginalia>
-        <p className="font-mono text-[2rem] leading-none tnum text-ink">{streak}</p>
-        <p className="text-[0.75rem] text-ink-faint">{tp('day', streak)}</p>
+        <p className="mt-0.5 flex items-baseline gap-2">
+          <span className="font-display text-[2.75rem] leading-none font-extrabold tnum text-ochre">
+            {streak}
+          </span>
+          <span className="text-[0.8125rem] text-ink-soft">{tp('day', streak)}</span>
+        </p>
         {shields > 0 ? (
-          <p className="mt-1 font-mono text-[0.6875rem] tnum text-ink-faint">
-            {t('shield.title')}: {shields}
+          <p
+            className="mt-1.5 flex items-center gap-1"
+            aria-label={`${t('shield.title')}: ${shields}`}
+          >
+            {Array.from({ length: shields }, (_, index) => (
+              <ShieldIcon key={index} />
+            ))}
           </p>
         ) : null}
       </div>
 
-      <div className="min-w-0 flex-1 border-l border-dashed border-rule pl-4">
+      <div className="min-w-0 flex-1 border-l border-rule pl-4">
         <Marginalia>{done ? t('today.minimumDone') : t('today.minimum')}</Marginalia>
-        <ul className="mt-1.5 flex flex-col gap-1">
+        <ul className="mt-2 flex flex-col gap-1.5">
           {core.map((block) => {
             const isDone = checked.has(block.id);
             return (
-              <li key={block.id} className="flex items-center gap-2 text-[0.8125rem]">
+              <li key={block.id} className="flex items-center gap-2.5 text-[0.9375rem]">
                 <span
                   aria-hidden="true"
                   className={[
-                    'grid size-4 shrink-0 place-items-center rounded-[1px] border text-[0.625rem]',
-                    isDone ? 'border-done bg-done-wash text-done' : 'border-rule text-transparent',
+                    'grid size-5 shrink-0 place-items-center rounded-full border-2',
+                    isDone ? 'border-done bg-done text-white' : 'border-rule text-transparent',
                   ].join(' ')}
                 >
-                  ✓
+                  <svg viewBox="0 0 24 24" className="size-3" aria-hidden="true">
+                    <path
+                      d="M5 12.5 10 17.5 19 7"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </span>
-                <span className={isDone ? 'text-ink-faint line-through' : 'text-ink-soft'}>
+                <span className={isDone ? 'text-ink-faint line-through' : 'text-ink'}>
                   {blockTitle(block, t)}
                 </span>
               </li>
@@ -62,31 +99,31 @@ export function MinimumStrip({
   );
 }
 
-/** Ближайший разряд: одна строка с линейкой, остальное живёт в «Прогрессе». */
+/** Ближайший разряд: одна строка с полосой, остальное живёт в «Прогрессе». */
 export function ClosestRank({ rank }: { rank: RankView }): React.JSX.Element {
   const { t } = useApp();
   const { status } = rank;
 
   return (
-    <Sheet className="px-4 py-2.5">
+    <Sheet className="px-5 py-3.5">
       <div className="flex items-baseline justify-between gap-3">
         <Marginalia>{t('ranks.closest')}</Marginalia>
-        <span className="font-mono text-[0.75rem] tnum text-ink-faint">
+        <span className="font-display text-[0.8125rem] tnum text-ink-faint">
           {rank.hasData ? status.value : '—'}
           {status.next ? ` → ${status.next.value}` : ''}
         </span>
       </div>
-      <p className="mt-0.5 text-[0.875rem] text-ink">
+      <p className="mt-0.5 font-display text-[1rem] font-bold text-ink">
         {t(`rank.${rank.spec.id}` as TranslationKey)}
         {status.next ? (
-          <span className="ml-2 text-ink-faint">
+          <span className="ml-2 font-sans text-[0.875rem] font-normal text-ink-soft">
             {t(`grade.${status.next.grade}` as TranslationKey)}
           </span>
         ) : null}
       </p>
-      <div className="relative mt-1.5 h-1.5 border-b border-rule">
+      <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-sunken">
         <div
-          className="absolute bottom-0 left-0 h-[3px] bg-ochre transition-[width] duration-700 ease-[var(--ease-paper)]"
+          className="h-full rounded-full bg-blue transition-[width] duration-300 ease-out"
           style={{ width: `${status.share * 100}%` }}
         />
       </div>

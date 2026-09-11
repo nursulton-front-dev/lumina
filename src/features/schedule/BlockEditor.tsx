@@ -184,7 +184,7 @@ export function BlockEditor({
         <Toggle checked={isFocus} onChange={setIsFocus} label={t('schedule.focus')} />
 
         {error ? (
-          <p className="border-l-[3px] border-terracotta bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
+          <p className="rounded-[var(--radius-field)] bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
             {error}
           </p>
         ) : null}

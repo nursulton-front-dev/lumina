@@ -30,25 +30,15 @@ export function BlockRow({
   return (
     <li
       className={[
-        'relative flex items-start gap-3 border-b border-dashed px-3 py-2.5 transition-colors duration-200',
-        'border-[color-mix(in_oklab,var(--color-rule)_55%,transparent)]',
-        state === 'current'
-          ? 'border-l-[3px] border-l-ochre bg-[color-mix(in_oklab,var(--color-ochre-wash)_55%,transparent)]'
-          : 'border-l-[3px] border-l-transparent',
-        checked ? 'bg-[color-mix(in_oklab,var(--color-done-wash)_35%,transparent)]' : '',
+        'relative flex items-start gap-3 border-b border-rule px-4 py-3 transition-colors duration-200',
+        state === 'current' ? 'bg-ochre-wash' : '',
+        checked ? 'bg-[color-mix(in_oklab,var(--color-done-wash)_60%,transparent)]' : '',
       ].join(' ')}
     >
-      {state === 'current' ? (
-        <span
-          aria-hidden="true"
-          className="absolute top-[1.1rem] left-[4.1rem] size-[7px] rotate-45 bg-ochre"
-        />
-      ) : null}
-
       <time
         className={[
-          'w-[3.25rem] shrink-0 pt-[0.2rem] font-mono text-[0.75rem] tnum',
-          missed ? 'text-terracotta' : state === 'current' ? 'text-ink' : 'text-ink-faint',
+          'w-[3.25rem] shrink-0 pt-[0.2rem] font-display text-[0.8125rem] tnum',
+          missed ? 'text-terracotta' : state === 'current' ? 'text-ochre-deep' : 'text-ink-faint',
         ].join(' ')}
       >
         {fromMinutes(block.start)}
@@ -57,20 +47,24 @@ export function BlockRow({
       <div className="min-w-0 flex-1">
         <p
           className={[
-            'text-[0.9375rem] leading-snug',
-            state === 'current' ? 'font-semibold text-ink' : 'text-ink',
+            'text-[1rem] leading-snug',
+            state === 'current' ? 'font-display font-extrabold text-ink' : 'text-ink',
             checked ? 'text-ink-faint line-through decoration-done decoration-1' : '',
           ].join(' ')}
         >
           {title}
         </p>
-        <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
+        <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.8125rem] text-ink-faint">
           <span>{t(`category.${block.category}` as TranslationKey)}</span>
           <span aria-hidden="true">·</span>
           <span className="tnum">
             {formatDuration(block.end - block.start, { hour: t('unit.hour'), min: t('unit.min') })}
           </span>
-          {block.isCore ? <span className="text-ochre">{t('today.minimum')}</span> : null}
+          {block.isCore ? (
+            <span className="rounded-full bg-ochre-wash px-2 py-0.5 text-[0.6875rem] font-bold text-ochre-deep">
+              {t('today.minimum')}
+            </span>
+          ) : null}
         </p>
         {action ? <div className="mt-2">{action}</div> : null}
       </div>

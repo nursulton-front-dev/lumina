@@ -32,10 +32,8 @@ export function DayTypeChip({
         type="button"
         onClick={() => setOpen(true)}
         className={[
-          'rounded-[2px] border px-2 py-1 font-mono text-[0.6875rem] uppercase tracking-[0.12em] transition-colors duration-150',
-          overridden
-            ? 'border-ochre bg-ochre-wash text-ink'
-            : 'border-rule text-ink-soft hover:border-ink hover:text-ink',
+          'rounded-full px-3 py-1.5 font-display text-[0.75rem] font-extrabold tracking-[0.04em] transition-colors duration-150',
+          overridden ? 'bg-ochre-wash text-ochre-deep' : 'bg-sunken text-ink-soft hover:text-ink',
         ].join(' ')}
       >
         {t(`daytype.${dayType}` as TranslationKey)}

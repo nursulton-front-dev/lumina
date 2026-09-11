@@ -58,7 +58,7 @@ export function RecordStep({
   return (
     <div className="flex flex-col gap-3">
       {step.texts.length > 0 ? (
-        <div className="border-l-[3px] border-ochre bg-ochre-wash px-3 py-2.5">
+        <div className="rounded-[var(--radius-field)] bg-ochre-wash px-3 py-2.5">
           <Marginalia>{t('speech.topic')}</Marginalia>
           <p className="mt-1 text-[1.0625rem] leading-snug text-ink">{step.texts[0]}</p>
         </div>
@@ -77,7 +77,7 @@ export function RecordStep({
               </Button>
             )}
             {active ? (
-              <span className="flex items-center gap-2 font-mono text-[1.25rem] tnum text-ink">
+              <span className="flex items-center gap-2 font-display text-[1.25rem] tnum text-ink">
                 <span
                   className="size-2.5 animate-pulse rounded-full bg-terracotta"
                   aria-hidden="true"
@@ -90,7 +90,7 @@ export function RecordStep({
           {recording ? (
             <audio controls src={recording.url} className="w-full" aria-label={t('speech.play')} />
           ) : (
-            <p className="font-mono text-[0.75rem] uppercase tracking-[0.12em] text-ink-faint">
+            <p className="font-display text-[0.75rem] uppercase tracking-[0.12em] text-ink-faint">
               {t('speech.noRecording')}
             </p>
           )}
@@ -100,7 +100,7 @@ export function RecordStep({
       )}
 
       {error ? (
-        <p className="border-l-[3px] border-terracotta bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
+        <p className="rounded-[var(--radius-field)] bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
           {t('speech.micDenied', { error })}
         </p>
       ) : null}

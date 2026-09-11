@@ -53,7 +53,7 @@ export function App(): React.JSX.Element {
           type="button"
           onClick={() => setAssistantOpen(true)}
           aria-label={t('assistant.open')}
-          className="safe-bottom fixed right-3 bottom-[4.75rem] z-30 grid size-12 place-items-center rounded-[2px] border border-ink bg-ink text-paper shadow-[3px_3px_0_0_var(--color-rule)] transition-transform duration-150 ease-[var(--ease-paper)] hover:-translate-y-px active:translate-y-0 active:shadow-none"
+          className="safe-bottom fixed right-4 bottom-[5rem] z-30 grid size-14 place-items-center rounded-full bg-blue text-white shadow-[0_4px_0_0_var(--color-blue-deep)] transition-transform duration-150 active:translate-y-[4px] active:shadow-none"
         >
           <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
             <path

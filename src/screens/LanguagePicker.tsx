@@ -16,10 +16,10 @@ export function LanguagePicker({
 
   return (
     <main className="safe-top safe-bottom mx-auto flex min-h-dvh max-w-md flex-col justify-center px-5 py-10">
-      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-ink-faint">
+      <p className="font-display text-[0.8125rem] font-extrabold tracking-[0.08em] text-blue uppercase">
         {dict['app.name']}
       </p>
-      <h1 className="mt-2 text-[clamp(2rem,9vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.02em] text-ink">
+      <h1 className="mt-2 text-[clamp(2rem,9vw,2.75rem)] leading-[1.05] text-ink">
         {dict['lang.pick.title']}
       </h1>
       <p className="mt-2 text-[0.9375rem] text-ink-faint">{dict['lang.pick.hint']}</p>
@@ -30,10 +30,10 @@ export function LanguagePicker({
             <button
               type="button"
               onClick={() => onChoose(code)}
-              className="group flex w-full items-baseline justify-between gap-3 border border-rule bg-[color-mix(in_oklab,var(--color-raised)_75%,transparent)] px-4 py-4 text-left transition-all duration-150 ease-[var(--ease-paper)] hover:-translate-y-px hover:border-ink hover:shadow-[3px_3px_0_0_var(--color-rule)] active:translate-y-0 active:shadow-none"
+              className="group flex w-full min-h-[60px] items-center justify-between gap-3 rounded-[var(--radius-card)] border-2 border-rule bg-raised px-5 py-4 text-left font-display text-[1.125rem] font-bold text-ink shadow-[0_4px_0_0_var(--color-rule)] transition-[transform,box-shadow] duration-150 hover:border-blue active:translate-y-[4px] active:shadow-none"
             >
-              <span className="text-[1.125rem] text-ink">{dictionaries[code][`lang.${code}`]}</span>
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-ink-faint group-hover:text-ochre">
+              <span>{dictionaries[code][`lang.${code}`]}</span>
+              <span className="text-[0.75rem] font-extrabold tracking-[0.1em] text-ink-faint uppercase group-hover:text-blue">
                 {code}
               </span>
             </button>

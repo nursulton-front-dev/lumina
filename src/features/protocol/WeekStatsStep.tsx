@@ -39,10 +39,10 @@ export function WeekStatsStep({
       {lines.map((line) => (
         <div
           key={line.label}
-          className="flex items-baseline justify-between gap-3 border-b border-dashed border-[color-mix(in_oklab,var(--color-rule)_50%,transparent)] pb-1"
+          className="flex items-baseline justify-between gap-3 border-b border-[color-mix(in_oklab,var(--color-rule)_50%,transparent)] pb-1"
         >
           <dt className="text-[0.875rem] text-ink-soft">{line.label}</dt>
-          <dd className="font-mono text-[0.875rem] tnum text-ink">{line.value}</dd>
+          <dd className="font-display text-[0.875rem] tnum text-ink">{line.value}</dd>
         </div>
       ))}
     </dl>

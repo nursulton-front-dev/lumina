@@ -20,7 +20,7 @@ export function MeasureStep({
       <ul className="flex flex-col gap-1.5">
         {attempts.map((value, index) => (
           <li key={index} className="flex items-center gap-3">
-            <span className="w-[6.5rem] shrink-0 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
+            <span className="w-[6.5rem] shrink-0 font-display text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
               {t('protocol.measureAttempt', { n: index + 1 })}
             </span>
             <NumberInput
@@ -44,11 +44,11 @@ export function MeasureStep({
         ))}
       </ul>
 
-      <p className="flex items-baseline justify-between border-t border-dashed border-rule pt-2">
-        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+      <p className="flex items-baseline justify-between border-t border-rule pt-2">
+        <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
           {t('protocol.measureBest')}
         </span>
-        <span className="font-mono text-[1.5rem] tnum text-ink">
+        <span className="font-display text-[1.5rem] tnum text-ink">
           {best > 0 ? best : '—'}
           {step.metric === 'longJump' || step.metric === 'verticalJump' ? (
             <span className="ml-1 text-[0.75rem] text-ink-faint">{t('unit.cm')}</span>

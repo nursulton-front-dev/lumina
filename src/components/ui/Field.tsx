@@ -1,7 +1,7 @@
 import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from 'react';
 
 const CONTROL =
-  'w-full rounded-[2px] border border-rule bg-[color-mix(in_oklab,var(--color-raised)_70%,transparent)] px-3 py-2 text-ink transition-colors duration-150 hover:border-ink-faint focus:border-ink focus:outline-none';
+  'w-full min-h-[48px] rounded-[var(--radius-field)] border-2 border-rule bg-raised px-3.5 py-2.5 text-ink transition-colors duration-150 hover:border-ink-faint focus:border-blue focus:outline-none';
 
 export function Field({
   label,
@@ -17,7 +17,7 @@ export function Field({
     <div className="flex flex-col gap-1.5">
       <label
         htmlFor={id}
-        className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint"
+        className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint"
       >
         {label}
       </label>
@@ -42,7 +42,7 @@ export function NumberInput({
     <input
       type="number"
       inputMode="numeric"
-      className={[CONTROL, 'font-mono tnum', className].join(' ')}
+      className={[CONTROL, 'font-display tnum', className].join(' ')}
       {...rest}
     />
   );
@@ -53,7 +53,7 @@ export function TimeInput({
   ...rest
 }: InputHTMLAttributes<HTMLInputElement>): React.JSX.Element {
   return (
-    <input type="time" className={[CONTROL, 'font-mono tnum', className].join(' ')} {...rest} />
+    <input type="time" className={[CONTROL, 'font-display tnum', className].join(' ')} {...rest} />
   );
 }
 
@@ -96,14 +96,14 @@ export function Toggle({
         aria-label={label}
         onClick={() => onChange(!checked)}
         className={[
-          'relative h-6 w-11 shrink-0 rounded-[2px] border transition-colors duration-200',
-          checked ? 'border-ink bg-ink' : 'border-rule bg-transparent',
+          'relative h-8 w-14 shrink-0 rounded-full transition-colors duration-200',
+          checked ? 'bg-done' : 'bg-rule',
         ].join(' ')}
       >
         <span
           className={[
-            'absolute top-[2px] size-[18px] rounded-[1px] transition-all duration-200 ease-[var(--ease-paper)]',
-            checked ? 'left-[22px] bg-paper' : 'left-[2px] bg-rule',
+            'absolute top-1 size-6 rounded-full bg-white shadow-sm transition-[left] duration-200 ease-out',
+            checked ? 'left-7' : 'left-1',
           ].join(' ')}
         />
       </button>

@@ -22,7 +22,7 @@ function Section({
   children: React.ReactNode;
 }): React.JSX.Element {
   return (
-    <section className="sheet px-4 py-3.5">
+    <section className="sheet px-5 py-4">
       <Marginalia>{title}</Marginalia>
       <div className="mt-3 flex flex-col gap-4">{children}</div>
     </section>
@@ -52,10 +52,10 @@ function Choice<T extends string | number>({
             aria-pressed={isActive}
             onClick={() => onChange(option)}
             className={[
-              'rounded-[2px] border px-3 py-1.5 text-[0.875rem] transition-all duration-150',
+              'min-h-[40px] rounded-full border-2 px-4 py-1.5 font-display text-[0.9375rem] font-bold transition-colors duration-150',
               isActive
-                ? 'border-ink bg-ink text-paper'
-                : 'border-rule text-ink-soft hover:border-ink hover:text-ink',
+                ? 'border-blue bg-blue text-white'
+                : 'border-rule bg-raised text-ink-soft hover:border-ink-faint hover:text-ink',
             ].join(' ')}
           >
             {labelOf(option)}
@@ -118,9 +118,9 @@ export function ProfileScreen({
   };
 
   return (
-    <div className="flex flex-col gap-3 px-3 pt-3 pb-2">
+    <div className="flex flex-col gap-3 px-4 pt-4 pb-2">
       <header className="px-1">
-        <h1 className="text-[1.25rem] font-semibold text-ink">{t('profile.title')}</h1>
+        <h1 className="text-[1.5rem] text-ink">{t('profile.title')}</h1>
       </header>
 
       <Section title={t('profile.section.app')}>

@@ -32,12 +32,12 @@ export function RecordBanner({
       {beaten.map((item) => (
         <li
           key={item.id}
-          className="flex items-baseline justify-between gap-3 border-l-[3px] border-done bg-done-wash px-3 py-2"
+          className="flex items-baseline justify-between gap-3 rounded-[var(--radius-field)] bg-done-wash px-3 py-2"
         >
           <span className="text-[0.875rem] text-ink">
             {t(`record.${item.id}` as TranslationKey)}
           </span>
-          <span className="shrink-0 font-mono text-[0.8125rem] tnum text-ink">
+          <span className="shrink-0 font-display text-[0.8125rem] tnum text-ink">
             {t('records.beaten', { from: item.from, to: item.to })}
           </span>
         </li>

@@ -3,7 +3,7 @@ import type { MetricId } from '../types';
 import type { TranslationKey } from '../i18n';
 import { db } from '../db/db';
 import { Chart, type ChartPoint } from '../components/Chart';
-import { Marginalia } from '../components/ui/Sheet';
+import { EmptyState, Marginalia } from '../components/ui/Sheet';
 import { useApp } from '../state/app-context';
 import { useGamification } from '../state/useGamification';
 import { RanksSection } from '../features/ranks/RanksSection';
@@ -53,9 +53,9 @@ export function ProgressScreen(): React.JSX.Element {
   const filled = METRICS.filter((metric) => (series.get(metric.id)?.length ?? 0) > 0);
 
   return (
-    <div className="flex flex-col gap-3 px-3 pt-3">
+    <div className="flex flex-col gap-3 px-4 pt-4">
       <header className="px-1">
-        <h1 className="text-[1.25rem] font-semibold text-ink">{t('progress.title')}</h1>
+        <h1 className="text-[1.5rem] text-ink">{t('progress.title')}</h1>
       </header>
 
       {game ? <RanksSection state={game} /> : null}
@@ -63,9 +63,9 @@ export function ProgressScreen(): React.JSX.Element {
       {game && profile ? <SeasonSummary profile={profile} today={today} state={game} /> : null}
 
       {filled.length === 0 ? (
-        <p className="sheet px-4 py-6 text-center text-[0.875rem] leading-snug text-ink-faint">
-          {t('progress.noData')}
-        </p>
+        <div className="sheet">
+          <EmptyState text={t('progress.noData')} icon="chart" />
+        </div>
       ) : null}
 
       {filled.map((metric) => {
@@ -76,12 +76,12 @@ export function ProgressScreen(): React.JSX.Element {
         const unit = t(metric.unitKey);
 
         return (
-          <section key={metric.id} className="sheet px-3 pt-3 pb-2">
+          <section key={metric.id} className="sheet px-4 pt-4 pb-2">
             <header className="flex items-baseline justify-between gap-3">
               <h2 className="text-[0.9375rem] font-semibold text-ink">
                 {t(`metric.${metric.id}` as TranslationKey)}
               </h2>
-              <span className="font-mono text-[0.6875rem] tnum text-ink-faint">
+              <span className="font-display text-[0.6875rem] tnum text-ink-faint">
                 {t('progress.entries')}: {points.length}
               </span>
             </header>
@@ -89,14 +89,14 @@ export function ProgressScreen(): React.JSX.Element {
             <div className="mt-1 flex items-baseline gap-5">
               <p>
                 <Marginalia>{t('progress.latest')}</Marginalia>
-                <span className="ml-2 font-mono text-[1.5rem] leading-none tnum text-ink">
+                <span className="ml-2 font-display text-[1.5rem] leading-none tnum text-ink">
                   {latest}
                 </span>
-                <span className="ml-1 font-mono text-[0.75rem] text-ink-faint">{unit}</span>
+                <span className="ml-1 font-display text-[0.75rem] text-ink-faint">{unit}</span>
               </p>
               <p>
                 <Marginalia>{t('progress.best')}</Marginalia>
-                <span className="ml-2 font-mono text-[1rem] tnum text-done">{best}</span>
+                <span className="ml-2 font-display text-[1rem] tnum text-done">{best}</span>
               </p>
             </div>
 

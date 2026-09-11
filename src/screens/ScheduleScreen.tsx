@@ -30,15 +30,15 @@ export function ScheduleScreen(): React.JSX.Element {
   };
 
   return (
-    <div className="flex flex-col gap-3 px-3 pt-3">
+    <div className="flex flex-col gap-3 px-4 pt-4">
       <header className="px-1">
-        <h1 className="text-[1.25rem] font-semibold text-ink">{t('schedule.title')}</h1>
+        <h1 className="text-[1.5rem] text-ink">{t('schedule.title')}</h1>
         <p className="mt-0.5 max-w-prose text-[0.8125rem] leading-snug text-ink-faint">
           {t('schedule.hint')}
         </p>
       </header>
 
-      <div role="tablist" aria-label={t('schedule.title')} className="flex gap-1 overflow-x-auto">
+      <div role="tablist" aria-label={t('schedule.title')} className="flex gap-1.5 overflow-x-auto">
         {DAY_TYPES.map((code) => {
           const isActive = code === dayType;
           return (
@@ -49,10 +49,8 @@ export function ScheduleScreen(): React.JSX.Element {
               type="button"
               onClick={() => setDayType(code)}
               className={[
-                'shrink-0 border-b-2 px-3 py-2 text-[0.875rem] transition-colors duration-150',
-                isActive
-                  ? 'border-ochre font-semibold text-ink'
-                  : 'border-transparent text-ink-faint hover:text-ink',
+                'min-h-[40px] shrink-0 rounded-full px-4 py-1.5 font-display text-[0.9375rem] font-bold transition-colors duration-150',
+                isActive ? 'bg-blue text-white' : 'bg-sunken text-ink-soft hover:text-ink',
               ].join(' ')}
             >
               {t(`daytype.short.${code}` as TranslationKey)}
@@ -62,9 +60,9 @@ export function ScheduleScreen(): React.JSX.Element {
       </div>
 
       <section className="sheet overflow-hidden">
-        <header className="flex items-center justify-between border-b border-rule px-3 py-2">
+        <header className="flex items-center justify-between border-b border-rule px-4 py-3">
           <Marginalia>{t('schedule.total')}</Marginalia>
-          <span className="font-mono text-[0.6875rem] tnum text-ink-faint">
+          <span className="font-display text-[0.6875rem] tnum text-ink-faint">
             {formatDuration(bookedMinutes(blocks), { hour: t('unit.hour'), min: t('unit.min') })}
           </span>
         </header>
@@ -75,16 +73,16 @@ export function ScheduleScreen(): React.JSX.Element {
                 type="button"
                 onClick={() => setEditing(block)}
                 aria-label={t('schedule.tapToEdit')}
-                className="group flex w-full items-center gap-3 border-b border-dashed border-[color-mix(in_oklab,var(--color-rule)_55%,transparent)] px-3 py-2.5 text-left transition-colors duration-150 hover:bg-[color-mix(in_oklab,var(--color-ochre-wash)_40%,transparent)]"
+                className="group flex w-full items-center gap-3 border-b border-rule px-4 py-3 text-left transition-colors duration-150 hover:bg-sunken"
               >
-                <time className="w-[5.5rem] shrink-0 font-mono text-[0.75rem] tnum text-ink-faint">
+                <time className="w-[5.5rem] shrink-0 font-display text-[0.75rem] tnum text-ink-faint">
                   {formatRange(block.start, block.end)}
                 </time>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[0.9375rem] text-ink">
                     {blockTitle(block, t)}
                   </span>
-                  <span className="block truncate font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
+                  <span className="block truncate font-display text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
                     {t(`category.${block.category}` as TranslationKey)}
                     {block.isCore ? ` · ${t('today.minimum')}` : ''}
                     {block.isFocus ? ` · ${t('today.focus')}` : ''}

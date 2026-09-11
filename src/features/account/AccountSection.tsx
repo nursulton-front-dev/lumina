@@ -100,37 +100,37 @@ export function AccountSection({
     return (
       <div className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between gap-3">
-          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+          <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
             {t('account.signedInAs')}
           </span>
           <span className="min-w-0 truncate text-[0.875rem] text-ink">{session.email}</span>
         </div>
 
         <div className="flex items-baseline justify-between gap-3">
-          <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+          <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
             {t('account.lastSync')}
           </span>
-          <span className="font-mono text-[0.8125rem] tnum text-ink">{lastAt}</span>
+          <span className="font-display text-[0.8125rem] tnum text-ink">{lastAt}</span>
         </div>
 
         {tokens !== null ? (
           <div className="flex items-baseline justify-between gap-3">
-            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+            <span className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
               {t('assistant.tokens')}
             </span>
-            <span className="font-mono text-[0.8125rem] tnum text-ink">{tokens}</span>
+            <span className="font-display text-[0.8125rem] tnum text-ink">{tokens}</span>
           </div>
         ) : null}
 
         {sync.report ? (
-          <p className="font-mono text-[0.75rem] tnum text-ink-faint">
+          <p className="font-display text-[0.75rem] tnum text-ink-faint">
             {t('account.pushed', { n: sync.report.pushed })} ·{' '}
             {t('account.pulled', { n: sync.report.pulled })}
           </p>
         ) : null}
 
         {sync.status === 'error' && sync.error ? (
-          <p className="border-l-[3px] border-terracotta bg-terracotta-wash px-3 py-2 text-[0.8125rem] text-ink">
+          <p className="rounded-[var(--radius-field)] bg-terracotta-wash px-3 py-2 text-[0.8125rem] text-ink">
             {t('account.error', { error: sync.error })}
           </p>
         ) : null}
@@ -182,7 +182,7 @@ export function AccountSection({
                 id={id}
                 inputMode="numeric"
                 autoComplete="one-time-code"
-                className="font-mono tnum"
+                className="font-display tnum"
                 value={code}
                 onChange={(event) => setCode(event.target.value)}
               />

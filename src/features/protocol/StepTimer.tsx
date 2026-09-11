@@ -34,7 +34,7 @@ export function StepTimer({
     <div className="flex flex-col gap-3">
       <output
         className={[
-          'block font-mono leading-none tnum text-ink',
+          'block font-display leading-none font-extrabold tnum text-ink',
           compact ? 'text-[clamp(1.75rem,8vw,2.25rem)]' : 'text-[clamp(3.5rem,20vw,6rem)]',
         ].join(' ')}
       >
@@ -43,7 +43,7 @@ export function StepTimer({
       <Ruler value={passed} tone={countdown.finished ? 'done' : 'ochre'} />
       <div className="flex items-center gap-2">
         {countdown.finished ? (
-          <span className="font-mono text-[0.75rem] uppercase tracking-[0.14em] text-done">
+          <span className="font-display text-[0.75rem] uppercase tracking-[0.14em] text-done">
             {t('protocol.timerDone')}
           </span>
         ) : countdown.running ? (

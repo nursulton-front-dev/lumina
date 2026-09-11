@@ -1,22 +1,26 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
-type Variant = 'primary' | 'ghost' | 'quiet' | 'danger';
+type Variant = 'primary' | 'ghost' | 'quiet' | 'danger' | 'blue';
 type Size = 'md' | 'lg';
 
+/**
+ * Кнопка «с толщиной»: сплошная заливка и полоса 4px более тёмного оттенка снизу.
+ * При нажатии полоса исчезает, а кнопка опускается — ощущение вдавливания.
+ */
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-ink text-paper border-ink hover:-translate-y-px hover:shadow-[3px_3px_0_0_var(--color-rule)] active:translate-y-0 active:shadow-none',
+    'bg-done text-white shadow-[0_4px_0_0_var(--color-done-deep)] hover:brightness-105 active:translate-y-[4px] active:shadow-none',
+  blue: 'bg-blue text-white shadow-[0_4px_0_0_var(--color-blue-deep)] hover:brightness-105 active:translate-y-[4px] active:shadow-none',
   ghost:
-    'bg-transparent text-ink border-rule hover:border-ink hover:bg-[color-mix(in_oklab,var(--color-ochre-wash)_45%,transparent)] active:translate-y-px',
-  quiet:
-    'bg-transparent text-ink-soft border-transparent hover:text-ink hover:border-rule active:translate-y-px',
+    'bg-raised text-ink border-2 border-rule shadow-[0_4px_0_0_var(--color-rule)] hover:border-ink-faint active:translate-y-[4px] active:shadow-none',
+  quiet: 'bg-transparent text-ink-soft hover:bg-sunken hover:text-ink active:translate-y-px',
   danger:
-    'bg-transparent text-terracotta border-terracotta hover:bg-terracotta-wash active:translate-y-px',
+    'bg-terracotta text-white shadow-[0_4px_0_0_var(--color-terracotta-deep)] hover:brightness-105 active:translate-y-[4px] active:shadow-none',
 };
 
 const SIZES: Record<Size, string> = {
-  md: 'px-3.5 py-2 text-[0.9375rem]',
-  lg: 'px-5 py-3.5 text-[1.0625rem]',
+  md: 'min-h-[44px] px-4 py-2 text-[0.9375rem]',
+  lg: 'min-h-[52px] px-5 py-3 text-[1.0625rem]',
 };
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -37,9 +41,9 @@ export function Button({
   return (
     <button
       className={[
-        'inline-flex items-center justify-center gap-2 border font-medium',
-        'rounded-[2px] transition-all duration-150 ease-[var(--ease-paper)]',
-        'disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none',
+        'inline-flex items-center justify-center gap-2 rounded-[var(--radius-button)] font-display font-bold',
+        'transition-[transform,box-shadow,filter,background-color] duration-150 ease-out select-none',
+        'disabled:cursor-not-allowed disabled:opacity-40 disabled:active:translate-y-0',
         VARIANTS[variant],
         SIZES[size],
         full ? 'w-full' : '',

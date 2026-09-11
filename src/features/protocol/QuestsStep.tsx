@@ -28,7 +28,7 @@ export function QuestsStep({
           {state.quests.map(({ quest }) => (
             <li
               key={quest.id}
-              className="flex items-baseline justify-between gap-3 border-b border-dashed border-[color-mix(in_oklab,var(--color-rule)_50%,transparent)] pb-1"
+              className="flex items-baseline justify-between gap-3 border-b border-[color-mix(in_oklab,var(--color-rule)_50%,transparent)] pb-1"
             >
               <span className="text-[0.875rem] text-ink">
                 {quest.kind === 'hours'
@@ -37,7 +37,7 @@ export function QuestsStep({
                     })
                   : t(`quest.${quest.kind}` as TranslationKey)}
               </span>
-              <span className="shrink-0 font-mono text-[0.875rem] tnum text-ink">
+              <span className="shrink-0 font-display text-[0.875rem] tnum text-ink">
                 {quest.target}
               </span>
             </li>

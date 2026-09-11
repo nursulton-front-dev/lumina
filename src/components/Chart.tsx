@@ -74,7 +74,7 @@ export function Chart({
             y2={PADDING.top + innerHeight * share}
             stroke="var(--color-rule)"
             strokeWidth="0.5"
-            strokeDasharray={share === 1 ? undefined : '2 3'}
+            strokeDasharray={share === 1 ? undefined : '3 4'}
             vectorEffect="non-scaling-stroke"
           />
         ))}
@@ -82,8 +82,8 @@ export function Chart({
         <polyline
           points={path}
           fill="none"
-          stroke="var(--color-ink)"
-          strokeWidth="2"
+          stroke="var(--color-blue)"
+          strokeWidth="2.5"
           strokeLinejoin="round"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
@@ -95,8 +95,8 @@ export function Chart({
             cx={x(index)}
             cy={y(point.value)}
             r={index === active ? 4.5 : 2.5}
-            fill={index === active ? 'var(--color-ochre)' : 'var(--color-paper)'}
-            stroke={index === active ? 'var(--color-ochre)' : 'var(--color-ink)'}
+            fill={index === active ? 'var(--color-ochre)' : 'var(--color-raised)'}
+            stroke={index === active ? 'var(--color-ochre)' : 'var(--color-blue)'}
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
           />
@@ -107,7 +107,7 @@ export function Chart({
             x={Math.min(WIDTH - PADDING.right, Math.max(PADDING.left + 14, x(active)))}
             y={Math.max(10, y(activePoint.value) - 9)}
             textAnchor="middle"
-            className="font-mono"
+            className="font-display"
             fontSize="11"
             fill="var(--color-ink)"
           >
@@ -116,7 +116,7 @@ export function Chart({
         ) : null}
       </svg>
 
-      <figcaption className="flex justify-between font-mono text-[0.6875rem] tnum text-ink-faint">
+      <figcaption className="flex justify-between font-display text-[0.6875rem] tnum text-ink-faint">
         <span>{points[0]?.date.slice(5)}</span>
         <span>
           {activePoint ? `${activePoint.date.slice(5)} · ${activePoint.value} ${unit}` : ''}

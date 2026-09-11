@@ -68,10 +68,10 @@ export function WeekScreen(): React.JSX.Element {
   const range = `${monday.slice(8)}.${monday.slice(5, 7)} – ${addDays(monday, 6).slice(8)}.${addDays(monday, 6).slice(5, 7)}`;
 
   return (
-    <div className="flex flex-col gap-3 px-3 pt-3">
+    <div className="flex flex-col gap-3 px-4 pt-4">
       <header className="flex items-baseline justify-between gap-3 px-1">
-        <h1 className="text-[1.25rem] font-semibold text-ink">{t('week.title')}</h1>
-        <span className="font-mono text-[0.8125rem] tnum text-ink-faint">{range}</span>
+        <h1 className="text-[1.5rem] text-ink">{t('week.title')}</h1>
+        <span className="font-display text-[0.8125rem] tnum text-ink-faint">{range}</span>
       </header>
 
       <div className="flex items-center gap-1">
@@ -82,7 +82,7 @@ export function WeekScreen(): React.JSX.Element {
         >
           <span aria-hidden="true">←</span>
         </Button>
-        <span className="flex-1 text-center font-mono text-[0.75rem] uppercase tracking-[0.12em] text-ink-faint">
+        <span className="flex-1 text-center font-display text-[0.75rem] uppercase tracking-[0.12em] text-ink-faint">
           {offset === 0 ? t('week.current') : range}
         </span>
         <Button
@@ -95,23 +95,21 @@ export function WeekScreen(): React.JSX.Element {
         </Button>
       </div>
 
-      <section className="sheet px-3 py-3">
+      <section className="sheet px-5 py-4">
         <div className="flex items-baseline justify-between">
           <Marginalia>{t('week.minimum')}</Marginalia>
-          <span className="font-mono text-[0.8125rem] tnum text-ink">{doneDays}/7</span>
+          <span className="font-display text-[0.8125rem] tnum text-ink">{doneDays}/7</span>
         </div>
         <ul className="mt-2.5 grid grid-cols-7 gap-1">
           {week.cells.map((cell) => (
             <li key={cell.date} className="flex flex-col items-center gap-1">
-              <span className="font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ink-faint">
+              <span className="font-display text-[0.625rem] uppercase tracking-[0.08em] text-ink-faint">
                 {t(`weekday.short.${cell.weekday}` as TranslationKey)}
               </span>
               <span
                 className={[
-                  'grid aspect-square w-full place-items-center border font-mono text-[0.75rem] tnum transition-colors',
-                  cell.minimumDone
-                    ? 'border-done bg-done-wash text-done'
-                    : 'border-rule text-ink-faint',
+                  'grid aspect-square w-full place-items-center rounded-full font-display text-[0.8125rem] tnum transition-colors',
+                  cell.minimumDone ? 'bg-done text-white' : 'bg-sunken text-ink-faint',
                 ].join(' ')}
               >
                 {cell.date.slice(8)}
@@ -121,7 +119,7 @@ export function WeekScreen(): React.JSX.Element {
         </ul>
       </section>
 
-      <section className="sheet px-3 py-3">
+      <section className="sheet px-5 py-4">
         <Marginalia>{t('week.hours')}</Marginalia>
         <ul className="mt-2.5 flex flex-col gap-2.5">
           {DIRECTIONS.map((category) => {
@@ -134,15 +132,15 @@ export function WeekScreen(): React.JSX.Element {
                   <span className="text-[0.875rem] text-ink">
                     {t(`category.${category}` as TranslationKey)}
                   </span>
-                  <span className="font-mono text-[0.75rem] tnum text-ink-faint">
+                  <span className="font-display text-[0.75rem] tnum text-ink-faint">
                     <span className="text-ink">{minutesToHours(actual)}</span>
                     {' / '}
                     {minutesToHours(planned)} {t('unit.hour')}
                   </span>
                 </div>
-                <div className="relative mt-1 h-2 border-b border-rule">
+                <div className="mt-1.5 h-3 w-full overflow-hidden rounded-full bg-sunken">
                   <div
-                    className="absolute bottom-0 left-0 h-[3px] bg-ink transition-[width] duration-500 ease-[var(--ease-paper)]"
+                    className="h-full rounded-full bg-blue transition-[width] duration-300 ease-out"
                     style={{ width: `${share * 100}%` }}
                   />
                 </div>
@@ -152,9 +150,9 @@ export function WeekScreen(): React.JSX.Element {
         </ul>
       </section>
 
-      <section className="sheet px-3 py-3">
+      <section className="sheet px-5 py-4">
         <Marginalia>{t('week.focusSummary')}</Marginalia>
-        <dl className="mt-2 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.8125rem] tnum">
+        <dl className="mt-2 flex flex-wrap gap-x-6 gap-y-1 font-display text-[0.8125rem] tnum">
           <div className="flex gap-2">
             <dt className="text-ink-faint">{t('focus.clean')}</dt>
             <dd className="text-done">{week.focus.clean}</dd>

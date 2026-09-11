@@ -24,7 +24,7 @@ function applyTheme(theme: ThemeMode, lang: Lang): void {
   root.dataset.theme = resolved;
   root.lang = lang;
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])');
-  if (meta) meta.content = resolved === 'dark' ? '#0f1b2d' : '#f6f2e8';
+  if (meta) meta.content = resolved === 'dark' ? '#16181d' : '#f7f8fa';
 }
 
 export function AppProvider({ children }: { children: ReactNode }): React.JSX.Element {

@@ -48,7 +48,7 @@ export function RanksSection({ state }: { state: GamificationState }): React.JSX
 
   return (
     <section className="sheet overflow-hidden">
-      <header className="flex items-baseline justify-between gap-3 border-b border-rule px-3 py-2">
+      <header className="flex items-baseline justify-between gap-3 border-b border-rule px-5 py-3">
         <Marginalia>{t('ranks.title')}</Marginalia>
       </header>
 
@@ -69,10 +69,10 @@ export function RanksSection({ state }: { state: GamificationState }): React.JSX
                   <div className="flex flex-wrap gap-2">
                     {manual.map((counter) => (
                       <span key={counter.key} className="flex items-center gap-1.5">
-                        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
+                        <span className="font-display text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
                           {t(counter.labelKey)}
                         </span>
-                        <span className="font-mono text-[0.875rem] tnum text-ink">
+                        <span className="font-display text-[0.875rem] tnum text-ink">
                           {state.counters[counter.key]}
                         </span>
                         <Button
@@ -99,7 +99,7 @@ export function RanksSection({ state }: { state: GamificationState }): React.JSX
         })}
       </ul>
 
-      <p className="border-t border-dashed border-rule px-3 py-2 text-[0.75rem] leading-snug text-ink-faint">
+      <p className="border-t border-rule px-5 py-3 text-[0.8125rem] leading-snug text-ink-faint">
         {t('ranks.disclaimer')}
       </p>
     </section>

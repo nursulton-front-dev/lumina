@@ -76,9 +76,9 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
 
   return (
     <div className="safe-top safe-bottom fixed inset-0 z-40 flex flex-col bg-paper">
-      <header className="flex items-center gap-3 border-b border-rule px-3 py-2">
+      <header className="flex items-center gap-3 border-b border-rule bg-raised px-4 py-2.5">
         <div className="min-w-0 flex-1">
-          <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
+          <p className="font-display text-[0.6875rem] uppercase tracking-[0.14em] text-ink-faint">
             {t('focus.title')}
           </p>
           <p className="truncate text-[0.9375rem] text-ink">{title}</p>
@@ -87,7 +87,7 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
           type="button"
           onClick={() => navigate({ name: 'today' })}
           aria-label={t('common.close')}
-          className="grid size-9 shrink-0 place-items-center border border-transparent text-ink-faint transition-colors hover:border-rule hover:text-ink"
+          className="grid size-10 shrink-0 place-items-center rounded-full bg-sunken text-ink-soft transition-colors hover:text-ink"
         >
           <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
             <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" strokeWidth="2.4" />
@@ -99,7 +99,7 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
         {state ? (
           <>
             <Marginalia>{state.phase === 'work' ? t('focus.work') : t('focus.rest')}</Marginalia>
-            <output className="block font-mono text-[clamp(4rem,24vw,7rem)] leading-none tnum text-ink">
+            <output className="block font-display text-[clamp(4rem,24vw,7rem)] leading-none font-extrabold tnum text-ink">
               {formatClock(remainingMs(state, now.getTime()) / 1000)}
             </output>
             <Ruler
@@ -107,7 +107,7 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
               tone={state.phase === 'work' ? 'ochre' : 'done'}
             />
 
-            <dl className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.8125rem] tnum">
+            <dl className="flex flex-wrap gap-x-6 gap-y-1 font-display text-[0.8125rem] tnum">
               <div className="flex gap-2">
                 <dt className="text-ink-faint">{t('focus.exits')}</dt>
                 <dd className={state.exits > 0 ? 'text-terracotta' : 'text-ink'}>{state.exits}</dd>
@@ -123,13 +123,13 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
             </dl>
 
             {state.broken ? (
-              <p className="border-l-[3px] border-terracotta bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
+              <p className="rounded-[var(--radius-field)] bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">
                 {t('focus.brokenNow')}
               </p>
             ) : null}
 
             {verdict ? (
-              <p className="border-l-[3px] border-ink px-3 py-2 text-[0.875rem] leading-snug text-ink-soft">
+              <p className="rounded-[var(--radius-field)] bg-sunken px-3 py-2 text-[0.875rem] leading-snug text-ink-soft">
                 {t(verdict.key, verdict.vars)}
               </p>
             ) : null}
@@ -141,7 +141,7 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
               {MODES.map((mode) => (
                 <Button key={mode} variant="ghost" size="lg" full onClick={() => void begin(mode)}>
                   {t(`focus.mode.${mode}`)}
-                  <span className="ml-2 font-mono text-[0.75rem] tnum text-ink-faint">
+                  <span className="ml-2 font-display text-[0.75rem] tnum text-ink-faint">
                     {POMODORO_MODES[mode].workMinutes} {t('unit.min')}
                   </span>
                 </Button>
@@ -150,9 +150,9 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
           </>
         )}
 
-        <section className="mt-auto border-t border-dashed border-rule pt-3 pb-2">
+        <section className="mt-auto border-t border-rule pt-3 pb-2">
           <Marginalia>{t('focus.today')}</Marginalia>
-          <dl className="mt-1.5 flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.8125rem] tnum">
+          <dl className="mt-1.5 flex flex-wrap gap-x-6 gap-y-1 font-display text-[0.8125rem] tnum">
             <div className="flex gap-2">
               <dt className="text-ink-faint">{t('focus.clean')}</dt>
               <dd className="text-done">{stats.clean}</dd>
@@ -173,7 +173,7 @@ export function FocusScreen({ blockId }: { blockId: string }): React.JSX.Element
         </section>
       </main>
 
-      <footer className="safe-bottom flex gap-2 border-t border-rule px-3 py-3">
+      <footer className="safe-bottom flex gap-2 border-t border-rule bg-raised px-4 py-3">
         {state ? (
           <>
             <Button
