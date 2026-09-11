@@ -1,0 +1,198 @@
+@import 'tailwindcss';
+
+@import '@fontsource-variable/golos-text/index.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+
+/* ─── Светлая тема: тёплая бумага в клетку ─────────────────────────────── */
+@theme {
+  --color-paper: oklch(96.2% 0.014 92);
+  --color-raised: oklch(98.6% 0.008 92);
+  --color-sunken: oklch(93.4% 0.018 92);
+  --color-grid: oklch(87% 0.028 248);
+  --color-rule: oklch(80% 0.035 248);
+  --color-margin: oklch(58% 0.13 34);
+
+  --color-ink: oklch(29% 0.075 262);
+  --color-ink-soft: oklch(46% 0.05 262);
+  --color-ink-faint: oklch(63% 0.028 262);
+
+  --color-ochre: oklch(66% 0.135 72);
+  --color-ochre-wash: oklch(90% 0.06 82);
+  --color-done: oklch(52% 0.095 152);
+  --color-done-wash: oklch(90% 0.05 152);
+  --color-terracotta: oklch(54% 0.145 32);
+  --color-terracotta-wash: oklch(91% 0.045 32);
+
+  --font-sans: 'Golos Text Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --radius-sheet: 2px;
+  --ease-paper: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --grid-size: 22px;
+  --grid-alpha: 0.5;
+}
+
+/* ─── Тёмная тема: не инверсия, а синька-чертёж ────────────────────────── */
+@layer base {
+  :root[data-theme='dark'] {
+    --color-paper: oklch(23% 0.045 254);
+    --color-raised: oklch(27.5% 0.05 254);
+    --color-sunken: oklch(19.5% 0.04 254);
+    --color-grid: oklch(38% 0.05 250);
+    --color-rule: oklch(46% 0.055 250);
+    --color-margin: oklch(62% 0.1 34);
+
+    --color-ink: oklch(93% 0.02 240);
+    --color-ink-soft: oklch(78% 0.035 240);
+    --color-ink-faint: oklch(60% 0.04 245);
+
+    --color-ochre: oklch(80% 0.13 78);
+    --color-ochre-wash: oklch(34% 0.06 78);
+    --color-done: oklch(74% 0.11 155);
+    --color-done-wash: oklch(31% 0.05 155);
+    --color-terracotta: oklch(72% 0.13 34);
+    --color-terracotta-wash: oklch(32% 0.06 34);
+
+    --grid-alpha: 0.42;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    background: var(--color-paper);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.45;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+
+    /* Слои фона: зерно бумаги, клетка тетради, сам лист.
+       Всё это background-слои одного элемента — так ничего не перекрывает контент. */
+    background-color: var(--color-paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+      repeating-linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-grid) calc(var(--grid-alpha) * 100%), transparent) 0 1px,
+        transparent 1px var(--grid-size)
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        color-mix(in oklab, var(--color-grid) calc(var(--grid-alpha) * 100%), transparent) 0 1px,
+        transparent 1px var(--grid-size)
+      );
+    background-attachment: fixed, fixed, fixed;
+  }
+
+  /* Цифры не должны дёргаться: везде табличные. */
+  .font-mono,
+  time,
+  output {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ochre);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-ochre-wash);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  /* Лист тетради: чуть светлее фона, с чернильной рамкой в один пиксель. */
+  .sheet {
+    background: color-mix(in oklab, var(--color-raised) 82%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-rule) 70%, transparent);
+    border-radius: var(--radius-sheet);
+    backdrop-filter: blur(1px);
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Текстовая копия данных для скринридера: график не единственный носитель. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* Единственная заметная анимация в приложении: печать разряда. */
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: rotate(-14deg) scale(2.1);
+    filter: blur(2px);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-1deg) scale(0.94);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0.9;
+    transform: rotate(-3deg) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
