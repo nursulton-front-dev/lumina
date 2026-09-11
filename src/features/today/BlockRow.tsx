@@ -3,6 +3,8 @@ import type { TranslationKey } from '../../i18n';
 import { blockTitle } from '../../domain/blockTitle';
 import { formatDuration, fromMinutes } from '../../domain/time';
 import { Checkbox } from '../../components/ui/Checkbox';
+import { CategoryIcon } from '../../components/ui/CategoryIcon';
+import { categoryColor } from '../../data/categories';
 import { useApp } from '../../state/app-context';
 
 export type RowState = 'past' | 'current' | 'future';
@@ -31,14 +33,16 @@ export function BlockRow({
     <li
       className={[
         'relative flex items-start gap-3 border-b border-rule px-4 py-3 transition-colors duration-200',
-        state === 'current' ? 'bg-ochre-wash' : '',
+        state === 'current' ? 'bg-[color-mix(in_oklab,var(--row-color)_8%,transparent)]' : '',
         checked ? 'bg-[color-mix(in_oklab,var(--color-done-wash)_60%,transparent)]' : '',
       ].join(' ')}
+      style={{ '--row-color': categoryColor(block.category) } as React.CSSProperties}
     >
+      <CategoryIcon category={block.category} />
       <time
         className={[
-          'w-[3.25rem] shrink-0 pt-[0.2rem] font-display text-[0.8125rem] tnum',
-          missed ? 'text-terracotta' : state === 'current' ? 'text-ochre-deep' : 'text-ink-faint',
+          'w-[3rem] shrink-0 pt-[0.2rem] font-display text-[0.8125rem] tnum',
+          missed ? 'text-terracotta' : state === 'current' ? 'text-ink' : 'text-ink-faint',
         ].join(' ')}
       >
         {fromMinutes(block.start)}
@@ -55,7 +59,9 @@ export function BlockRow({
           {title}
         </p>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.8125rem] text-ink-faint">
-          <span>{t(`category.${block.category}` as TranslationKey)}</span>
+          <span className="font-bold" style={{ color: categoryColor(block.category) }}>
+            {t(`category.${block.category}` as TranslationKey)}
+          </span>
           <span aria-hidden="true">·</span>
           <span className="tnum">
             {formatDuration(block.end - block.start, { hour: t('unit.hour'), min: t('unit.min') })}

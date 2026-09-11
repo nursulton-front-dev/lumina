@@ -19,6 +19,7 @@ export function Chart({
   unit,
   lowerIsBetter = false,
   tableLabels,
+  color = 'var(--color-blue)',
 }: {
   points: readonly ChartPoint[];
   label: string;
@@ -26,6 +27,8 @@ export function Chart({
   /** Для паразитов и расхождения сна лучший результат — наименьший. */
   lowerIsBetter?: boolean;
   tableLabels: { table: string; date: string; value: string };
+  /** Цвет линии — цвет направления метрики. */
+  color?: string;
 }): React.JSX.Element {
   const [hover, setHover] = useState<number | null>(null);
 
@@ -82,7 +85,7 @@ export function Chart({
         <polyline
           points={path}
           fill="none"
-          stroke="var(--color-blue)"
+          stroke={color}
           strokeWidth="2.5"
           strokeLinejoin="round"
           strokeLinecap="round"
@@ -96,7 +99,7 @@ export function Chart({
             cy={y(point.value)}
             r={index === active ? 4.5 : 2.5}
             fill={index === active ? 'var(--color-ochre)' : 'var(--color-raised)'}
-            stroke={index === active ? 'var(--color-ochre)' : 'var(--color-blue)'}
+            stroke={index === active ? 'var(--color-ochre)' : color}
             strokeWidth="1.5"
             vectorEffect="non-scaling-stroke"
           />

@@ -8,6 +8,8 @@ import { formatDuration, formatRange, toISODate } from '../domain/time';
 import { autoDayType } from '../domain/dayType';
 import { Button } from '../components/ui/Button';
 import { Marginalia } from '../components/ui/Sheet';
+import { CategoryIcon } from '../components/ui/CategoryIcon';
+import { categoryColor } from '../data/categories';
 import { BlockEditor } from '../features/schedule/BlockEditor';
 import { useApp } from '../state/app-context';
 import { dayTypeRule } from '../state/useDay';
@@ -75,15 +77,18 @@ export function ScheduleScreen(): React.JSX.Element {
                 aria-label={t('schedule.tapToEdit')}
                 className="group flex w-full items-center gap-3 border-b border-rule px-4 py-3 text-left transition-colors duration-150 hover:bg-sunken"
               >
-                <time className="w-[5.5rem] shrink-0 font-display text-[0.75rem] tnum text-ink-faint">
+                <CategoryIcon category={block.category} size={32} />
+                <time className="w-[5.25rem] shrink-0 font-display text-[0.75rem] tnum text-ink-faint">
                   {formatRange(block.start, block.end)}
                 </time>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[0.9375rem] text-ink">
                     {blockTitle(block, t)}
                   </span>
-                  <span className="block truncate font-display text-[0.6875rem] uppercase tracking-[0.1em] text-ink-faint">
-                    {t(`category.${block.category}` as TranslationKey)}
+                  <span className="block truncate text-[0.8125rem] text-ink-faint">
+                    <span className="font-bold" style={{ color: categoryColor(block.category) }}>
+                      {t(`category.${block.category}` as TranslationKey)}
+                    </span>
                     {block.isCore ? ` · ${t('today.minimum')}` : ''}
                     {block.isFocus ? ` · ${t('today.focus')}` : ''}
                   </span>

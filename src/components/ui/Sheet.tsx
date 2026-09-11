@@ -8,7 +8,7 @@ interface SheetProps extends HTMLAttributes<HTMLDivElement> {
 
 const ACCENTS: Record<NonNullable<SheetProps['accent']>, string> = {
   none: '',
-  ochre: 'border-ochre/60 bg-[color-mix(in_oklab,var(--color-ochre-wash)_45%,var(--color-raised))]',
+  ochre: 'border-ochre/60',
   done: 'border-done/50',
   terracotta: 'border-terracotta/50',
   ink: '',

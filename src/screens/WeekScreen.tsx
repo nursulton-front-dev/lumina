@@ -16,6 +16,7 @@ import {
 } from '../domain/week';
 import { Button } from '../components/ui/Button';
 import { Marginalia } from '../components/ui/Sheet';
+import { categoryColor } from '../data/categories';
 import { useApp } from '../state/app-context';
 import { dayTypeRule } from '../state/useDay';
 
@@ -23,6 +24,8 @@ interface DayCell {
   date: string;
   weekday: number;
   minimumDone: boolean;
+  /** Хоть один блок отмечен — день начат. */
+  started: boolean;
   plan: CategoryMinutes;
   fact: CategoryMinutes;
 }
@@ -49,6 +52,7 @@ export function WeekScreen(): React.JSX.Element {
         date,
         weekday: fromISODate(date).getDay(),
         minimumDone: isMinimumDone(blocks, [...checked]),
+        started: checked.size > 0,
         plan: totals.plan,
         fact: totals.fact,
       });
@@ -109,7 +113,11 @@ export function WeekScreen(): React.JSX.Element {
               <span
                 className={[
                   'grid aspect-square w-full place-items-center rounded-full font-display text-[0.8125rem] tnum transition-colors',
-                  cell.minimumDone ? 'bg-done text-white' : 'bg-sunken text-ink-faint',
+                  cell.minimumDone
+                    ? 'bg-done text-white'
+                    : cell.started
+                      ? 'border-[3px] border-ochre bg-raised text-ink'
+                      : 'bg-sunken text-ink-faint',
                 ].join(' ')}
               >
                 {cell.date.slice(8)}
@@ -129,7 +137,12 @@ export function WeekScreen(): React.JSX.Element {
             return (
               <li key={category}>
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className="text-[0.875rem] text-ink">
+                  <span className="flex items-center gap-2 text-[0.9375rem] text-ink">
+                    <span
+                      aria-hidden="true"
+                      className="size-2.5 rounded-full"
+                      style={{ background: categoryColor(category) }}
+                    />
                     {t(`category.${category}` as TranslationKey)}
                   </span>
                   <span className="font-display text-[0.75rem] tnum text-ink-faint">
@@ -140,8 +153,8 @@ export function WeekScreen(): React.JSX.Element {
                 </div>
                 <div className="mt-1.5 h-3 w-full overflow-hidden rounded-full bg-sunken">
                   <div
-                    className="h-full rounded-full bg-blue transition-[width] duration-300 ease-out"
-                    style={{ width: `${share * 100}%` }}
+                    className="h-full rounded-full transition-[width] duration-300 ease-out"
+                    style={{ width: `${share * 100}%`, background: categoryColor(category) }}
                   />
                 </div>
               </li>

@@ -38,7 +38,7 @@ export function AppProvider({ children }: { children: ReactNode }): React.JSX.El
   const status: AppStatus =
     profile === undefined ? 'loading' : profile === null ? 'needs-language' : 'ready';
   const lang = profile?.lang ?? detectLang() ?? FALLBACK_LANG;
-  const theme = profile?.theme ?? 'system';
+  const theme = profile?.theme ?? 'light';
 
   useEffect(() => {
     applyTheme(theme, lang);

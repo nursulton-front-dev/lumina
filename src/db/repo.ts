@@ -24,7 +24,7 @@ export function defaultProfile(lang: Lang): Profile {
   return {
     id: PROFILE_ID,
     lang,
-    theme: 'system',
+    theme: 'light',
     heightCm: 178,
     weightKg: 70,
     wakeTime: '06:00',

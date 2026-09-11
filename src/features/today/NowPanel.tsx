@@ -2,6 +2,8 @@ import type { DayPosition } from '../../domain/schedule';
 import { blockTitle } from '../../domain/blockTitle';
 import { formatDuration, formatRange } from '../../domain/time';
 import { Sheet } from '../../components/ui/Sheet';
+import { CategoryIcon } from '../../components/ui/CategoryIcon';
+import { categoryColor } from '../../data/categories';
 import { Ruler } from '../../components/ui/Ruler';
 import { useApp } from '../../state/app-context';
 
@@ -21,15 +23,29 @@ export function NowPanel({
   const { current, next } = position;
 
   return (
-    <Sheet accent={current ? 'ochre' : 'none'} className="px-5 pt-4 pb-5">
-      <span
-        className={[
-          'inline-block rounded-full px-2.5 py-1 font-display text-[0.75rem] font-extrabold tracking-[0.06em] uppercase',
-          current ? 'bg-ochre text-white' : 'bg-sunken text-ink-soft',
-        ].join(' ')}
-      >
-        {current ? t('today.now') : t('today.nothingNow')}
-      </span>
+    <Sheet
+      className="px-5 pt-4 pb-5"
+      style={
+        current
+          ? {
+              background: `color-mix(in oklab, ${categoryColor(current.category)} 8%, var(--color-raised))`,
+              borderColor: `color-mix(in oklab, ${categoryColor(current.category)} 25%, var(--color-rule))`,
+            }
+          : undefined
+      }
+    >
+      <div className="flex items-center justify-between gap-3">
+        <span
+          className={[
+            'inline-block rounded-full px-2.5 py-1 font-display text-[0.75rem] font-extrabold tracking-[0.06em] text-white uppercase',
+            current ? '' : 'bg-sunken text-ink-soft',
+          ].join(' ')}
+          style={current ? { background: categoryColor(current.category) } : undefined}
+        >
+          {current ? t('today.now') : t('today.nothingNow')}
+        </span>
+        {current ? <CategoryIcon category={current.category} size={40} /> : null}
+      </div>
 
       {current ? (
         <>
@@ -48,7 +64,11 @@ export function NowPanel({
             </span>
           </div>
           <div className="mt-3">
-            <Ruler value={position.progress} label={blockTitle(current, t)} tone="ochre" />
+            <Ruler
+              value={position.progress}
+              label={blockTitle(current, t)}
+              color={categoryColor(current.category)}
+            />
           </div>
           {advice ? (
             <p className="mt-2.5 text-[0.8125rem] leading-snug text-ink-soft">{advice}</p>

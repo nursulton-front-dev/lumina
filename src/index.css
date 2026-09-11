@@ -5,11 +5,11 @@
 
 /* ─── Светлая тема: спокойный учебный стиль ────────────────────────────── */
 @theme {
-  --color-paper: #f7f8fa;
+  --color-paper: #fafbfd;
   --color-raised: #ffffff;
-  --color-sunken: #eef0f4;
-  --color-rule: #e6e9ef;
-  --color-grid: #e6e9ef;
+  --color-sunken: #f1f3f7;
+  --color-rule: #edf0f5;
+  --color-grid: #edf0f5;
 
   --color-ink: #1b2333;
   --color-ink-soft: #5b6478;
@@ -39,17 +39,45 @@
   --radius-button: 14px;
   --radius-field: 12px;
   --ease-paper: cubic-bezier(0.2, 0.9, 0.3, 1.1);
-  --shadow-card: 0 1px 2px rgb(27 35 51 / 0.04), 0 6px 20px -8px rgb(27 35 51 / 0.12);
+  --shadow-card: 0 1px 2px rgb(27 35 51 / 0.03), 0 8px 24px -12px rgb(27 35 51 / 0.1);
+}
+
+/* Цвета категорий читаются через var() из inline-стилей, поэтому лежат
+   вне @theme: Tailwind вырезал бы их как неиспользованные утилитами. */
+@layer base {
+  :root {
+    --color-cat-sport: #f2674a;
+    --color-cat-russian: #7b61ff;
+    --color-cat-english: #12b5a5;
+    --color-cat-ioi: #3d7bf7;
+    --color-cat-freelance: #2fb672;
+    --color-cat-homework: #f2a33c;
+    --color-cat-reading: #c86fd1;
+    --color-cat-memory: #efc33b;
+    --color-cat-speech: #e8557e;
+    --color-cat-neutral: #8b93a3;
+  }
 }
 
 /* ─── Тёмная тема: мягкая, не синяя ───────────────────────────────────── */
 @layer base {
   :root[data-theme='dark'] {
-    --color-paper: #16181d;
-    --color-raised: #1f222a;
-    --color-sunken: #12141a;
-    --color-rule: #2c303a;
-    --color-grid: #2c303a;
+    --color-paper: #1c2029;
+    --color-raised: #262b36;
+    --color-sunken: #1a1e26;
+    --color-rule: #343a47;
+    --color-grid: #343a47;
+
+    --color-cat-sport: #e9765e;
+    --color-cat-russian: #8f7cff;
+    --color-cat-english: #2fbdae;
+    --color-cat-ioi: #5b8ef5;
+    --color-cat-freelance: #3fb87a;
+    --color-cat-homework: #e5a04c;
+    --color-cat-reading: #c97fd0;
+    --color-cat-memory: #e0b93f;
+    --color-cat-speech: #e46b8d;
+    --color-cat-neutral: #8a91a1;
 
     --color-ink: #eef0f4;
     --color-ink-soft: #aab1c0;

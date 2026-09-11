@@ -3,6 +3,8 @@ import type { MetricId } from '../types';
 import type { TranslationKey } from '../i18n';
 import { db } from '../db/db';
 import { Chart, type ChartPoint } from '../components/Chart';
+import { CategoryIcon } from '../components/ui/CategoryIcon';
+import { categoryColor, METRIC_CATEGORY } from '../data/categories';
 import { EmptyState, Marginalia } from '../components/ui/Sheet';
 import { useApp } from '../state/app-context';
 import { useGamification } from '../state/useGamification';
@@ -77,8 +79,9 @@ export function ProgressScreen(): React.JSX.Element {
 
         return (
           <section key={metric.id} className="sheet px-4 pt-4 pb-2">
-            <header className="flex items-baseline justify-between gap-3">
-              <h2 className="text-[0.9375rem] font-semibold text-ink">
+            <header className="flex items-center justify-between gap-3">
+              <h2 className="flex items-center gap-2.5 text-[1rem] text-ink">
+                <CategoryIcon category={METRIC_CATEGORY[metric.id]} size={32} />
                 {t(`metric.${metric.id}` as TranslationKey)}
               </h2>
               <span className="font-display text-[0.6875rem] tnum text-ink-faint">
@@ -106,6 +109,7 @@ export function ProgressScreen(): React.JSX.Element {
                 label={t(`metric.${metric.id}` as TranslationKey)}
                 unit={unit}
                 lowerIsBetter={metric.lowerIsBetter}
+                color={categoryColor(METRIC_CATEGORY[metric.id])}
                 tableLabels={{
                   table: t('progress.table'),
                   date: t('progress.date'),

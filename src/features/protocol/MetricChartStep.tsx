@@ -3,6 +3,7 @@ import type { MetricId } from '../../types';
 import type { TranslationKey } from '../../i18n';
 import { db } from '../../db/db';
 import { Chart } from '../../components/Chart';
+import { categoryColor, METRIC_CATEGORY } from '../../data/categories';
 import { useApp } from '../../state/app-context';
 
 /** Шаг-разбор: показывает динамику метрики прямо в протоколе, без выхода на другой экран. */
@@ -28,6 +29,7 @@ export function MetricChartStep({ metric }: { metric: MetricId }): React.JSX.Ele
       label={t(`metric.${metric}` as TranslationKey)}
       unit={t('unit.count')}
       lowerIsBetter
+      color={categoryColor(METRIC_CATEGORY[metric])}
       tableLabels={{
         table: t('progress.table'),
         date: t('progress.date'),

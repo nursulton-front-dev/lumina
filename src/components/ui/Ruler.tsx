@@ -3,11 +3,14 @@ export function Ruler({
   value,
   label,
   tone = 'blue',
+  color,
 }: {
   /** Заполнение 0…1. */
   value: number;
   label?: string;
   tone?: 'ochre' | 'done' | 'ink' | 'blue';
+  /** Произвольный цвет заливки, например цвет категории. */
+  color?: string;
 }): React.JSX.Element {
   const clamped = Math.min(1, Math.max(0, value));
   const fill = {
@@ -27,8 +30,8 @@ export function Ruler({
       aria-label={label}
     >
       <div
-        className={`h-full rounded-full ${fill} transition-[width] duration-300 ease-out`}
-        style={{ width: `${clamped * 100}%` }}
+        className={`h-full rounded-full ${color ? '' : fill} transition-[width] duration-300 ease-out`}
+        style={{ width: `${clamped * 100}%`, background: color }}
       />
     </div>
   );
