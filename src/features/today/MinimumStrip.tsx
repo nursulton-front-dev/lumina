@@ -4,6 +4,7 @@ import type { RankView } from '../../state/useGamification';
 import { blockTitle } from '../../domain/blockTitle';
 import { Marginalia, Sheet } from '../../components/ui/Sheet';
 import { useApp } from '../../state/app-context';
+import { rankLeftText } from '../ranks/rankText';
 
 /** Маленький щит серии. */
 function ShieldIcon(): React.JSX.Element {
@@ -101,8 +102,9 @@ export function MinimumStrip({
 
 /** Ближайший разряд: одна строка с полосой, остальное живёт в «Прогрессе». */
 export function ClosestRank({ rank }: { rank: RankView }): React.JSX.Element {
-  const { t } = useApp();
+  const { t, tp } = useApp();
   const { status } = rank;
+  const left = rankLeftText(rank, t, tp);
 
   return (
     <Sheet className="px-5 py-3.5">
@@ -115,12 +117,8 @@ export function ClosestRank({ rank }: { rank: RankView }): React.JSX.Element {
       </div>
       <p className="mt-0.5 font-display text-[1rem] font-bold text-ink">
         {t(`rank.${rank.spec.id}` as TranslationKey)}
-        {status.next ? (
-          <span className="ml-2 font-sans text-[0.875rem] font-normal text-ink-soft">
-            {t(`grade.${status.next.grade}` as TranslationKey)}
-          </span>
-        ) : null}
       </p>
+      {left ? <p className="text-[0.875rem] leading-snug text-ink-soft">{left}</p> : null}
       <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-sunken">
         <div
           className="h-full rounded-full bg-blue transition-[width] duration-300 ease-out"

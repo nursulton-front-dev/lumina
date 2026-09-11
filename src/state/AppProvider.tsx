@@ -9,7 +9,7 @@ import {
   type TranslationVars,
 } from '../i18n';
 import type { PluralBase } from '../i18n/types';
-import { ensureSeed, getProfile, initProfile, saveProfile } from '../db/repo';
+import { ensureSeed, getProfile, initProfile, saveProfile, syncProfileMeasures } from '../db/repo';
 import { advanceSleepTarget } from '../domain/sleep';
 import { toISODate } from '../domain/time';
 import { AppContext, type AppContextValue, type AppStatus } from './app-context';
@@ -47,6 +47,12 @@ export function AppProvider({ children }: { children: ReactNode }): React.JSX.El
     media.addEventListener('change', onChange);
     return () => media.removeEventListener('change', onChange);
   }, [theme, lang]);
+
+  // Максимумы из профиля становятся замерами: разряды считаются с первого захода.
+  useEffect(() => {
+    if (!profile) return;
+    void syncProfileMeasures(profile, toISODate(new Date()));
+  }, [profile]);
 
   // Режим сна: цель уезжает на 15 минут раньше каждые два дня, пока не дойдёт до 23:00.
   useEffect(() => {

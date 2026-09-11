@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { AssistantSheet } from './features/assistant/AssistantSheet';
 import { isAssistantEnabled } from './ai/flags';
 import { useSession } from './sync/useSession';
+import { useServiceWorker } from './state/useServiceWorker';
+import { UpdateBanner } from './components/UpdateBanner';
 import { useSync } from './state/useSync';
 import { useRoute } from './state/router';
 import { TabBar } from './components/TabBar';
@@ -21,6 +23,7 @@ export function App(): React.JSX.Element {
   const { session } = useSession();
   const sync = useSync(session);
   const [assistantOpen, setAssistantOpen] = useState(false);
+  const sw = useServiceWorker();
 
   if (status === 'loading') {
     return <div className="min-h-dvh" aria-busy="true" />;
@@ -40,6 +43,7 @@ export function App(): React.JSX.Element {
 
   return (
     <div className="safe-top mx-auto min-h-dvh max-w-3xl pb-24">
+      {sw.needRefresh ? <UpdateBanner onUpdate={() => void sw.update()} onDismiss={sw.dismiss} /> : null}
       {route.name === 'today' ? <TodayScreen /> : null}
       {route.name === 'week' ? <WeekScreen /> : null}
       {route.name === 'progress' ? <ProgressScreen /> : null}

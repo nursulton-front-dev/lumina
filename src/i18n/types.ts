@@ -18,4 +18,16 @@ export type ExerciseDictionary = Record<ExerciseKey, string>;
 export type FullDictionary = Record<TranslationKey, string>;
 
 /** Ключи, у которых есть формы множественного числа: base.one / base.few / base.many */
-export type PluralBase = 'day';
+export type PluralBase =
+  | 'day'
+  | 'count.pullup'
+  | 'count.pushup'
+  | 'count.legRaise'
+  | 'count.cm'
+  | 'count.second'
+  | 'count.digit'
+  | 'count.filler'
+  | 'count.task'
+  | 'count.contest'
+  | 'count.hour'
+  | 'count.test';

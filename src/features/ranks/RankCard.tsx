@@ -3,6 +3,7 @@ import type { TranslationKey } from '../../i18n';
 import { GRADES, type Grade } from '../../data/ranks';
 import type { RankView } from '../../state/useGamification';
 import { useApp } from '../../state/app-context';
+import { rankLeftText } from './rankText';
 
 /** Цвет медали по ступени: юношеские — синий, взрослые — янтарь, мастерские — зелёный. */
 function medalTone(grade: Grade): { fill: string; deep: string } {
@@ -71,9 +72,10 @@ export function RankCard({
   /** Ручные счётчики для составных направлений. */
   extra?: React.JSX.Element;
 }): React.JSX.Element {
-  const { t } = useApp();
+  const { t, tp } = useApp();
   const { spec, status } = rank;
   const [showFresh, setShowFresh] = useState(fresh);
+  const left = rankLeftText(rank, t, tp);
 
   useEffect(() => {
     if (!fresh) return;
@@ -109,15 +111,7 @@ export function RankCard({
 
       {status.next ? (
         <div>
-          <p className="text-[0.8125rem] tnum text-ink-soft">
-            {t('ranks.toNext', {
-              grade: t(`grade.${status.next.grade}` as TranslationKey),
-              value: status.next.value,
-            })}
-            {status.next.second
-              ? ` ${t('ranks.toNextSecond', { second: status.next.second })}`
-              : ''}
-          </p>
+          {left ? <p className="text-[0.875rem] leading-snug tnum text-ink-soft">{left}</p> : null}
           <div className="mt-1.5 h-3 w-full overflow-hidden rounded-full bg-sunken">
             <div
               className="h-full rounded-full bg-blue transition-[width] duration-300 ease-out"

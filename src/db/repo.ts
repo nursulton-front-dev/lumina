@@ -334,3 +334,26 @@ export async function isMaxTestDue(metric: MetricId, date: string): Promise<bool
   if (!last) return true;
   return last.date <= addDays(date, -14);
 }
+
+/**
+ * Стартовые замеры из профиля: максимум подтягиваний и отжиманий — это уже
+ * результат, и разряды должны его видеть с первого захода. Если значение в
+ * профиле изменилось, за сегодняшний день пишется новый замер (а не второй).
+ */
+export async function syncProfileMeasures(profile: Profile, today: string): Promise<void> {
+  const pairs: [MetricId, number][] = [
+    ['pullups', profile.maxPullups],
+    ['pushups', profile.maxPushups],
+  ];
+  for (const [metric, value] of pairs) {
+    if (!Number.isFinite(value) || value <= 0) continue;
+    const last = await lastMeasure(metric);
+    if (last && last.value === value) continue;
+    const todayRow = last?.date === today ? last : undefined;
+    if (todayRow) {
+      await db.measures.put({ ...todayRow, value, updatedAt: stamp() });
+    } else {
+      await addMeasure(last ? today : profile.seasonStart, metric, value, null);
+    }
+  }
+}
