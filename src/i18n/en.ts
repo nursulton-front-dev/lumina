@@ -577,4 +577,10 @@ export const en: Dictionary = {
   'block.commuteEnglish': 'Commute to English',
   'block.commuteHome': 'Commute home',
   'block.englishClass': 'English',
+
+  'block.commuteSpeech': 'Commute home: speaking course',
+  'block.brother': 'Pick up my brother from kindergarten',
+  'block.englishWarmup': 'English: warm-up',
+  'schedule.weekdays': 'Weekdays',
+  'schedule.weekdaysHint': 'Nothing selected — the block applies on every day of this type.',
 };

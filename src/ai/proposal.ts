@@ -39,6 +39,7 @@ export function applyChanges(
         id: `ai-${now}-${result.length}`,
         dayType: result[0]?.dayType ?? 'odd',
         date: result[0]?.date ?? '',
+        weekdays: [],
         start,
         end,
         titleKey: null,
@@ -90,19 +91,25 @@ export function applyChanges(
   return { blocks: result.sort((a, b) => a.start - b.start), problems };
 }
 
-/** Категории трёх блоков минимума: числа, домашка, чтение. */
-const MINIMUM_CATEGORIES = ['memory', 'homework', 'reading'] as const;
-
 /**
  * Проверки, которые ассистент обязан пройти до показа предложения:
  * пересечения, минимум дня, отбой и недельный бюджет часов.
+ * Минимум — те блоки, что были в дне до правки: в пятницу их два, в остальные дни три.
  */
 export function validateProposal(
   next: readonly DraftBlock[],
   profile: Profile,
   availableHoursPerWeek = 168,
+  before: readonly Block[] = [],
 ): ProblemInfo[] {
   const problems: ProblemInfo[] = [];
+  const MINIMUM_CATEGORIES = [
+    ...new Set(
+      (before.length > 0 ? before : next)
+        .filter((block) => block.isCore)
+        .map((block) => block.category),
+    ),
+  ];
 
   for (const block of next) {
     const rest = next.filter((other) => other.id !== block.id);

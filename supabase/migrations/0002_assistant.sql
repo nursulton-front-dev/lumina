@@ -2,6 +2,7 @@
 -- Плюс разовые копии дня у блоков (правки «только на сегодня»).
 
 alter table public.blocks add column if not exists date text not null default '';
+alter table public.blocks add column if not exists weekdays integer[] not null default '{}';
 create index if not exists blocks_user_date_idx on public.blocks (user_id, date);
 
 -- ─── Переписка с ассистентом ──────────────────────────────────────────────

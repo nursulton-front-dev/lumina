@@ -12,10 +12,10 @@ export const exercisesEn: ExerciseDictionary = {
   'workout.warmup.hint':
     'The warm-up cannot be skipped: “next” unlocks when the timer runs out. Work top down — neck, shoulders, elbows, wrists, hips, knees, feet.',
   'workout.mon': 'Jump and legs',
-  'workout.tue': 'Bar and grip',
-  'workout.wed': 'Kick and hips',
-  'workout.thu': 'Push-ups and core',
-  'workout.fri': 'Light work and stretching',
+  'workout.tue': 'Bar and run',
+  'workout.wed': 'Push-ups and core',
+  'workout.thu': 'Bar and walk',
+  'workout.fri': 'Stretching and walking',
   'workout.sat': 'Measurements and circuit training',
   'workout.sun': 'Recovery',
   'workout.level.beginner': 'Level: under five pull-ups',
@@ -159,4 +159,10 @@ export const exercisesEn: ExerciseDictionary = {
   'ex.breathing.hint': 'Inhale for 4, hold for 4, exhale for 8. Belly breathing, shoulders still.',
   'ex.shower': 'Shower',
   'ex.shower.hint': 'The workout is closed. Back to the schedule.',
+  'ex.run': 'Easy run',
+  'ex.run.hint':
+    'Conversational pace: you can say a whole sentence without gasping. The foot lands under the body, not ahead of it.',
+  'ex.walk': 'Walk',
+  'ex.walk.hint':
+    'Brisk pace, back straight, arms working. It is part of the workout, not a pause: no phone in hand.',
 };

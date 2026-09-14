@@ -38,7 +38,7 @@ describe('структура тренировки', () => {
   });
 
   test('у каждого шага с подходами задан отдых', () => {
-    const protocol = resolveWorkout(context({ weekday: 4 }));
+    const protocol = resolveWorkout(context({ weekday: 3 }));
     for (const step of protocol.steps) {
       if (step.sets) expect(step.sets.restSeconds).toBeGreaterThanOrEqual(0);
     }
@@ -60,6 +60,20 @@ describe('уровень подтягиваний', () => {
     const pullups = protocol.steps.find((step) => step.id === 'ex.pullups');
     expect(pullups?.sets?.reps).toBe(5);
     expect(protocol.subtitleKey).toBe('workout.level.intermediate');
+  });
+
+  test('вторник заканчивается бегом, четверг — прогулкой', () => {
+    expect(resolveWorkout(context({ weekday: 2 })).steps.map((s) => s.id)).toContain('ex.run');
+    const thursday = resolveWorkout(context({ weekday: 4 }));
+    expect(thursday.steps.map((s) => s.id)).toContain('ex.walk');
+    expect(thursday.steps.map((s) => s.id)).toContain('ex.towelHang');
+    expect(thursday.subtitleKey).toBe('workout.level.beginner');
+  });
+
+  test('среда — отжимания и пресс', () => {
+    expect(resolveWorkout(context({ weekday: 3 })).steps.map((s) => s.id)).toContain(
+      'ex.pushupLadder',
+    );
   });
 
   test('на продвинутом уровне добавляется вес', () => {
@@ -119,6 +133,7 @@ describe('замеры, пятница и мяч', () => {
     const protocol = resolveWorkout(context({ weekday: 5, maxTestDue: true }));
     expect(protocol.steps.every((step) => step.sets === null && step.metric === null)).toBe(true);
     expect(protocol.steps.map((step) => step.id)).toContain('ex.hamstringStretch');
+    expect(protocol.steps.map((step) => step.id)).toContain('ex.walk');
   });
 
   test('без мяча удары не появляются, с мячом появляются', () => {

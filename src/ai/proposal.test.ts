@@ -9,6 +9,7 @@ function block(partial: Partial<Block> & Pick<Block, 'id' | 'start' | 'end'>): B
   return {
     dayType: 'odd',
     date: '',
+    weekdays: [],
     titleKey: null,
     title: partial.id,
     category: 'ioi',
@@ -104,7 +105,7 @@ describe('validateProposal', () => {
 
   test('не даёт вырезать блок минимума', () => {
     const { blocks } = applyChanges(day, [{ op: 'delete', blockId: 'numbers' }], now);
-    const problems = validateProposal(blocks, profile);
+    const problems = validateProposal(blocks, profile, 168, day);
     expect(problems.some((p) => p.kind === 'minimum' && p.details.category === 'memory')).toBe(
       true,
     );

@@ -15,9 +15,30 @@ describe('стартовое расписание', () => {
     }
   });
 
-  test.each(DAY_TYPES)('в дне «%s» ровно три блока минимума: числа, домашка, чтение', (dayType) => {
-    const core = blocks.filter((block) => block.dayType === dayType && block.isCore);
-    expect(core.map((block) => block.category).sort()).toEqual(['homework', 'memory', 'reading']);
+  test.each(DAY_TYPES)(
+    'минимум дня «%s»: числа и чтение, плюс домашка кроме пятницы',
+    (dayType) => {
+      const core = blocks.filter((block) => block.dayType === dayType && block.isCore);
+      const expected =
+        dayType === 'fri' ? ['memory', 'reading'] : ['homework', 'memory', 'reading'];
+      expect(core.map((block) => block.category).sort()).toEqual(expected);
+    },
+  );
+
+  test('домашка по английскому только во вторник и четверг', () => {
+    const hw = blocks.filter((block) => block.titleKey === 'block.englishHw');
+    expect(hw.length).toBeGreaterThan(0);
+    expect(hw.every((block) => block.weekdays.join(',') === '2,4')).toBe(true);
+  });
+
+  test('тренажёр чисел длится 15 минут сразу после завтрака', () => {
+    for (const block of blocks.filter((item) => item.titleKey === 'block.numbers')) {
+      expect(block.end - block.start).toBe(15);
+      const breakfast = blocks.find(
+        (item) => item.dayType === block.dayType && item.titleKey === 'block.breakfast',
+      );
+      expect(breakfast?.end).toBe(block.start);
+    }
   });
 
   test('в пятницу нет ни IOI, ни фриланса', () => {

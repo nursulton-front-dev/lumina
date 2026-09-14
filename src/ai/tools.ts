@@ -69,7 +69,10 @@ async function propose(
 ): Promise<ToolResult> {
   const target = await resolveTarget(scope, context);
   const result = applyChanges(target.blocks, changes, stamp());
-  const problems = [...result.problems, ...validateProposal(result.blocks, context.profile)];
+  const problems = [
+    ...result.problems,
+    ...validateProposal(result.blocks, context.profile, 168, target.blocks),
+  ];
   const diff = buildDiff(target.blocks, result.blocks);
 
   if (problems.length > 0) {
@@ -338,7 +341,10 @@ export async function runTool(
           ],
           stamp(),
         );
-        const problems = [...draft.problems, ...validateProposal(draft.blocks, context.profile)];
+        const problems = [
+          ...draft.problems,
+          ...validateProposal(draft.blocks, context.profile, 168, blocks),
+        ];
         if (problems.length > 0) {
           return propose(
             [

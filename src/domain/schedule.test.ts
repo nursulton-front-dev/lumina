@@ -6,6 +6,7 @@ function block(partial: Partial<Block> & Pick<Block, 'id' | 'start' | 'end'>): B
   return {
     dayType: 'odd',
     date: '',
+    weekdays: [],
     titleKey: null,
     title: partial.id,
     category: 'routine',

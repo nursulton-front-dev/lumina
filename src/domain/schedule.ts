@@ -53,6 +53,18 @@ export interface OverlapCandidate {
   id?: string;
   start: number;
   end: number;
+  weekdays?: readonly number[];
+}
+
+/** Блоки, ограниченные разными днями недели, в один день не встречаются. */
+export function weekdaysIntersect(a: readonly number[] = [], b: readonly number[] = []): boolean {
+  if (a.length === 0 || b.length === 0) return true;
+  return a.some((day) => b.includes(day));
+}
+
+/** Блоки шаблона, действующие в конкретный день недели. */
+export function blocksForWeekday(blocks: readonly Block[], weekday: number): Block[] {
+  return blocks.filter((block) => block.weekdays.length === 0 || block.weekdays.includes(weekday));
 }
 
 /** Первый блок, с которым пересекается кандидат, либо null. */
@@ -60,7 +72,10 @@ export function findOverlap(blocks: readonly Block[], candidate: OverlapCandidat
   return (
     liveBlocks(blocks).find(
       (block) =>
-        block.id !== candidate.id && candidate.start < block.end && block.start < candidate.end,
+        block.id !== candidate.id &&
+        weekdaysIntersect(block.weekdays, candidate.weekdays) &&
+        candidate.start < block.end &&
+        block.start < candidate.end,
     ) ?? null
   );
 }

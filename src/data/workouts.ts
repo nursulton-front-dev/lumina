@@ -63,34 +63,26 @@ const MONDAY: WorkoutDaySpec = {
   ],
 };
 
+/** Вторник: турник по уровню, затем лёгкий бег. Объём урезан, чтобы уложиться в 22 минуты. */
+const RUN: ExerciseSpec = { key: 'ex.run', seconds: 360 };
+
 const TUESDAY_BEGINNER: ExerciseSpec[] = [
-  { key: 'ex.australianPullups', sets: 4, reps: 8, restSeconds: 60, scalable: true },
-  { key: 'ex.negativePullups', sets: 4, reps: 3, holdSeconds: 5, restSeconds: 90, scalable: true },
-  { key: 'ex.scapularPullups', sets: 3, reps: 8, restSeconds: 45, scalable: true },
-  { key: 'ex.deadHang', sets: 3, toFailure: true, restSeconds: 60 },
-  { key: 'ex.flexedHang', sets: 3, holdSeconds: 15, restSeconds: 60 },
-  { key: 'ex.towelHang', sets: 3, holdSeconds: 15, restSeconds: 60 },
+  { key: 'ex.australianPullups', sets: 3, reps: 8, restSeconds: 45, scalable: true },
+  { key: 'ex.negativePullups', sets: 3, reps: 3, holdSeconds: 5, restSeconds: 60, scalable: true },
+  { key: 'ex.scapularPullups', sets: 2, reps: 8, restSeconds: 45, scalable: true },
+  RUN,
 ];
 
 const TUESDAY_INTERMEDIATE: ExerciseSpec[] = [
-  {
-    key: 'ex.pullups',
-    sets: 4,
-    repsRule: 'pullups-max-minus-2',
-    restSeconds: 90,
-    scalable: true,
-  },
-  { key: 'ex.negativePullups', sets: 2, reps: 3, holdSeconds: 5, restSeconds: 90 },
-  { key: 'ex.deadHang', sets: 3, toFailure: true, restSeconds: 60 },
-  { key: 'ex.flexedHang', sets: 3, holdSeconds: 15, restSeconds: 60 },
-  { key: 'ex.towelHang', sets: 3, holdSeconds: 15, restSeconds: 60 },
+  { key: 'ex.pullups', sets: 3, repsRule: 'pullups-max-minus-2', restSeconds: 90, scalable: true },
+  { key: 'ex.negativePullups', sets: 2, reps: 3, holdSeconds: 5, restSeconds: 60 },
+  RUN,
 ];
 
 const TUESDAY_ADVANCED: ExerciseSpec[] = [
-  { key: 'ex.pullups', sets: 4, repsRule: 'pullups-working', restSeconds: 90, scalable: true },
+  { key: 'ex.pullups', sets: 3, repsRule: 'pullups-working', restSeconds: 90, scalable: true },
   { key: 'ex.weightedPullups', sets: 2, reps: 5, restSeconds: 120 },
-  { key: 'ex.flexedHang', sets: 3, holdSeconds: 20, restSeconds: 60 },
-  { key: 'ex.towelHang', sets: 3, holdSeconds: 20, restSeconds: 60 },
+  RUN,
 ];
 
 export const TUESDAY_BY_LEVEL = {
@@ -99,37 +91,39 @@ export const TUESDAY_BY_LEVEL = {
   advanced: TUESDAY_ADVANCED,
 };
 
-const WEDNESDAY: WorkoutDaySpec = {
-  titleKey: 'workout.wed',
-  workMinutes: 15,
-  warmupSeconds: 240,
-  exercises: [
-    {
-      key: 'ex.jumpLunges',
-      sets: 3,
-      reps: 8,
-      perSide: true,
-      restSeconds: 60,
-      landings: 48,
-      scalable: true,
-    },
-    { key: 'ex.kickSwings', sets: 3, reps: 12, perSide: true, restSeconds: 45 },
-    { key: 'ex.pistolAssisted', sets: 3, reps: 5, perSide: true, restSeconds: 60, scalable: true },
-    {
-      key: 'ex.singleLegBridge',
-      sets: 3,
-      reps: 12,
-      perSide: true,
-      restSeconds: 45,
-      scalable: true,
-    },
-    { key: 'ex.sidePlank', sets: 3, holdSeconds: 30, perSide: true, restSeconds: 45 },
-  ],
-  ballExercises: [{ key: 'ex.ballControl', seconds: 600 }],
+/** Четверг: турник с упором на хват и изометрию, затем прогулка. */
+const WALK: ExerciseSpec = { key: 'ex.walk', seconds: 480 };
+
+const THURSDAY_BEGINNER: ExerciseSpec[] = [
+  { key: 'ex.australianPullups', sets: 2, reps: 8, restSeconds: 45, scalable: true },
+  { key: 'ex.deadHang', sets: 2, toFailure: true, restSeconds: 60 },
+  { key: 'ex.flexedHang', sets: 2, holdSeconds: 15, restSeconds: 60 },
+  { key: 'ex.towelHang', sets: 2, holdSeconds: 15, restSeconds: 60 },
+  WALK,
+];
+
+const THURSDAY_INTERMEDIATE: ExerciseSpec[] = [
+  { key: 'ex.pullups', sets: 2, repsRule: 'pullups-max-minus-2', restSeconds: 90, scalable: true },
+  { key: 'ex.flexedHang', sets: 3, holdSeconds: 15, restSeconds: 60 },
+  { key: 'ex.towelHang', sets: 2, holdSeconds: 15, restSeconds: 60 },
+  WALK,
+];
+
+const THURSDAY_ADVANCED: ExerciseSpec[] = [
+  { key: 'ex.pullups', sets: 2, repsRule: 'pullups-working', restSeconds: 90, scalable: true },
+  { key: 'ex.flexedHang', sets: 3, holdSeconds: 20, restSeconds: 60 },
+  { key: 'ex.towelHang', sets: 2, holdSeconds: 20, restSeconds: 60 },
+  WALK,
+];
+
+export const THURSDAY_BY_LEVEL = {
+  beginner: THURSDAY_BEGINNER,
+  intermediate: THURSDAY_INTERMEDIATE,
+  advanced: THURSDAY_ADVANCED,
 };
 
-const THURSDAY: WorkoutDaySpec = {
-  titleKey: 'workout.thu',
+const WEDNESDAY: WorkoutDaySpec = {
+  titleKey: 'workout.wed',
   workMinutes: 15,
   warmupSeconds: 240,
   exercises: [
@@ -140,6 +134,15 @@ const THURSDAY: WorkoutDaySpec = {
     { key: 'ex.bicycleCrunches', sets: 3, reps: 20, restSeconds: 45 },
     { key: 'ex.hollowHold', sets: 3, holdSeconds: 25, restSeconds: 45 },
   ],
+  ballExercises: [{ key: 'ex.ballControl', seconds: 600 }],
+};
+
+/** Четверг: программа по уровню лежит в THURSDAY_BY_LEVEL. */
+const THURSDAY: WorkoutDaySpec = {
+  titleKey: 'workout.thu',
+  workMinutes: 15,
+  warmupSeconds: 240,
+  exercises: [],
 };
 
 /** Пятница — день с двумя занятиями, поэтому утром только лёгкая работа и растяжка. */
@@ -152,8 +155,7 @@ const FRIDAY: WorkoutDaySpec = {
     { key: 'ex.calfStretch', seconds: 90 },
     { key: 'ex.chestStretch', seconds: 90 },
     { key: 'ex.forearmStretch', seconds: 90 },
-    { key: 'ex.deadHang', seconds: 60 },
-    { key: 'ex.breathing', seconds: 120 },
+    { key: 'ex.walk', seconds: 480 },
   ],
 };
 

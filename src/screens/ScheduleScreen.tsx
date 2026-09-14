@@ -91,6 +91,9 @@ export function ScheduleScreen(): React.JSX.Element {
                     </span>
                     {block.isCore ? ` · ${t('today.minimum')}` : ''}
                     {block.isFocus ? ` · ${t('today.focus')}` : ''}
+                    {block.weekdays.length > 0
+                      ? ` · ${block.weekdays.map((day) => t(`weekday.short.${day}` as TranslationKey)).join(', ')}`
+                      : ''}
                   </span>
                 </span>
                 <svg

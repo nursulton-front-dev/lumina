@@ -579,4 +579,10 @@ export const uz: Dictionary = {
   'block.commuteEnglish': "Ingliz tiliga yo'l",
   'block.commuteHome': "Uyga yo'l",
   'block.englishClass': 'Ingliz tili',
+
+  'block.commuteSpeech': "Uyga yo'l: notiqlik kursi",
+  'block.brother': "Ukamni bog'chadan olib kelish",
+  'block.englishWarmup': 'Ingliz tili: isinish',
+  'schedule.weekdays': 'Hafta kunlari',
+  'schedule.weekdaysHint': 'Hech narsa tanlanmasa — blok shu turdagi barcha kunlarda amal qiladi.',
 };

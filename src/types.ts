@@ -35,6 +35,8 @@ export interface Block {
   dayType: DayTypeCode;
   /** Пустая строка — шаблон типа дня; дата — разовая копия дня. */
   date: string;
+  /** Дни недели, в которые блок действует (0 — воскресенье). Пусто — во все дни типа. */
+  weekdays: number[];
   start: number;
   end: number;
   /** Ключ перевода для встроенных блоков. */

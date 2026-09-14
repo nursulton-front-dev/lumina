@@ -13,9 +13,15 @@ export interface BlockSeed {
   core?: boolean;
   /** Доступен помодоро. */
   focus?: boolean;
+  /** Только в эти дни недели (0 — воскресенье). Пусто — во все дни типа. */
+  weekdays?: number[];
 }
 
-const ODD_MORNING: BlockSeed[] = [
+const TUE_THU = [2, 4];
+const MON_WED = [1, 3];
+
+/** Утро буднего дня: одинаковое в любой день недели. */
+const WEEKDAY_MORNING: BlockSeed[] = [
   { start: '06:00', end: '06:05', titleKey: 'block.wake', category: 'routine' },
   {
     start: '06:05',
@@ -25,92 +31,133 @@ const ODD_MORNING: BlockSeed[] = [
     protocolId: 'workout',
   },
   { start: '06:27', end: '06:37', titleKey: 'block.shower', category: 'routine' },
-];
-
-const AFTERNOON: BlockSeed[] = [
+  { start: '06:37', end: '06:55', titleKey: 'block.breakfast', category: 'routine' },
+  {
+    start: '06:55',
+    end: '07:10',
+    titleKey: 'block.numbers',
+    category: 'memory',
+    protocolId: 'numbers',
+    core: true,
+  },
+  { start: '07:10', end: '07:35', titleKey: 'block.russianEx', category: 'russian', focus: true },
   { start: '07:40', end: '08:30', titleKey: 'block.commuteRussian', category: 'commute' },
   { start: '08:30', end: '14:45', titleKey: 'block.school', category: 'school' },
-  { start: '14:45', end: '15:35', titleKey: 'block.commuteIoi', category: 'commute' },
-  { start: '15:35', end: '16:15', titleKey: 'block.lunchRest', category: 'rest' },
+];
+
+/** После школы: дорога с курсом ораторства, брат из садика, разминка по английскому. */
+const WEEKDAY_AFTERNOON: BlockSeed[] = [
+  { start: '14:45', end: '16:00', titleKey: 'block.commuteSpeech', category: 'commute' },
+  { start: '16:00', end: '16:25', titleKey: 'block.lunchRest', category: 'rest' },
+  { start: '16:25', end: '16:50', titleKey: 'block.brother', category: 'routine' },
+  { start: '16:50', end: '17:05', titleKey: 'block.englishWarmup', category: 'english' },
+];
+
+const ODD: BlockSeed[] = [
+  ...WEEKDAY_MORNING,
+  ...WEEKDAY_AFTERNOON,
   {
-    start: '16:15',
-    end: '17:45',
+    start: '17:05',
+    end: '18:00',
     titleKey: 'block.homework',
     category: 'homework',
     focus: true,
     core: true,
   },
-];
-
-const MORNING_TAIL: BlockSeed[] = [
-  { start: '07:05', end: '07:25', titleKey: 'block.breakfast', category: 'routine' },
-  {
-    start: '07:25',
-    end: '07:30',
-    titleKey: 'block.numbers',
-    category: 'memory',
-    protocolId: 'numbers',
-    core: true,
-  },
-];
-
-const ODD: BlockSeed[] = [
-  ...ODD_MORNING,
-  {
-    start: '06:40',
-    end: '07:05',
-    titleKey: 'block.russianEx',
-    category: 'russian',
-    focus: true,
-  },
-  ...MORNING_TAIL,
-  ...AFTERNOON,
-  { start: '17:45', end: '18:15', titleKey: 'block.snack', category: 'routine' },
+  { start: '18:00', end: '18:15', titleKey: 'block.snack', category: 'routine' },
   { start: '18:15', end: '20:15', titleKey: 'block.englishCourse', category: 'english' },
   { start: '20:15', end: '21:00', titleKey: 'block.dinnerRest', category: 'rest' },
-  { start: '21:00', end: '22:30', titleKey: 'block.ioiTheory', category: 'ioi', focus: true },
+  // Понедельник и среда: IOI до 22:30. Вторник и четверг: IOI короче, затем домашка по английскому.
+  {
+    start: '21:00',
+    end: '22:30',
+    titleKey: 'block.ioiTheory',
+    category: 'ioi',
+    focus: true,
+    weekdays: MON_WED,
+  },
+  {
+    start: '21:00',
+    end: '21:45',
+    titleKey: 'block.ioiTheory',
+    category: 'ioi',
+    focus: true,
+    weekdays: TUE_THU,
+  },
+  {
+    start: '21:45',
+    end: '22:15',
+    titleKey: 'block.englishHw',
+    category: 'english',
+    focus: true,
+    weekdays: TUE_THU,
+  },
   { start: '22:30', end: '23:00', titleKey: 'block.fiction', category: 'reading', core: true },
   { start: '23:00', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
 ];
 
 const EVEN: BlockSeed[] = [
-  ...ODD_MORNING,
+  ...WEEKDAY_MORNING,
+  ...WEEKDAY_AFTERNOON,
   {
-    start: '06:40',
-    end: '07:05',
+    start: '17:05',
+    end: '18:15',
+    titleKey: 'block.homework',
+    category: 'homework',
+    focus: true,
+    core: true,
+  },
+  { start: '18:15', end: '18:45', titleKey: 'block.dinnerWalk', category: 'rest' },
+  { start: '18:45', end: '20:00', titleKey: 'block.ioiMain', category: 'ioi', focus: true },
+  { start: '20:00', end: '20:15', titleKey: 'block.break', category: 'rest' },
+  { start: '20:15', end: '21:45', titleKey: 'block.freelance', category: 'freelance', focus: true },
+  {
+    start: '21:45',
+    end: '22:15',
     titleKey: 'block.englishHw',
     category: 'english',
     focus: true,
+    weekdays: TUE_THU,
   },
-  ...MORNING_TAIL,
-  ...AFTERNOON,
-  { start: '17:45', end: '18:30', titleKey: 'block.dinnerWalk', category: 'rest' },
-  { start: '18:30', end: '20:00', titleKey: 'block.ioiMain', category: 'ioi', focus: true },
-  { start: '20:00', end: '20:15', titleKey: 'block.break', category: 'rest' },
-  { start: '20:15', end: '21:45', titleKey: 'block.freelance', category: 'freelance', focus: true },
-  { start: '21:45', end: '22:15', titleKey: 'block.russianEx', category: 'russian', focus: true },
   { start: '22:15', end: '22:45', titleKey: 'block.fiction', category: 'reading', core: true },
   { start: '23:00', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
 ];
 
-const SAT: BlockSeed[] = [
+/**
+ * Пятница: два занятия подряд, из дома с 07:40 до 20:20. Школьной домашки нет,
+ * минимум дня — числа и чтение, чтобы серия не рвалась.
+ */
+const FRI: BlockSeed[] = [
+  ...WEEKDAY_MORNING,
+  { start: '14:45', end: '15:00', titleKey: 'block.snack', category: 'routine' },
+  { start: '15:00', end: '16:00', titleKey: 'block.commuteLesson', category: 'commute' },
+  { start: '16:00', end: '18:00', titleKey: 'block.lesson', category: 'school' },
+  { start: '18:00', end: '18:30', titleKey: 'block.commuteEnglish', category: 'commute' },
+  { start: '18:30', end: '20:00', titleKey: 'block.englishClass', category: 'english' },
+  { start: '20:00', end: '20:20', titleKey: 'block.commuteHome', category: 'commute' },
+  { start: '20:20', end: '21:00', titleKey: 'block.dinnerRest', category: 'rest' },
+  { start: '21:00', end: '22:15', titleKey: 'block.rest', category: 'rest' },
+  { start: '22:15', end: '22:45', titleKey: 'block.fiction', category: 'reading', core: true },
+  { start: '23:00', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
+];
+
+const WEEKEND_MORNING = (workoutKey: TranslationKey): BlockSeed[] => [
   { start: '07:30', end: '07:35', titleKey: 'block.wake', category: 'routine' },
-  {
-    start: '07:35',
-    end: '08:15',
-    titleKey: 'block.workoutLong',
-    category: 'sport',
-    protocolId: 'workout',
-  },
+  { start: '07:35', end: '08:15', titleKey: workoutKey, category: 'sport', protocolId: 'workout' },
   { start: '08:15', end: '08:40', titleKey: 'block.breakfast', category: 'routine' },
   {
     start: '08:40',
-    end: '08:45',
+    end: '08:55',
     titleKey: 'block.numbers',
     category: 'memory',
     protocolId: 'numbers',
     core: true,
   },
+  { start: '09:00', end: '09:15', titleKey: 'block.englishWarmup', category: 'english' },
+];
+
+const SAT: BlockSeed[] = [
+  ...WEEKEND_MORNING('block.workoutLong'),
   {
     start: '09:30',
     end: '12:30',
@@ -141,23 +188,7 @@ const SAT: BlockSeed[] = [
 ];
 
 const SUN: BlockSeed[] = [
-  { start: '07:30', end: '07:35', titleKey: 'block.wake', category: 'routine' },
-  {
-    start: '07:35',
-    end: '08:15',
-    titleKey: 'block.workoutRecovery',
-    category: 'sport',
-    protocolId: 'workout',
-  },
-  { start: '08:15', end: '08:40', titleKey: 'block.breakfast', category: 'routine' },
-  {
-    start: '08:40',
-    end: '08:45',
-    titleKey: 'block.numbers',
-    category: 'memory',
-    protocolId: 'numbers',
-    core: true,
-  },
+  ...WEEKEND_MORNING('block.workoutRecovery'),
   { start: '10:00', end: '12:30', titleKey: 'block.ioiContest', category: 'ioi', focus: true },
   { start: '12:30', end: '14:00', titleKey: 'block.lunch', category: 'rest' },
   { start: '14:00', end: '15:30', titleKey: 'block.russianMock', category: 'russian', focus: true },
@@ -181,41 +212,6 @@ const SUN: BlockSeed[] = [
   { start: '22:30', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
 ];
 
-/**
- * Пятница: два занятия подряд, из дома с 07:40 до 20:20. IOI и фриланс не ставятся —
- * вечером помещаются только ужин, домашка и чтение; дорога отдана аудио и лекциям.
- */
-const FRI: BlockSeed[] = [
-  ...ODD_MORNING,
-  {
-    start: '06:40',
-    end: '07:05',
-    titleKey: 'block.russianEx',
-    category: 'russian',
-    focus: true,
-  },
-  ...MORNING_TAIL,
-  { start: '07:40', end: '08:30', titleKey: 'block.commuteRussian', category: 'commute' },
-  { start: '08:30', end: '14:45', titleKey: 'block.school', category: 'school' },
-  { start: '14:45', end: '15:00', titleKey: 'block.snack', category: 'routine' },
-  { start: '15:00', end: '16:00', titleKey: 'block.commuteLesson', category: 'commute' },
-  { start: '16:00', end: '18:00', titleKey: 'block.lesson', category: 'school' },
-  { start: '18:00', end: '18:30', titleKey: 'block.commuteEnglish', category: 'commute' },
-  { start: '18:30', end: '20:00', titleKey: 'block.englishClass', category: 'english' },
-  { start: '20:00', end: '20:20', titleKey: 'block.commuteHome', category: 'commute' },
-  { start: '20:20', end: '21:00', titleKey: 'block.dinnerRest', category: 'rest' },
-  {
-    start: '21:00',
-    end: '22:15',
-    titleKey: 'block.homework',
-    category: 'homework',
-    focus: true,
-    core: true,
-  },
-  { start: '22:15', end: '22:45', titleKey: 'block.fiction', category: 'reading', core: true },
-  { start: '23:00', end: '23:59', titleKey: 'block.bedtime', category: 'sleep' },
-];
-
 /** Стартовое расписание. Попадает в базу один раз и дальше правится пользователем. */
 export const SCHEDULE_SEED: Record<DayTypeCode, BlockSeed[]> = {
   odd: ODD,
@@ -233,10 +229,13 @@ export function seedBlocks(now: string): Block[] {
       (a, b) => toMinutes(a.start) - toMinutes(b.start),
     );
     seeds.forEach((seed, index) => {
+      const weekdays = seed.weekdays ?? [];
+      const suffix = weekdays.length > 0 ? `-${weekdays.join('')}` : '';
       blocks.push({
-        id: `${dayType}-${seed.titleKey}-${seed.start.replace(':', '')}`,
+        id: `${dayType}-${seed.titleKey}-${seed.start.replace(':', '')}${suffix}`,
         dayType,
         date: '',
+        weekdays,
         start: toMinutes(seed.start),
         end: toMinutes(seed.end),
         titleKey: seed.titleKey,

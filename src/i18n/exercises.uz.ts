@@ -12,10 +12,10 @@ export const exercisesUz: ExerciseDictionary = {
   'workout.warmup.hint':
     "Isinishni o'tkazib bo'lmaydi: «keyingisi» tugmasi taymer tugagach ochiladi. Tartib yuqoridan pastga — bo'yin, yelka, tirsak, bilak, tos, tizza, oyoq panjasi.",
   'workout.mon': 'Sakrash va oyoqlar',
-  'workout.tue': 'Turnik va panja kuchi',
-  'workout.wed': 'Zarba va tos',
-  'workout.thu': "Qo'l bukish va pres",
-  'workout.fri': "Yengil ish va cho'zilish",
+  'workout.tue': 'Turnik va yugurish',
+  'workout.wed': "Qo'l bukish va qorin mushaklari",
+  'workout.thu': 'Turnik va sayr',
+  'workout.fri': "Cho'zilish va yurish",
   'workout.sat': "O'lchovlar va doiraviy mashq",
   'workout.sun': 'Tiklanish',
   'workout.level.beginner': 'Daraja: beshtadan kam tortilish',
@@ -162,4 +162,10 @@ export const exercisesUz: ExerciseDictionary = {
     '4 ga nafas olish, 4 ga ushlash, 8 ga chiqarish. Qorin bilan nafas, yelka qimirlamaydi.',
   'ex.shower': 'Dush',
   'ex.shower.hint': "Mashg'ulot yakunlandi. Keyingisi jadval bo'yicha.",
+  'ex.run': 'Yengil yugurish',
+  'ex.run.hint':
+    'Suhbat tezligi: nafas qisilmasdan butun jumlani ayta olasiz. Oyoq tana ostiga tushadi, oldinga emas.',
+  'ex.walk': 'Yurish',
+  'ex.walk.hint':
+    "Tez qadam, bel tik, qo'llar ishlaydi. Bu pauza emas, mashg'ulotning qismi: telefonsiz.",
 };

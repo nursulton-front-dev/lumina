@@ -4,6 +4,7 @@ import {
   CIRCUIT_ITEMS,
   WARMUP_ITEMS,
   WORKOUT_BY_WEEKDAY,
+  THURSDAY_BY_LEVEL,
   TUESDAY_BY_LEVEL,
   type ExerciseSpec,
 } from '../data/workouts';
@@ -54,7 +55,7 @@ const PLYO_DAYS = new Set([1, 3, 6]);
 
 function safetyFor(weekday: number): TranslationKey[] {
   const keys: TranslationKey[] = [];
-  if (weekday === 2) keys.push('safety.arm' as TranslationKey);
+  if (weekday === 2 || weekday === 4) keys.push('safety.arm' as TranslationKey);
   if (PLYO_DAYS.has(weekday)) keys.push('safety.plyo' as TranslationKey);
   keys.push('safety.pain' as TranslationKey);
   return keys;
@@ -151,7 +152,9 @@ export function resolveWorkout(ctx: WorkoutContext): ResolvedProtocol {
   const specs =
     ctx.weekday === 2
       ? TUESDAY_BY_LEVEL[level]
-      : day.exercises.filter((spec) => !spec.biweekly || ctx.maxTestDue);
+      : ctx.weekday === 4
+        ? THURSDAY_BY_LEVEL[level]
+        : day.exercises.filter((spec) => !spec.biweekly || ctx.maxTestDue);
 
   const steps: ProtocolStep[] = [];
 
@@ -219,7 +222,7 @@ export function resolveWorkout(ctx: WorkoutContext): ResolvedProtocol {
   return {
     id: 'workout',
     titleKey: day.titleKey as TranslationKey,
-    subtitleKey: ctx.weekday === 2 ? LEVEL_KEYS[level] : null,
+    subtitleKey: ctx.weekday === 2 || ctx.weekday === 4 ? LEVEL_KEYS[level] : null,
     steps,
     safetyKeys: safetyFor(ctx.weekday),
     notes,

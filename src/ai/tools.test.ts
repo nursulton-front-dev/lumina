@@ -113,7 +113,10 @@ describe('инструменты расписания', () => {
 
   test('правка «только сегодня» не трогает шаблон типа дня', async () => {
     const template = await listBlocks('odd');
-    const target = template.find((block) => block.titleKey === 'block.ioiTheory');
+    // Во вторник действует вариант блока IOI для вторника и четверга.
+    const target = template.find(
+      (block) => block.titleKey === 'block.ioiTheory' && block.weekdays.includes(2),
+    );
 
     const proposal = await runTool(
       'propose_schedule_change',

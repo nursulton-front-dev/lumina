@@ -7,6 +7,7 @@ function block(id: string, category: Block['category'], start: number, end: numb
     id,
     dayType: 'odd',
     date: '',
+    weekdays: [],
     start,
     end,
     titleKey: null,

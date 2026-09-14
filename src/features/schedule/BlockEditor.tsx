@@ -51,6 +51,7 @@ export function BlockEditor({
   const [protocolId, setProtocolId] = useState<ProtocolId | null>(block?.protocolId ?? null);
   const [isCore, setIsCore] = useState(block?.isCore ?? false);
   const [isFocus, setIsFocus] = useState(block?.isFocus ?? false);
+  const [weekdays, setWeekdays] = useState<number[]>(block?.weekdays ?? []);
   const [error, setError] = useState<string | null>(null);
 
   const save = async (): Promise<void> => {
@@ -61,6 +62,7 @@ export function BlockEditor({
       start: startMinutes,
       end: endMinutes,
       name,
+      weekdays,
     });
 
     if (problem) {
@@ -84,6 +86,7 @@ export function BlockEditor({
       id: block?.id ?? newId(),
       dayType,
       date: block?.date ?? '',
+      weekdays,
       start: startMinutes,
       end: endMinutes,
       titleKey: keepsKey ? block.titleKey : null,
@@ -177,6 +180,38 @@ export function BlockEditor({
                 </option>
               ))}
             </Select>
+          )}
+        </Field>
+
+        <Field label={t('schedule.weekdays')} hint={t('schedule.weekdaysHint')}>
+          {() => (
+            <div className="flex flex-wrap gap-1.5">
+              {[1, 2, 3, 4, 5, 6, 0].map((day) => {
+                const active = weekdays.includes(day);
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() =>
+                      setWeekdays((current) =>
+                        current.includes(day)
+                          ? current.filter((item) => item !== day)
+                          : [...current, day].sort(),
+                      )
+                    }
+                    className={[
+                      'min-h-[40px] min-w-[44px] rounded-full border-2 px-2 font-display text-[0.875rem] font-bold transition-colors',
+                      active
+                        ? 'border-blue bg-blue text-white'
+                        : 'border-rule bg-raised text-ink-soft hover:border-ink-faint',
+                    ].join(' ')}
+                  >
+                    {t(`weekday.short.${day}` as TranslationKey)}
+                  </button>
+                );
+              })}
+            </div>
           )}
         </Field>
 

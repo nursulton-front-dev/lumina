@@ -57,6 +57,16 @@ export class FocusDb extends Dexie {
             block.date ??= '';
           });
       });
+
+    // Версия 3: блок может действовать только в выбранные дни недели.
+    this.version(3).upgrade(async (transaction) => {
+      await transaction
+        .table('blocks')
+        .toCollection()
+        .modify((block: Block) => {
+          block.weekdays ??= [];
+        });
+    });
   }
 }
 

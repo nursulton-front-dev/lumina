@@ -12,13 +12,14 @@ import type {
   WorkSession,
 } from '../types';
 import { seedBlocks } from '../data/schedule';
-import { addDays, startOfWeek, toISODate } from '../domain/time';
+import { addDays, fromISODate, startOfWeek, toISODate } from '../domain/time';
+import { blocksForWeekday } from '../domain/schedule';
 import { NEUTRAL_ADJUSTMENT, type Adjustment } from '../domain/progression';
 import { db, newId, PROFILE_ID, readMeta, stamp, writeMeta } from './db';
 
 const SEED_KEY = 'schedule.seed.version';
-/** Версия 2: появился отдельный тип дня «пятница». */
-const SEED_VERSION = 2;
+/** Версия 3: новое расписание (брат из садика, английская разминка, дни недели у блоков). */
+const SEED_VERSION = 3;
 
 /** Стартовые данные пользователя из брифа: турник, свой вес, 2 подтягивания, 25 отжиманий. */
 export function defaultProfile(lang: Lang): Profile {
@@ -73,10 +74,19 @@ export async function ensureSeed(): Promise<void> {
   if (count === 0) {
     await db.blocks.bulkPut(seedBlocks(stamp()));
   } else {
-    // Уже засеянная база: добавляем только шаблоны новых типов дня, чужие правки не трогаем.
-    const existing = new Set((await db.blocks.toArray()).map((block) => block.dayType));
-    const missing = seedBlocks(stamp()).filter((block) => !existing.has(block.dayType));
-    if (missing.length > 0) await db.blocks.bulkPut(missing);
+    const current = await db.blocks.toArray();
+    // Расписание, которое пользователь не трогал (ни переименований, ни разовых
+    // копий дня), можно заменить новым целиком. Правленое — не трогаем, только
+    // добавляем шаблоны новых типов дня.
+    const untouched = current.every((block) => block.title === null && block.date === '');
+    if (untouched) {
+      await db.blocks.clear();
+      await db.blocks.bulkPut(seedBlocks(stamp()));
+    } else {
+      const existing = new Set(current.map((block) => block.dayType));
+      const missing = seedBlocks(stamp()).filter((block) => !existing.has(block.dayType));
+      if (missing.length > 0) await db.blocks.bulkPut(missing);
+    }
   }
   await writeMeta(SEED_KEY, SEED_VERSION);
 }
@@ -103,7 +113,7 @@ export async function listBlocksForDay(dayType: DayTypeCode, date: string): Prom
   const dated = await db.blocks.where('date').equals(date).toArray();
   const live = dated.filter((block) => !block.deleted);
   if (live.length > 0) return live.sort((a, b) => a.start - b.start);
-  return listBlocks(dayType);
+  return blocksForWeekday(await listBlocks(dayType), fromISODate(date).getDay());
 }
 
 /** Копирует шаблон дня в разовые блоки: правки на «только сегодня» не трогают шаблон. */
@@ -112,7 +122,7 @@ export async function materializeDay(dayType: DayTypeCode, date: string): Promis
   if (existing.some((block) => !block.deleted)) {
     return existing.filter((block) => !block.deleted).sort((a, b) => a.start - b.start);
   }
-  const template = await listBlocks(dayType);
+  const template = blocksForWeekday(await listBlocks(dayType), fromISODate(date).getDay());
   const copies = template.map((block) => ({
     ...block,
     id: `${date}-${block.id}`,

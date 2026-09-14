@@ -579,4 +579,10 @@ export const ru = {
   'block.commuteEnglish': 'Дорога на английский',
   'block.commuteHome': 'Дорога домой',
   'block.englishClass': 'Английский',
+
+  'block.commuteSpeech': 'Дорога домой: курс ораторства',
+  'block.brother': 'Забрать брата из садика',
+  'block.englishWarmup': 'Английский: разминка',
+  'schedule.weekdays': 'Дни недели',
+  'schedule.weekdaysHint': 'Ничего не выбрано — блок действует во все дни этого типа.',
 } as const;
