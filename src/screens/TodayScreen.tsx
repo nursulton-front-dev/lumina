@@ -20,7 +20,9 @@ import { closestRank } from '../domain/ranks';
 import { blockAdvice, dayVerdict } from '../domain/verdicts';
 import { focusStats } from '../domain/pomodoro';
 import { eveningMinutes } from '../domain/sleep';
+import { useEffect, useRef } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { buildDayExport, isBotConfigured, postDayExport } from '../bot/exportDay';
 import { db } from '../db/db';
 
 function rowState(start: number, end: number, now: number): RowState {
@@ -39,6 +41,24 @@ export function TodayScreen(): React.JSX.Element {
   const quests = useQuests(date, profile?.seasonStart ?? date);
   const sessions =
     useLiveQuery(() => db.sessions.where('date').equals(date).toArray(), [date]) ?? [];
+
+  // План уезжает боту через пару секунд после изменения отметок; сбой сети не мешает.
+  const exportSignature = day
+    ? `${date}:${day.dayType}:${[...day.checked].sort().join(',')}:${day.blocks.map((b) => `${b.id}${b.remind ? '!' : ''}`).join(',')}`
+    : '';
+  const lastSent = useRef('');
+  useEffect(() => {
+    if (!day || !profile || !isBotConfigured(profile) || !navigator.onLine) return;
+    if (lastSent.current === exportSignature) return;
+    const id = window.setTimeout(() => {
+      lastSent.current = exportSignature;
+      void postDayExport(
+        profile,
+        buildDayExport(date, day.dayType, day.blocks, day.checked, profile, t),
+      ).catch(() => undefined);
+    }, 2000);
+    return () => window.clearTimeout(id);
+  }, [exportSignature, day, profile, date, t]);
 
   if (!day) {
     return <p className="px-4 py-10 text-center text-ink-faint">{t('common.loading')}</p>;

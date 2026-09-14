@@ -585,4 +585,26 @@ export const ru = {
   'block.englishWarmup': 'Английский: разминка',
   'schedule.weekdays': 'Дни недели',
   'schedule.weekdaysHint': 'Ничего не выбрано — блок действует во все дни этого типа.',
+
+  'bot.wake': 'Подъём. Тренировка через пять минут.',
+  'bot.brother': '16:25 — пора за братом в садик.',
+  'bot.english': '18:15 — выход на английский.',
+  'bot.lesson': '15:00 — выход на занятие. Лекции IOI в дорогу.',
+  'bot.sleep': 'До отбоя полчаса. Экраны убрать.',
+  'bot.blockStarts': 'Начинается:',
+  'bot.done': 'Отметил',
+  'bot.snooze': 'Через 15 мин',
+  'bot.open': 'Открыть',
+  'bot.marked': 'Отмечено',
+  'bot.snoozed': 'Напомню через 15 минут',
+
+  'profile.section.bot': 'Telegram-бот',
+  'botSettings.url': 'Адрес бота (Cloudflare Worker)',
+  'botSettings.key': 'Ключ синхронизации',
+  'botSettings.hint':
+    'Бот считает план из тех же шаблонов сам. Отправка из приложения нужна только для разовых правок дня, отметок и галочек «напоминать».',
+  'botSettings.send': 'Отправить план дня боту',
+  'botSettings.sent': 'План отправлен: {date}',
+  'botSettings.failed': 'Не отправилось: {error}',
+  'schedule.remind': 'Напоминать в Telegram о начале',
 } as const;

@@ -52,6 +52,7 @@ export function BlockEditor({
   const [isCore, setIsCore] = useState(block?.isCore ?? false);
   const [isFocus, setIsFocus] = useState(block?.isFocus ?? false);
   const [weekdays, setWeekdays] = useState<number[]>(block?.weekdays ?? []);
+  const [remind, setRemind] = useState(block?.remind ?? false);
   const [error, setError] = useState<string | null>(null);
 
   const save = async (): Promise<void> => {
@@ -87,6 +88,7 @@ export function BlockEditor({
       dayType,
       date: block?.date ?? '',
       weekdays,
+      remind,
       start: startMinutes,
       end: endMinutes,
       titleKey: keepsKey ? block.titleKey : null,
@@ -217,6 +219,7 @@ export function BlockEditor({
 
         <Toggle checked={isCore} onChange={setIsCore} label={t('schedule.core')} />
         <Toggle checked={isFocus} onChange={setIsFocus} label={t('schedule.focus')} />
+        <Toggle checked={remind} onChange={setRemind} label={t('schedule.remind')} />
 
         {error ? (
           <p className="rounded-[var(--radius-field)] bg-terracotta-wash px-3 py-2 text-[0.875rem] text-ink">

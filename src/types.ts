@@ -47,6 +47,8 @@ export interface Block {
   protocolId: ProtocolId | null;
   /** Входит в минимум дня — по таким блокам считается серия. */
   isCore: boolean;
+  /** Напоминать о начале через Telegram-бота. */
+  remind?: boolean;
   /** Блок глубокой работы: доступен помодоро. */
   isFocus: boolean;
   order: number;
@@ -78,6 +80,9 @@ export interface Profile {
   maxPullups: number;
   maxPushups: number;
   voiceName: string | null;
+  /** Telegram-бот: адрес воркера и ключ синхронизации. Живут только на устройстве. */
+  botUrl: string;
+  botKey: string;
   /** Начало текущего четырёхнедельного сезона, ISO-дата. */
   seasonStart: string;
   createdAt: string;

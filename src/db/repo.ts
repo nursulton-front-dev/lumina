@@ -43,6 +43,8 @@ export function defaultProfile(lang: Lang): Profile {
     maxPullups: 2,
     maxPushups: 25,
     voiceName: null,
+    botUrl: '',
+    botKey: '',
     seasonStart: toISODate(new Date()),
     createdAt: stamp(),
     updatedAt: stamp(),

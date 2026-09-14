@@ -583,4 +583,26 @@ export const en: Dictionary = {
   'block.englishWarmup': 'English: warm-up',
   'schedule.weekdays': 'Weekdays',
   'schedule.weekdaysHint': 'Nothing selected — the block applies on every day of this type.',
+
+  'bot.wake': 'Wake up. Workout in five minutes.',
+  'bot.brother': '16:25 — time to pick up your brother from kindergarten.',
+  'bot.english': '18:15 — leave for English.',
+  'bot.lesson': '15:00 — leave for the class. IOI lectures for the road.',
+  'bot.sleep': 'Half an hour to lights out. Screens away.',
+  'bot.blockStarts': 'Starting:',
+  'bot.done': 'Done',
+  'bot.snooze': 'In 15 min',
+  'bot.open': 'Open',
+  'bot.marked': 'Marked',
+  'bot.snoozed': 'I will remind you in 15 minutes',
+
+  'profile.section.bot': 'Telegram bot',
+  'botSettings.url': 'Bot address (Cloudflare Worker)',
+  'botSettings.key': 'Sync key',
+  'botSettings.hint':
+    'The bot computes the plan from the same templates on its own. Sending from the app only matters for one-off day edits, checks and the “remind” flags.',
+  'botSettings.send': "Send today's plan to the bot",
+  'botSettings.sent': 'Plan sent: {date}',
+  'botSettings.failed': 'Not sent: {error}',
+  'schedule.remind': 'Remind in Telegram when it starts',
 };

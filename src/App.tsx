@@ -43,7 +43,9 @@ export function App(): React.JSX.Element {
 
   return (
     <div className="safe-top mx-auto min-h-dvh max-w-3xl pb-24">
-      {sw.needRefresh ? <UpdateBanner onUpdate={() => void sw.update()} onDismiss={sw.dismiss} /> : null}
+      {sw.needRefresh ? (
+        <UpdateBanner onUpdate={() => void sw.update()} onDismiss={sw.dismiss} />
+      ) : null}
       {route.name === 'today' ? <TodayScreen /> : null}
       {route.name === 'week' ? <WeekScreen /> : null}
       {route.name === 'progress' ? <ProgressScreen /> : null}

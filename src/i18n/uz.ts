@@ -585,4 +585,26 @@ export const uz: Dictionary = {
   'block.englishWarmup': 'Ingliz tili: isinish',
   'schedule.weekdays': 'Hafta kunlari',
   'schedule.weekdaysHint': 'Hech narsa tanlanmasa — blok shu turdagi barcha kunlarda amal qiladi.',
+
+  'bot.wake': "Uyg'onish. Mashg'ulot besh daqiqadan keyin.",
+  'bot.brother': "16:25 — ukamni bog'chadan olib kelish vaqti.",
+  'bot.english': '18:15 — ingliz tiliga chiqish.',
+  'bot.lesson': "15:00 — mashg'ulotga chiqish. Yo'lga IOI ma'ruzalari.",
+  'bot.sleep': "Uyquga yarim soat qoldi. Ekranlarni yig'ing.",
+  'bot.blockStarts': 'Boshlanmoqda:',
+  'bot.done': 'Bajarildi',
+  'bot.snooze': '15 daqiqadan keyin',
+  'bot.open': 'Ochish',
+  'bot.marked': 'Belgilandi',
+  'bot.snoozed': '15 daqiqadan keyin eslataman',
+
+  'profile.section.bot': 'Telegram-bot',
+  'botSettings.url': 'Bot manzili (Cloudflare Worker)',
+  'botSettings.key': 'Sinxronlash kaliti',
+  'botSettings.hint':
+    "Bot rejani o'sha shablonlardan o'zi hisoblaydi. Ilovadan yuborish faqat bir martalik kun tahrirlari, belgilar va «eslatish» belgilari uchun kerak.",
+  'botSettings.send': 'Kun rejasini botga yuborish',
+  'botSettings.sent': 'Reja yuborildi: {date}',
+  'botSettings.failed': 'Yuborilmadi: {error}',
+  'schedule.remind': 'Boshlanishini Telegramda eslatish',
 };

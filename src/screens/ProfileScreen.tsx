@@ -7,6 +7,7 @@ import { Marginalia } from '../components/ui/Sheet';
 import { useApp } from '../state/app-context';
 import { exportAll, importAll, isBackup } from '../db/repo';
 import { AccountSection } from '../features/account/AccountSection';
+import { BotSection } from '../features/account/BotSection';
 import type { SessionInfo } from '../sync/useSession';
 import type { SyncApi } from '../state/useSync';
 
@@ -295,6 +296,10 @@ export function ProfileScreen({
             )}
           </Field>
         ) : null}
+      </Section>
+
+      <Section title={t('profile.section.bot')}>
+        <BotSection profile={profile} onChange={(patch) => void updateProfile(patch)} />
       </Section>
 
       <Section title={t('profile.section.account')}>

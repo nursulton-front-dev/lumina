@@ -1,0 +1,26 @@
+# Телеграм-бот напоминаний. Деплой: cd bot && npx wrangler deploy
+name = "lumina-bot"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# Каждую минуту: воркер сам решает, что пора отправить (время считается в Asia/Tashkent).
+[triggers]
+crons = ["* * * * *"]
+
+# Память бота: закреплённое сообщение, план дня из приложения, отметки, отложенные напоминания.
+# id пространства KV подставляется после `npx wrangler kv namespace create STATE`.
+[[kv_namespaces]]
+binding = "STATE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[vars]
+APP_URL = "https://lumina-hazel-theta.vercel.app"
+BOT_LANG = "ru"
+# Asia/Tashkent: UTC+5, без перехода на летнее время.
+TZ_OFFSET_MINUTES = "300"
+
+# Секреты задаются командой и в репозиторий не попадают:
+#   npx wrangler secret put TELEGRAM_BOT_TOKEN
+#   npx wrangler secret put TELEGRAM_CHAT_ID
+#   npx wrangler secret put SYNC_KEY
+#   npx wrangler secret put WEBHOOK_SECRET

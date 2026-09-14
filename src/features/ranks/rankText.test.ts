@@ -6,7 +6,8 @@ import { rankLeftText } from './rankText';
 
 const t = (key: Parameters<typeof translate>[1], vars?: Parameters<typeof translate>[2]) =>
   translate('ru', key, vars);
-const tp = (base: Parameters<typeof translatePlural>[1], n: number) => translatePlural('ru', base, n);
+const tp = (base: Parameters<typeof translatePlural>[1], n: number) =>
+  translatePlural('ru', base, n);
 
 describe('rankLeftText', () => {
   test('два подтягивания: остаётся одно до 2-го юношеского', () => {
@@ -28,7 +29,9 @@ describe('rankLeftText', () => {
   test('составное направление перечисляет оба остатка', () => {
     const spec = rankSpec('ioi')!;
     const view = { spec, status: rankStatus(spec, 20, 0), hasData: true };
-    expect(rankLeftText(view, t, tp)).toBe('Осталось 5 задач и 1 контест до 2-го юношеского разряда');
+    expect(rankLeftText(view, t, tp)).toBe(
+      'Осталось 5 задач и 1 контест до 2-го юношеского разряда',
+    );
   });
 
   test('для паразитов формулировка «не больше»', () => {
