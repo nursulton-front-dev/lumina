@@ -7,14 +7,13 @@ describe('план из шаблона', () => {
     const plan = templatePlan('2026-09-14', 'ru');
     expect(plan.dayType).toBe('even');
     expect(plan.blocks.some((block) => block.title === 'Забрать брата из садика')).toBe(true);
-    expect(plan.blocks.some((block) => block.title === 'Домашка по английскому')).toBe(false);
   });
 
-  test('вторник получает домашку по английскому, среда — нет', () => {
-    const tuesday = templatePlan('2026-09-15', 'ru');
-    const wednesday = templatePlan('2026-09-16', 'ru');
-    expect(tuesday.blocks.some((block) => block.title === 'Домашка по английскому')).toBe(true);
-    expect(wednesday.blocks.some((block) => block.title === 'Домашка по английскому')).toBe(false);
+  test('вторник получает практики IOI, среда — урок IOI', () => {
+    const tuesday = templatePlan('2026-09-15', 'ru', 'even');
+    const wednesday = templatePlan('2026-09-16', 'ru', 'odd');
+    expect(tuesday.blocks.some((block) => block.title === 'IOI: задачи / практика')).toBe(true);
+    expect(wednesday.blocks.some((block) => block.title === 'IOI: урок / новая тема')).toBe(true);
   });
 
   test('пятница — свой тип, отбой в 23:00', () => {
@@ -23,9 +22,9 @@ describe('план из шаблона', () => {
     expect(plan.sleepTarget).toBe('23:00');
   });
 
-  test('воскресенье: отбой 22:30, названия на узбекском', () => {
+  test('воскресенье: отбой 23:00, названия на узбекском', () => {
     const plan = templatePlan('2026-09-20', 'uz');
-    expect(plan.sleepTarget).toBe('22:30');
+    expect(plan.sleepTarget).toBe('23:00');
     expect(plan.blocks[0]?.title).toBe("Uyg'onish");
   });
 });
@@ -90,16 +89,10 @@ describe('напоминания', () => {
     }
   });
 
-  test('пятница: выход на занятие в 15:00, брата нет', () => {
-    const keys = remindersFor(templatePlan('2026-09-18', 'ru')).map((item) => item.key);
-    expect(keys).toContain('lesson');
-    expect(keys).not.toContain('brother');
-  });
-
-  test('воскресенье: подъём 07:30, отбой 22:30 → напоминание в 22:00', () => {
+  test('воскресенье: подъём 09:00, отбой 23:00 → напоминание в 22:30', () => {
     const list = remindersFor(templatePlan('2026-09-20', 'ru'));
-    expect(list.find((item) => item.key === 'wake')?.minute).toBe(450);
-    expect(list.find((item) => item.key === 'sleep')?.minute).toBe(1320);
+    expect(list.find((item) => item.key === 'wake')?.minute).toBe(540);
+    expect(list.find((item) => item.key === 'sleep')?.minute).toBe(1350);
   });
 
   test('галочка «напоминать» из приложения добавляет напоминание о блоке', () => {

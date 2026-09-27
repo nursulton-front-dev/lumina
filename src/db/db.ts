@@ -67,6 +67,17 @@ export class FocusDb extends Dexie {
           block.weekdays ??= [];
         });
     });
+
+    // Версия 4: поддержка помодоро и optional для блоков.
+    this.version(4).upgrade(async (transaction) => {
+      await transaction
+        .table('blocks')
+        .toCollection()
+        .modify((block: Block) => {
+          block.pomodoros ??= 0;
+          block.optional ??= false;
+        });
+    });
   }
 }
 

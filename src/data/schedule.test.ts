@@ -15,38 +15,39 @@ describe('стартовое расписание', () => {
     }
   });
 
-  test.each(DAY_TYPES)(
-    'минимум дня «%s»: числа и чтение, плюс домашка кроме пятницы',
-    (dayType) => {
-      const core = blocks.filter((block) => block.dayType === dayType && block.isCore);
-      const expected =
-        dayType === 'fri' ? ['memory', 'reading'] : ['homework', 'memory', 'reading'];
-      expect(core.map((block) => block.category).sort()).toEqual(expected);
-    },
-  );
-
-  test('домашка по английскому только во вторник и четверг', () => {
-    const hw = blocks.filter((block) => block.titleKey === 'block.englishHw');
-    expect(hw.length).toBeGreaterThan(0);
-    expect(hw.every((block) => block.weekdays.join(',') === '2,4')).toBe(true);
-  });
-
-  test('тренажёр чисел длится 15 минут сразу после завтрака', () => {
-    for (const block of blocks.filter((item) => item.titleKey === 'block.numbers')) {
-      expect(block.end - block.start).toBe(15);
-      const breakfast = blocks.find(
-        (item) => item.dayType === block.dayType && item.titleKey === 'block.breakfast',
-      );
-      expect(breakfast?.end).toBe(block.start);
+  test.each(DAY_TYPES)('минимум дня «%s» настроен верно', (dayType) => {
+    const core = blocks.filter((block) => block.dayType === dayType && block.isCore);
+    if (dayType === 'sun') {
+      expect(core.map((block) => block.category).sort()).toEqual(['english', 'reading', 'reading']);
+    } else {
+      expect(core.map((block) => block.category).sort()).toEqual([
+        'homework',
+        'memory',
+        'reading',
+        'reading',
+      ]);
     }
   });
 
-  test('в пятницу нет ни IOI, ни фриланса', () => {
-    const friday = blocks.filter((block) => block.dayType === 'fri');
-    expect(friday.some((block) => block.category === 'ioi' || block.category === 'freelance')).toBe(
-      false,
-    );
-    expect(friday.some((block) => block.titleKey === 'block.lesson')).toBe(true);
+  test('IOI распределён согласно схеме: 3 урока + 3 практики + 1 день отдыха', () => {
+    const ioiOdd = blocks.filter((b) => b.dayType === 'odd' && b.category === 'ioi');
+    expect(ioiOdd[0]?.titleKey).toBe('block.ioiLesson');
+    expect(ioiOdd[0]?.pomodoros).toBe(3);
+
+    const ioiEven = blocks.filter((b) => b.dayType === 'even' && b.category === 'ioi');
+    expect(ioiEven[0]?.titleKey).toBe('block.ioiProblems');
+    expect(ioiEven[0]?.pomodoros).toBe(4);
+
+    const ioiFri = blocks.filter((b) => b.dayType === 'fri' && b.category === 'ioi');
+    expect(ioiFri[0]?.titleKey).toBe('block.ioiLesson');
+    expect(ioiFri[0]?.pomodoros).toBe(3);
+
+    const ioiSat = blocks.filter((b) => b.dayType === 'sat' && b.category === 'ioi');
+    expect(ioiSat[0]?.titleKey).toBe('block.ioiProblems');
+    expect(ioiSat[0]?.pomodoros).toBe(4);
+
+    const ioiSun = blocks.filter((b) => b.dayType === 'sun' && b.category === 'ioi');
+    expect(ioiSun.length).toBe(0);
   });
 
   test('у каждого блока конец позже начала', () => {

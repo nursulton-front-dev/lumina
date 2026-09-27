@@ -30,12 +30,12 @@ describe('инструменты расписания', () => {
 
   test('предложение не меняет расписание до подтверждения', async () => {
     const before = await listBlocks('odd');
-    const target = before.find((block) => block.titleKey === 'block.ioiTheory');
+    const target = before.find((block) => block.titleKey === 'block.ioiLesson');
 
     const proposal = await runTool(
       'propose_schedule_change',
       {
-        changes: [{ op: 'edit', blockId: target?.id, patch: { end: '22:00' } }],
+        changes: [{ op: 'edit', blockId: target?.id, patch: { end: '21:50' } }],
         scope: { kind: 'dayType', dayType: 'odd' },
         summary: 'Сократить блок IOI',
       },
@@ -44,18 +44,18 @@ describe('инструменты расписания', () => {
 
     expect(proposal.ok).toBe(true);
     const after = await listBlocks('odd');
-    expect(after.find((block) => block.id === target?.id)?.end).toBe(22 * 60 + 30);
+    expect(after.find((block) => block.id === target?.id)?.end).toBe(22 * 60 + 5);
     expect((await pendingChanges()).length).toBe(1);
   });
 
   test('подтверждённое изменение применяется и отменяется', async () => {
     const before = await listBlocks('odd');
-    const target = before.find((block) => block.titleKey === 'block.ioiTheory');
+    const target = before.find((block) => block.titleKey === 'block.ioiLesson');
 
     const proposal = await runTool(
       'propose_schedule_change',
       {
-        changes: [{ op: 'edit', blockId: target?.id, patch: { end: '22:00' } }],
+        changes: [{ op: 'edit', blockId: target?.id, patch: { end: '21:50' } }],
         scope: { kind: 'dayType', dayType: 'odd' },
         summary: 'Сократить блок IOI',
       },
@@ -64,17 +64,17 @@ describe('инструменты расписания', () => {
     const { changeId } = proposal.data as { changeId: string };
 
     await applyChange(changeId);
-    expect((await listBlocks('odd')).find((block) => block.id === target?.id)?.end).toBe(22 * 60);
+    expect((await listBlocks('odd')).find((block) => block.id === target?.id)?.end).toBe(21 * 60 + 50);
 
     await undoLastChange();
     expect((await listBlocks('odd')).find((block) => block.id === target?.id)?.end).toBe(
-      22 * 60 + 30,
+      22 * 60 + 5,
     );
   });
 
   test('предложение, ломающее минимум дня, отклоняется с объяснением', async () => {
     const blocks = await listBlocks('odd');
-    const numbers = blocks.find((block) => block.titleKey === 'block.numbers');
+    const numbers = blocks.find((block) => block.titleKey === 'block.memory');
 
     const result = await runTool(
       'propose_schedule_change',
@@ -113,10 +113,7 @@ describe('инструменты расписания', () => {
 
   test('правка «только сегодня» не трогает шаблон типа дня', async () => {
     const template = await listBlocks('odd');
-    // Во вторник действует вариант блока IOI для вторника и четверга.
-    const target = template.find(
-      (block) => block.titleKey === 'block.ioiTheory' && block.weekdays.includes(2),
-    );
+    const target = template.find((block) => block.titleKey === 'block.ioiLesson');
 
     const proposal = await runTool(
       'propose_schedule_change',
@@ -131,8 +128,8 @@ describe('инструменты расписания', () => {
     await applyChange(changeId);
 
     const day = await listBlocksForDay('odd', TODAY);
-    expect(day.some((block) => block.titleKey === 'block.ioiTheory')).toBe(false);
-    expect((await listBlocks('odd')).some((block) => block.titleKey === 'block.ioiTheory')).toBe(
+    expect(day.some((block) => block.titleKey === 'block.ioiLesson')).toBe(false);
+    expect((await listBlocks('odd')).some((block) => block.titleKey === 'block.ioiLesson')).toBe(
       true,
     );
   });

@@ -51,6 +51,10 @@ export interface Block {
   remind?: boolean;
   /** Блок глубокой работы: доступен помодоро. */
   isFocus: boolean;
+  /** Количество помодоро (25 мин работы + 5 мин перерыва). */
+  pomodoros?: number;
+  /** Необязательный блок (optional). */
+  optional?: boolean;
   order: number;
   updatedAt: string;
   deleted?: boolean;
